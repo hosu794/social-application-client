@@ -1,12 +1,11 @@
-import { authHeader, handleResponse, apiConfiguration } from "../_helpers";
+import { authHeader, handleResponse } from "../_helpers";
 
-export const userService = {};
+import axios from "axios";
+
+export const userService = { loadUser };
 
 function loadUser() {
-  const requestOptions = {
-    method: "GET",
-    headers: authHeader(),
-  };
-
-  return fetch(`${apiConfiguration.server}/user/me`).then(handleResponse);
+  return axios
+    .get("https://the-writers-mind.herokuapp.com/api/user/me", {}, authHeader())
+    .then(handleResponse);
 }

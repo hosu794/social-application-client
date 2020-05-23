@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import "bulma";
 
 function App() {
   function fetchAll() {
