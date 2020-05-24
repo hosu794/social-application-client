@@ -12,7 +12,6 @@ function login(usernameOrEmail, password) {
     authService.login(usernameOrEmail, password).then(
       (user) => {
         dispatch(success(user));
-        console.log("push to /");
         history.push("/");
         window.location.reload(true);
       },

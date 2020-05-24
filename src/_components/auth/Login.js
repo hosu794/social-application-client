@@ -13,15 +13,12 @@ function Login() {
   const [submitted, setSubmitted] = useState(false);
   const { username, password } = inputs;
   const logginIn = useSelector((state) => state.authentication.logginIn);
+  const alert = useSelector((state) => state.alert);
   const dispatch = useDispatch();
   const [error, setError] = useState({
     isTrue: false,
     message: "",
   });
-
-  useEffect(() => {
-    dispatch(authActions.logout());
-  }, []);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -31,31 +28,61 @@ function Login() {
     }));
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
+  function clearAlerts() {
     setError((error) => ({
       isTrue: false,
       message: "",
     }));
+  }
+
+  function handleAlertButton() {
+    clearAlerts();
+  }
+
+  useEffect(() => {
+    dispatch(authActions.logout());
+    clearAlerts();
+  }, []);
+
+  function handleSubmit(e) {
+    console.log("Submit");
+    e.preventDefault();
+    clearAlerts();
+    isValidPasswordAndUsername();
+    isAlertEqualDanger(alert);
 
     setSubmitted(true);
 
     if (username && password) {
       dispatch(authActions.login(username, password));
     }
+  }
 
-    if (submitted && !username) {
-      console.log("username");
+  function isValidPasswordAndUsername() {
+    const isValidUsername = submitted && !username;
+    const isValidPassword = submitted && !password;
+
+    if (isValidUsername) {
       setError((error) => ({
         isTrue: true,
         message: "Username is required!",
       }));
-    } else if (submitted && !password) {
+    } else if (isValidPassword) {
       console.log("password");
       setError((error) => ({
         isTrue: true,
         message: "Password is required!",
+      }));
+    }
+  }
+
+  function isAlertEqualDanger(alert) {
+    if (alert.type == "alert-danger") {
+      console.log("Danger");
+
+      setError((error) => ({
+        isTrue: true,
+        message: "Bad Crudientials!",
       }));
     }
   }
@@ -66,7 +93,7 @@ function Login() {
         <form onSubmit={handleSubmit} class="container has-text-centered">
           {error.isTrue && (
             <div class="notification is-danger">
-              <button class="delete"></button>
+              <button onClick={handleAlertButton} class="delete"></button>
               {error.message}
             </div>
           )}
