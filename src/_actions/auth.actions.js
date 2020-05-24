@@ -1,7 +1,7 @@
 import { authConstants, userConstants } from "../_constants";
 import { authService, userService } from "../_services";
 import { alertActions } from "./";
-import { history } from "../_helpers";
+import { history, handleResponse } from "../_helpers";
 
 export const authActions = { logout, register, login };
 
@@ -12,9 +12,12 @@ function login(usernameOrEmail, password) {
     authService.login(usernameOrEmail, password).then(
       (user) => {
         dispatch(success(user));
+        console.log("push to /");
         history.push("/");
+        window.location.reload(true);
       },
       (error) => {
+        handleResponse(error);
         dispatch(failure(error.toString()));
         dispatch(alertActions.error(error.toString()));
       }
@@ -44,19 +47,20 @@ function logout() {
 function register(user) {
   return (dispatch) => {
     dispatch(request(user));
-  };
 
-  authService.register(user).then(
-    (user) => {
-      dispatch(success());
-      history.push("/login");
-      dispatch(alertActions.success("Registration successful"));
-    },
-    (error) => {
-      dispatch(failure(error.toString()));
-      dispatch(alertActions.error(error.toString()));
-    }
-  );
+    authService.register(user).then(
+      (user) => {
+        dispatch(success());
+        history.push("/login");
+        dispatch(alertActions.success("Registration successful"));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.toString()));
+        dispatch(alertActions.error(error.toString()));
+      }
+    );
+  };
 
   function request(user) {
     return { type: authConstants.REGISTER_REQUEST, user };

@@ -1,22 +1,45 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import "bulma";
+import { alertActions } from "./_actions";
+import { useDispatch, useSelector } from "react-redux";
+import { history } from "./_helpers";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import { PrivateRoute } from "./_components/PrivateRoute";
+
+import Home from "./_components/layout/Home";
+import Footer from "./_components/layout/Footer";
+import Login from "./_components/auth/Login";
+import Navbar from "./_components/layout/Navbar";
 
 function App() {
-  function fetchAll() {
-    axios
-      .get("https://the-writers-mind.herokuapp.com/api/stories?page=1")
-      .then((reponse) => console.log(reponse));
-  }
+  const dispatch = useDispatch();
+  const alert = useSelector((state) => state.alert);
 
   useEffect(() => {
-    fetchAll();
+    history.listen(function (location, action) {
+      dispatch(alertActions.clear());
+    });
   }, []);
 
   return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
+    <Router>
+      <section className="hero is-success is-fullheight">
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route path="/" component={Home} exact />
+            <Route path="/login" component={Login} exact />
+          </Switch>
+        </div>
+        <Footer />
+      </section>
+    </Router>
   );
 }
 

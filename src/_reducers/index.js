@@ -1,4 +1,13 @@
-export * from "./alert.reducer";
-export * from "./authentication.reducer";
-export * from "./registration,reducer";
-export * from "./story.reducer";
+import { combineReducers } from "redux";
+
+import { authentication } from "./authentication.reducer";
+import { registration } from "./registration,reducer";
+import { alert } from "./alert.reducer";
+
+const rootReducer = combineReducers({
+  authentication,
+  registration,
+  alert,
+});
+
+export default rootReducer;
