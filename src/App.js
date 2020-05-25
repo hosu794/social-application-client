@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import "bulma";
-import { alertActions } from "./_actions";
+import { alertActions, userActions } from "./_actions";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "./_helpers";
 import {
@@ -22,6 +22,7 @@ function App() {
   const alert = useSelector((state) => state.alert);
 
   useEffect(() => {
+    dispatch(userActions.getCurrentUser());
     history.listen(function (location, action) {
       dispatch(alertActions.clear());
     });
@@ -35,6 +36,8 @@ function App() {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/login" component={Login} exact />
+            <Route path="/register" exact />
+            <Redirect from="*" to="/" />
           </Switch>
         </div>
         <Footer />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { authActions } from "../../_actions";
+import { authActions, alertActions } from "../../_actions";
 
 function Login() {
   const [inputs, setInputs] = useState({
@@ -41,21 +41,23 @@ function Login() {
 
   useEffect(() => {
     dispatch(authActions.logout());
-    clearAlerts();
   }, []);
 
   function handleSubmit(e) {
-    console.log("Submit");
-    e.preventDefault();
     clearAlerts();
     isValidPasswordAndUsername();
-    isAlertEqualDanger(alert);
+
+    e.preventDefault();
+    dispatch(alertActions.clear());
 
     setSubmitted(true);
 
     if (username && password) {
       dispatch(authActions.login(username, password));
+      isCrudentialsAreCorrect(alert);
     }
+
+    setSubmitted(false);
   }
 
   function isValidPasswordAndUsername() {
@@ -76,7 +78,7 @@ function Login() {
     }
   }
 
-  function isAlertEqualDanger(alert) {
+  function isCrudentialsAreCorrect(alert) {
     if (alert.type == "alert-danger") {
       console.log("Danger");
 
