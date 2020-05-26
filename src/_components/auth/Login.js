@@ -10,7 +10,6 @@ function Login() {
     password: "",
   });
 
-  const [submitted, setSubmitted] = useState(false);
   const { username, password } = inputs;
   const logginIn = useSelector((state) => state.authentication.logginIn);
   const alert = useSelector((state) => state.alert);
@@ -44,32 +43,25 @@ function Login() {
   }, []);
 
   function handleSubmit(e) {
-    clearAlerts();
-    isValidPasswordAndUsername();
-
     e.preventDefault();
+
     dispatch(alertActions.clear());
 
-    setSubmitted(true);
+    isValidPasswordAndUsername();
 
     if (username && password) {
       dispatch(authActions.login(username, password));
       isCrudentialsAreCorrect(alert);
     }
-
-    setSubmitted(false);
   }
 
   function isValidPasswordAndUsername() {
-    const isValidUsername = submitted && !username;
-    const isValidPassword = submitted && !password;
-
-    if (isValidUsername) {
+    if (!username) {
       setError((error) => ({
         isTrue: true,
         message: "Username is required!",
       }));
-    } else if (isValidPassword) {
+    } else if (!password) {
       console.log("password");
       setError((error) => ({
         isTrue: true,
