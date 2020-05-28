@@ -10,15 +10,19 @@ export function authentication(state = initialState, action) {
       return {
         loggingIn: true,
         user: action.user,
+        loading: true,
       };
     case authConstants.LOGIN_SUCCESS:
       return {
         loggedIn: true,
         user: action.user,
+        loading: false,
       };
     case authConstants.LOGIN_FAILURE:
     case authConstants.LOGOUT:
-      return {};
+      return {
+        loading: false,
+      };
     default:
       return state;
   }

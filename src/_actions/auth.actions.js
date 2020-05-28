@@ -17,8 +17,8 @@ function login(usernameOrEmail, password) {
       },
       (error) => {
         handleResponse(error);
-        dispatch(failure(error.toString()));
-        dispatch(alertActions.error(error.toString()));
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
       }
     );
   };
@@ -51,12 +51,13 @@ function register(user) {
       (user) => {
         dispatch(success());
         history.push("/login");
+        window.location.reload(true);
         dispatch(alertActions.success("Registration successful"));
       },
       (error) => {
         handleResponse(error);
-        dispatch(failure(error.toString()));
-        dispatch(alertActions.error(error.toString()));
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
       }
     );
   };

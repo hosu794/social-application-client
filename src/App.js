@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { PrivateRoute } from "./_components/PrivateRoute";
 
+import Register from "./_components/auth/Register";
 import Home from "./_components/layout/Home";
 import Footer from "./_components/layout/Footer";
 import Login from "./_components/auth/Login";
@@ -36,7 +37,7 @@ function App() {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/login" component={Login} exact />
-            <Route path="/register" exact />
+            <Route path="/register" component={Register} exact />
             <Redirect from="*" to="/" />
           </Switch>
         </div>

@@ -25,18 +25,15 @@ function logout() {
 }
 
 function register(user) {
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  };
-
   const body = JSON.stringify(user);
 
   return axios.post(
     "https://the-writers-mind.herokuapp.com/api/auth/signup",
-    body
+    body,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
   );
 }

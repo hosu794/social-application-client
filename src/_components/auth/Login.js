@@ -11,6 +11,7 @@ function Login() {
   });
 
   const { username, password } = inputs;
+  const loading = useSelector((state) => state.authentication.loading);
   const logginIn = useSelector((state) => state.authentication.logginIn);
   const alert = useSelector((state) => state.alert);
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ function Login() {
 
     if (username && password) {
       dispatch(authActions.login(username, password));
-      isCrudentialsAreCorrect(alert);
+      areCrudentialsAreCorrect(alert);
     }
   }
 
@@ -62,7 +63,6 @@ function Login() {
         message: "Username is required!",
       }));
     } else if (!password) {
-      console.log("password");
       setError((error) => ({
         isTrue: true,
         message: "Password is required!",
@@ -70,7 +70,7 @@ function Login() {
     }
   }
 
-  function isCrudentialsAreCorrect(alert) {
+  function areCrudentialsAreCorrect(alert) {
     if (alert.type == "alert-danger") {
       console.log("Danger");
 
