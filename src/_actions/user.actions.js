@@ -3,7 +3,11 @@ import { userService } from "../_services";
 import { alertActions } from "./alert.actions";
 import { handleResponse } from "../_helpers";
 
-export const userActions = { getCurrentUser };
+export const userActions = {
+  getCurrentUser,
+  checkUsernameAvailability,
+  checkEmailAvailability,
+};
 
 function getCurrentUser() {
   return (dispatch) => {
@@ -31,5 +35,62 @@ function getCurrentUser() {
 
   function failure(error) {
     return { type: userConstants.GET_CURRENT_USER_FAILURE, error };
+  }
+}
+
+function checkUsernameAvailability(username) {
+  return (dispatch) => {
+    dispatch(request(username));
+    console.log(username);
+    userService.checkUsernameAvailability(username).then(
+      (response) => {
+        console.log(response.data.available);
+        dispatch(success(response.data.available));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(username) {
+    return { type: userConstants.CHECK_USER_AVAIBILITY_REQUEST, username };
+  }
+
+  function success(response) {
+    return { type: userConstants.CHECK_USER_AVAIBILITY_SUCCESS, response };
+  }
+
+  function failure(error) {
+    return { type: userConstants.CHECK_USER_AVAIBILITY_FAILURE, error };
+  }
+}
+
+function checkEmailAvailability(email) {
+  return (dispatch) => {
+    userService.checkEmailAvaibility(email).then(
+      (response) => {
+        console.log(response.data.available);
+        dispatch(success(response.data.available));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(alertActions.error(error.response.data.message));
+        dispatch(error.response.data.message);
+      }
+    );
+  };
+
+  function request(email) {
+    return { type: userConstants.CHECK_EMAIL_AVAIBILITY_REQUEST, email };
+  }
+
+  function success(response) {
+    return { type: userConstants.CHECK_EMAIL_AVAIBILITY_SUCCESS, response };
+  }
+  function failure(error) {
+    return { type: userConstants.CHECK_USER_AVAIBILITY_FAILURE, error };
   }
 }

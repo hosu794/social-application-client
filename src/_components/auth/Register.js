@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { authActions, alertActions } from "../../_actions";
+import { authActions, alertActions, userActions } from "../../_actions";
 import { userService } from "../../_services";
+import { createNewUser } from "../../_helpers";
 
 function Register() {
   const [user, setUser] = useState({
@@ -15,6 +16,10 @@ function Register() {
 
   const dispatch = useDispatch();
 
+  const isUsernameAvailable = useSelector(
+    (state) => state.user.isUsernameAvailable
+  );
+  const isEmailAvailable = useSelector((state) => state.user.isEmailAvailable);
   const alert = useSelector((state) => state.alert);
   const registering = useSelector((state) => state.registration.registration);
   const { name, password, passwordReapet, username, email } = user;
@@ -28,17 +33,6 @@ function Register() {
     dispatch(authActions.logout());
   }, []);
 
-  function createNewUser(user) {
-    const newUser = {
-      name,
-      username,
-      email,
-      password,
-    };
-
-    return newUser;
-  }
-
   function clearAlerts() {
     setError((error) => ({
       isTrue: false,
@@ -51,10 +45,32 @@ function Register() {
 
     console.log("Compete Passwords");
     if (!competePassword) {
-      console.log("Password are not same");
       setError((error) => ({
         isTrue: true,
         message: "Password are not same!",
+      }));
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function checkEmailAvailability(email) {
+    dispatch(userActions.checkEmailAvailability(email));
+    if (!isEmailAvailable) {
+      setError((error) => ({
+        isTrue: true,
+        message: "Email is already taken",
+      }));
+    }
+  }
+
+  function checkUsernameAvailability(username) {
+    dispatch(userActions.checkUsernameAvailability(username));
+    if (!isUsernameAvailable) {
+      setError((error) => ({
+        isTrue: true,
+        message: "Username is already taken",
       }));
     }
   }
@@ -116,19 +132,26 @@ function Register() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    clearAlerts();
+
     dispatch(alertActions.clear());
 
     validateUserFields();
 
-    arePasswordSame(password, passwordReapet);
+    const isSame = arePasswordSame(password, passwordReapet);
 
-    const validateCrudentialsAndCheckIsError =
-      username && name && password && passwordReapet && error;
+    checkUsernameAvailability(username);
+    checkEmailAvailability(email);
 
-    if (validateCrudentialsAndCheckIsError) {
-      dispatch(authActions.register(createNewUser(user)));
+    if (isSame) {
+      const validateCrudentialsAndCheckIsError =
+        username && name && password && passwordReapet && error;
 
-      isResponseSuccessfully();
+      if (validateCrudentialsAndCheckIsError) {
+        dispatch(authActions.register(createNewUser(user)));
+
+        isResponseSuccessfully();
+      }
     }
   }
 

@@ -46,13 +46,21 @@ function Login() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    clearAlerts();
+
     dispatch(alertActions.clear());
 
     isValidPasswordAndUsername();
 
+    checkIsUsernameAndPasswordExistAndLogin(username, password);
+  }
+
+  function checkIsUsernameAndPasswordExistAndLogin(username, password) {
     if (username && password) {
       dispatch(authActions.login(username, password));
-      areCrudentialsAreCorrect(alert);
+      if (!loading) {
+        areCrudentialsAreCorrect(alert);
+      }
     }
   }
 
