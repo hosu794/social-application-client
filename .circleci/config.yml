@@ -3,8 +3,8 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: https://github.com/mars/create-react-app-buildpack # primary container - where job steps are run
-    working_directory: ~/mind-app-client
+      - image: circleci/node:12.9.1-browsers # primary container - where job steps are run
+    working_directory: ~/the-writer-s-mind-client
     steps:
       - checkout
       # Bundle install dependencies
@@ -13,7 +13,7 @@ jobs:
   deploy:
     machine:
       enabled: true
-    working_directory: circleci/buildpack-deps:trusty
+    working_directory: ~/https://github.com/mars/create-react-app-buildpack.git
 
     steps:
       - checkout
@@ -21,6 +21,7 @@ jobs:
       - run:
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+
 workflows:
   version: 2
   build-and-deploy:
