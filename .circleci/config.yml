@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: circleci/node:12.9.1-browsers # primary container - where job steps are run
+      - image: ~/https://github.com/mars/create-react-app-buildpack # primary container - where job steps are run
     working_directory: ~/mind-app-client
     steps:
       - checkout
@@ -13,7 +13,7 @@ jobs:
   deploy:
     machine:
       enabled: true
-    working_directory: ~/https://github.com/mars/create-react-app-buildpack
+    working_directory: circleci/buildpack-deps:trusty
 
     steps:
       - checkout
