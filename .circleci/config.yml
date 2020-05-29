@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: ~/https://github.com/mars/create-react-app-buildpack # primary container - where job steps are run
+      - image: https://github.com/mars/create-react-app-buildpack # primary container - where job steps are run
     working_directory: ~/mind-app-client
     steps:
       - checkout
