@@ -17,6 +17,7 @@ import Home from "./_components/layout/Home";
 import Footer from "./_components/layout/Footer";
 import Login from "./_components/auth/Login";
 import Navbar from "./_components/layout/Navbar";
+import Pagination from "./_components/stories/Pagination";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function App() {
             <Route path="/" component={Home} exact />
             <Route path="/login" component={Login} exact />
             <Route path="/register" component={Register} exact />
+            <Route path="/stories" component={Pagination} exact />
             <Redirect from="*" to="/" />
           </Switch>
         </div>

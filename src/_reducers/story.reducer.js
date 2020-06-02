@@ -8,7 +8,12 @@ export function users(state = {}, action) {
       };
     case storyConstants.GETPAGED_STORIES_SUCCESS:
       return {
-        stories: action.stories,
+        stories: action.stories.data.content,
+        page: action.stories.data.page,
+        totalElement: action.stories.data.totalElement,
+        totalPages: action.stories.data.totalPages,
+        isLast: action.stories.data.last,
+        currentPage: 0,
       };
     case storyConstants.GETPAGED_STORIES_FAILURE: {
       return {

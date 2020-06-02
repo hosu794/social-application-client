@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bulma": "^0.8.2",
+    "bulma-pagination-react": "^0.1.1",
     "history": "^4.10.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",

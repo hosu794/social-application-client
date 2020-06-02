@@ -7,7 +7,7 @@ export const authActions = { logout, register, login };
 
 function login(usernameOrEmail, password) {
   return (dispatch) => {
-    dispatch(request({ usernameOrEmail }));
+    dispatch(request({ usernameOrEmail, password }));
 
     authService.login(usernameOrEmail, password).then(
       (user) => {
