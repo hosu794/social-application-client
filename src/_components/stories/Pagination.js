@@ -25,20 +25,23 @@ function Pager() {
   }, [isPageChanged]);
 
   return (
-    <React.Fragment>
-      {page}
-      {loading ? "Loading" : <ContentMap />}
-      <Pagination
-        pages={totalPages}
-        currentPage={page + 1}
-        onChange={(page) => {
-          console.log(`?page=${page}`);
-          console.log(content);
-          setIsPageChanged(page);
-          dispatch(storyActions.changePage(page - 1));
-        }}
-      />
-    </React.Fragment>
+    <section className="hero is-success is-fullheight">
+      <div className="hero-body">
+        <div className="container has-text-centered">
+          {loading ? "Loading" : <ContentMap />}
+          <Pagination
+            pages={totalPages}
+            currentPage={page + 1}
+            onChange={(page) => {
+              console.log(`?page=${page}`);
+              console.log(content);
+              setIsPageChanged(page);
+              dispatch(storyActions.changePage(page - 1));
+            }}
+          />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -49,6 +52,7 @@ function ContentMap() {
     return content.map((story) => {
       return (
         <StoryCard
+          username={story.createdBy.username}
           title={story.title}
           description={story.description}
           body={story.body}
