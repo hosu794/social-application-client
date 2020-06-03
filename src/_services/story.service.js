@@ -2,13 +2,8 @@ import axios from "axios";
 
 export const storyService = { getPagedStories };
 
-function getPagedStories(currentPage) {
+function getPagedStories(page) {
   return axios.get(
-    `https://the-writers-mind.herokuapp.com/api/stories?page=${currentPage}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
+    `https://the-writers-mind.herokuapp.com/api/stories?page=${page}`
   );
 }

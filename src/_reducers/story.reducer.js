@@ -1,6 +1,11 @@
 import { storyConstants } from "../_constants";
 
-export function users(state = {}, action) {
+const initialState = {
+  page: 0,
+  loading: false,
+};
+
+export function stories(state = initialState, action) {
   switch (action.type) {
     case storyConstants.GETPAGED_STORIES_REQUEST:
       return {
@@ -8,16 +13,22 @@ export function users(state = {}, action) {
       };
     case storyConstants.GETPAGED_STORIES_SUCCESS:
       return {
-        stories: action.stories.data.content,
-        page: action.stories.data.page,
-        totalElement: action.stories.data.totalElement,
-        totalPages: action.stories.data.totalPages,
-        isLast: action.stories.data.last,
-        currentPage: 0,
+        loading: false,
+        page: action.stories.page,
+        content: action.stories.content,
+        size: action.stories.size,
+        totalPages: action.stories.totalPages,
       };
     case storyConstants.GETPAGED_STORIES_FAILURE: {
       return {
         error: action.error,
+        loading: false,
+      };
+    }
+    case storyConstants.CHANGE_PAGE: {
+      return {
+        ...state,
+        page: action.page,
       };
     }
     default:

@@ -5,53 +5,59 @@ import axios from "axios";
 import Pagination from "bulma-pagination-react";
 import StoryCard from "./StoryCard";
 
+import { storyActions } from "../../_actions";
+import { useDispatch, useSelector } from "react-redux";
+
 function Pager() {
-  const [stories, setStories] = useState([]);
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const dispatch = useDispatch();
+  const stories = useSelector((state) => state.stories);
+  const page = stories.page;
+  const size = stories.size;
+  const totalPages = stories.totalPages;
+  const loading = stories.loading;
 
-  function fetchStories() {
-    return axios
-      .get(`https://the-writers-mind.herokuapp.com/api/stories?page=${page}`)
-      .then((res) => {
-        console.log(res.data);
-        setStories(res.data.content);
-        setPage(res.data.page);
-        setSize(res.data.size);
-        setTotalPages(res.data.totalPages);
-      });
-  }
+  const [isPageChanged, setIsPageChanged] = useState(0);
 
-  function changePage(page) {
-    setPage(page);
-  }
+  const content = stories.content;
 
   useEffect(() => {
-    fetchStories();
-  }, [page]);
+    dispatch(storyActions.getPagedStories(page));
+  }, [isPageChanged]);
 
   return (
     <React.Fragment>
-      {stories.map((story) => {
-        return (
-          <StoryCard
-            key={story.id}
-            title={story.title}
-            description={story.description}
-            body={story.body}
-          />
-        );
-      })}
+      {page}
+      {loading ? "Loading" : <ContentMap />}
       <Pagination
         pages={totalPages}
         currentPage={page + 1}
         onChange={(page) => {
           console.log(`?page=${page}`);
-          changePage(page - 1);
+          console.log(content);
+          setIsPageChanged(page);
+          dispatch(storyActions.changePage(page - 1));
         }}
       />
     </React.Fragment>
   );
 }
+
+function ContentMap() {
+  const content = useSelector((state) => state.stories.content);
+
+  if (content) {
+    return content.map((story) => {
+      return (
+        <StoryCard
+          title={story.title}
+          description={story.description}
+          body={story.body}
+        />
+      );
+    });
+  } else {
+    return "Loading";
+  }
+}
+
 export default Pager;
