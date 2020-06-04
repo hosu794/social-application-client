@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import LoggedButton from "./LoggedButton";
-import AuthButtons from "./AuthButtons";
+import AuthButtons from "../auth/AuthButtons";
 
 function Navbar() {
   const [isActive, setIsActive] = useState(false);

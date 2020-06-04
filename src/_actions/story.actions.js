@@ -37,3 +37,33 @@ function getPagedStories(page) {
 function changePage(page) {
   return { type: storyConstants.CHANGE_PAGE, page };
 }
+
+function getStoryById(id) {
+  return (dispatch) => {
+    dispatch(request(id));
+
+    storyService.getStoryById(id).then(
+      (story) => {
+        console.log(story.data);
+        dispatch(success(story.data));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(id) {
+    return { type: storyConstants.GETPAGED_STORIES_REQUEST, id };
+  }
+
+  function success(id) {
+    return { type: storyConstants.GET_STORY_BY_ID_SUCCESS, id };
+  }
+
+  function failure(error) {
+    return { type: storyConstants.GET_STORY_BY_ID_FAILURE, error };
+  }
+}

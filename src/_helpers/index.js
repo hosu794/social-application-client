@@ -4,3 +4,4 @@ export * from "./history";
 export * from "./store";
 export * from "./createUser";
 export * from "./reduceTest";
+export * from "./formatDate";

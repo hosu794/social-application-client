@@ -1,24 +1,39 @@
 import React from "react";
-
-import { reduceText } from "../../_helpers";
+import { Link } from "react-router-dom";
+import { reduceText, formatDate } from "../../_helpers";
 
 function StoryCard(props) {
+  const storyUrl = `/stories/${props.id}`;
+
   return (
     <div className="column">
       <div className="card">
         <h1
-          className="title"
+          className="title is-size-2"
           style={{
             color: "#4a4a4a",
           }}
         >
           {props.title}
         </h1>
-        <span>{props.description}</span>
-        <p>{reduceText(props.body)}</p>
+        <span className="is-size-3">Description: {props.description}</span>
+        <p className="is-size-5">{reduceText(props.body)}</p>
         <div className="level">
-          <div className="level-right">{props.username}</div>
+          <p className="level-item has-text-centered is-size-4">
+            by {props.username}
+          </p>
+          <p className="level-item has-text-centered is-size-4">
+            {formatDate(props.data)}
+          </p>
         </div>
+        <Link to={storyUrl}>
+          <button
+            className="button is-success
+        "
+          >
+            Read More
+          </button>
+        </Link>
       </div>
     </div>
   );

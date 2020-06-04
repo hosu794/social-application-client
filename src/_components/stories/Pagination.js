@@ -28,13 +28,15 @@ function Pager() {
     <section className="hero is-success is-fullheight">
       <div className="hero-body">
         <div className="container has-text-centered">
-          {loading ? "Loading" : <ContentMap />}
+          {loading ? (
+            <h1 className="title is-size-1">Loading...</h1>
+          ) : (
+            <StoriesCards />
+          )}
           <Pagination
             pages={totalPages}
             currentPage={page + 1}
             onChange={(page) => {
-              console.log(`?page=${page}`);
-              console.log(content);
               setIsPageChanged(page);
               dispatch(storyActions.changePage(page - 1));
             }}
@@ -45,22 +47,25 @@ function Pager() {
   );
 }
 
-function ContentMap() {
+function StoriesCards() {
   const content = useSelector((state) => state.stories.content);
 
   if (content) {
     return content.map((story) => {
       return (
         <StoryCard
+          key={story.id}
+          id={story.id}
           username={story.createdBy.username}
           title={story.title}
           description={story.description}
           body={story.body}
+          data={story.creationDateTime}
         />
       );
     });
   } else {
-    return "Loading";
+    return "";
   }
 }
 
