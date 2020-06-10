@@ -7,6 +7,7 @@ export const userActions = {
   getCurrentUser,
   checkUsernameAvailability,
   checkEmailAvailability,
+  checkLoveAvailability,
 };
 
 function getCurrentUser() {
@@ -72,13 +73,12 @@ function checkEmailAvailability(email) {
   return (dispatch) => {
     userService.checkEmailAvaibility(email).then(
       (response) => {
-        console.log(response.data.available);
         dispatch(success(response.data.available));
       },
       (error) => {
         handleResponse(error);
+        dispatch(failure(error.response.data.message));
         dispatch(alertActions.error(error.response.data.message));
-        dispatch(error.response.data.message);
       }
     );
   };
@@ -92,5 +92,34 @@ function checkEmailAvailability(email) {
   }
   function failure(error) {
     return { type: userConstants.CHECK_USER_AVAIBILITY_FAILURE, error };
+  }
+}
+
+function checkLoveAvailability(req) {
+  return (dispatch) => {
+    dispatch(request(req));
+    userService.checkLoveAvailability(req).then(
+      (response) => {
+        console.log(response.data.available);
+        dispatch(success(response.data.available));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(req) {
+    return { type: userConstants.CHECK_LOVE_AVAIBILITY_REQUEST, req };
+  }
+
+  function success(response) {
+    return { type: userConstants.CHECK_LOVE_AVAIBILITY_SUCCESS, response };
+  }
+
+  function failure(error) {
+    return { type: userConstants.CHECK_LOVE_AVAIBILITY_FAILURE, error };
   }
 }

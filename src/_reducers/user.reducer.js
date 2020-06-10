@@ -48,6 +48,25 @@ export function user(state = {}, action) {
         checkedEmail: true,
         isEmailAvailable: action.response,
       };
+    case userConstants.CHECK_LOVE_AVAIBILITY_REQUEST: {
+      return {
+        ...state,
+        checkingLove: true,
+      };
+    }
+    case userConstants.CHECK_LOVE_AVAIBILITY_SUCCESS: {
+      return {
+        ...state,
+        checkingLove: false,
+        isUserLovedStory: action.response,
+      };
+    }
+    case userConstants.CHECK_LOVE_AVAIBILITY_FAILURE: {
+      return {
+        ...state,
+        checkingLove: false,
+      };
+    }
     default:
       return state;
   }

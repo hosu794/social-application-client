@@ -10,6 +10,7 @@ export const userService = {
   getUserProfile,
   getStoriesCreatedBy,
   getStoriesLovedBy,
+  checkLoveAvailability,
 };
 
 function loadUser() {
@@ -80,6 +81,18 @@ function getStoriesLovedBy(username) {
       headers: {
         "Content-Type": "application/json",
       },
+    }
+  );
+}
+
+function checkLoveAvailability(request) {
+  const body = JSON.stringify(request);
+
+  return axios.post(
+    "https://the-writers-mind.herokuapp.com/api/user/checkLoveAvailability",
+    body,
+    {
+      headers: authHeader(),
     }
   );
 }

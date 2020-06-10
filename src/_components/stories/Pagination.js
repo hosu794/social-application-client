@@ -4,6 +4,7 @@ import "bulma";
 import axios from "axios";
 import Pagination from "bulma-pagination-react";
 import StoryCard from "./StoryCard";
+import StoriesCards from "./StoriesCards";
 
 import { storyActions } from "../../_actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,28 +46,6 @@ function Pager() {
       </div>
     </section>
   );
-}
-
-function StoriesCards() {
-  const content = useSelector((state) => state.stories.content);
-
-  if (content) {
-    return content.map((story) => {
-      return (
-        <StoryCard
-          key={story.id}
-          id={story.id}
-          username={story.createdBy.username}
-          title={story.title}
-          description={story.description}
-          body={story.body}
-          data={story.creationDateTime}
-        />
-      );
-    });
-  } else {
-    return "";
-  }
 }
 
 export default Pager;

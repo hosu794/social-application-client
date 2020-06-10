@@ -3,7 +3,13 @@ import { alertActions } from "./";
 import { history, handleResponse } from "../_helpers";
 import { storyService } from "../_services/story.service";
 
-export const storyActions = { getPagedStories, changePage };
+export const storyActions = {
+  getPagedStories,
+  changePage,
+  getStoryById,
+  castLove,
+  unCastLove,
+};
 
 function getPagedStories(page) {
   return (dispatch) => {
@@ -59,11 +65,71 @@ function getStoryById(id) {
     return { type: storyConstants.GETPAGED_STORIES_REQUEST, id };
   }
 
-  function success(id) {
-    return { type: storyConstants.GET_STORY_BY_ID_SUCCESS, id };
+  function success(story) {
+    return { type: storyConstants.GET_STORY_BY_ID_SUCCESS, story };
   }
 
   function failure(error) {
     return { type: storyConstants.GET_STORY_BY_ID_FAILURE, error };
+  }
+}
+
+function castLove(storyIdentityRequest) {
+  return (dispatch) => {
+    dispatch(request(storyIdentityRequest));
+
+    storyService.castLove(storyIdentityRequest).then(
+      (story) => {
+        console.log(story.data);
+        dispatch(success(story));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(storyId) {
+    return { type: storyConstants.CAST_LOVE_REQUEST, storyId };
+  }
+
+  function success(story) {
+    return { type: storyConstants.CAST_LOVE_SUCCESS, story };
+  }
+
+  function failure(error) {
+    return { type: storyConstants.CAST_LOVE_FAILURE, error };
+  }
+}
+
+function unCastLove(storyIdentityRequest) {
+  return (dispatch) => {
+    dispatch(request(storyIdentityRequest));
+
+    storyService.unCastLove(storyIdentityRequest).then(
+      (story) => {
+        console.log(story.data);
+        dispatch(success(story));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(storyId) {
+    return { type: storyConstants.UNCAST_LOVE_REQUEST, storyId };
+  }
+
+  function success(story) {
+    return { type: storyConstants.UNCAST_LOVE_SUCCESS, story };
+  }
+
+  function failure(error) {
+    return { type: storyConstants.UNCAST_LOVE_FAILURE, error };
   }
 }

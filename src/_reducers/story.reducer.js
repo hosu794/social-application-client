@@ -1,8 +1,24 @@
 import { storyConstants } from "../_constants";
+import _ from "lodash";
 
 const initialState = {
   page: 0,
   loading: false,
+  currentStory: {
+    topic: {},
+    createdBy: {},
+    id: null,
+    title: "",
+    description: "",
+    createdBy: {},
+    totalLoves: 0,
+  },
+  page: 0,
+  content: [],
+  size: 0,
+  totalPages: 0,
+  error: null,
+  casting: false,
 };
 
 export function stories(state = initialState, action) {
@@ -37,12 +53,53 @@ export function stories(state = initialState, action) {
       return {
         ...state,
         currentStory: action.story,
+        loading: false,
       };
     }
     case storyConstants.GETPAGED_STORIES_REQUEST: {
       return {
         ...state,
         loading: true,
+      };
+    }
+    case storyConstants.CAST_LOVE_REQUEST: {
+      return {
+        ...state,
+        casting: true,
+      };
+    }
+    case storyConstants.CAST_LOVE_SUCCESS: {
+      console.log(action.story);
+      return {
+        ...state,
+        currentStory: action.story,
+      };
+    }
+    case storyConstants.CAST_LOVE_FAILURE: {
+      return {
+        ...state,
+        error: action.error,
+        casting: false,
+      };
+    }
+    case storyConstants.UNCAST_LOVE_REQUEST: {
+      return {
+        ...state,
+        uncasting: true,
+      };
+    }
+    case storyConstants.UNCAST_LOVE_SUCCESS: {
+      return {
+        ...state,
+        currentStory: action.story,
+        uncasting: false,
+      };
+    }
+    case storyConstants.UNCAST_LOVE_FAILURE: {
+      return {
+        ...state,
+        error: action.error,
+        uncasting: false,
       };
     }
     default:
