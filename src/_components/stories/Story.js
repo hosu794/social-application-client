@@ -9,7 +9,7 @@ function Story(props) {
   const story = useSelector((state) => state.stories.currentStory);
   const loadedUser = useSelector((state) => state.user.loadedUser);
   const user = useSelector((state) => state.user.user);
-  const loaded = !isLoading && loadedUser;
+  const loaded = !isLoading && loadedUser && story;
 
   useEffect(() => {
     dispatch(storyActions.getStoryById(props.match.params.id));
@@ -48,13 +48,15 @@ function LoadedStory(props) {
         userId: props.user.id,
       })
     );
-  }, []);
+  }, [props.loves]);
 
-  function castStore() {
+  function castStore(e) {
+    e.preventDefault();
     dispatch(storyActions.castLove({ storyId: props.id }));
   }
 
-  function unCastStore() {
+  function unCastStore(e) {
+    e.preventDefault();
     dispatch(storyActions.unCastLove({ storyId: props.id }));
   }
 

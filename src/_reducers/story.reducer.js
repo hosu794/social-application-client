@@ -13,7 +13,6 @@ const initialState = {
     createdBy: {},
     totalLoves: 0,
   },
-  page: 0,
   content: [],
   size: 0,
   totalPages: 0,
@@ -25,6 +24,7 @@ export function stories(state = initialState, action) {
   switch (action.type) {
     case storyConstants.GETPAGED_STORIES_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case storyConstants.GETPAGED_STORIES_SUCCESS:
@@ -39,6 +39,7 @@ export function stories(state = initialState, action) {
     case storyConstants.GETPAGED_STORIES_FAILURE:
     case storyConstants.GET_STORY_BY_ID_FAILURE: {
       return {
+        ...state,
         error: action.error,
         loading: false,
       };
@@ -69,10 +70,18 @@ export function stories(state = initialState, action) {
       };
     }
     case storyConstants.CAST_LOVE_SUCCESS: {
-      console.log(action.story);
       return {
         ...state,
-        currentStory: action.story,
+        currentStory: {
+          topic: state.currentStory.topic,
+          createdBy: state.currentStory.createdBy,
+          id: state.currentStory.id,
+          title: state.currentStory.title,
+          description: state.currentStory.description,
+          createdBy: state.currentStory.createdBy,
+          totalLoves: state.currentStory.totalLoves + 1,
+        },
+        casting: false,
       };
     }
     case storyConstants.CAST_LOVE_FAILURE: {
@@ -85,21 +94,32 @@ export function stories(state = initialState, action) {
     case storyConstants.UNCAST_LOVE_REQUEST: {
       return {
         ...state,
-        uncasting: true,
+        casting: true,
       };
     }
     case storyConstants.UNCAST_LOVE_SUCCESS: {
       return {
         ...state,
-        currentStory: action.story,
-        uncasting: false,
+        currentStory: {
+          topic: state.currentStory.topic,
+          createdBy: state.currentStory.createdBy,
+          id: state.currentStory.id,
+          title: state.currentStory.title,
+          description: state.currentStory.description,
+          createdBy: state.currentStory.createdBy,
+          totalLoves:
+            state.currentStory.totalLoves != 0
+              ? state.currentStory.totalLoves - 1
+              : state.currentStory.totalLoves,
+        },
+        casting: false,
       };
     }
     case storyConstants.UNCAST_LOVE_FAILURE: {
       return {
         ...state,
         error: action.error,
-        uncasting: false,
+        casting: false,
       };
     }
     default:
