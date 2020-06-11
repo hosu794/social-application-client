@@ -46,7 +46,7 @@ function Login() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    // clearAlerts();
+    clearAlerts();
 
     dispatch(alertActions.clear());
 
