@@ -13,7 +13,7 @@ jobs:
   deploy:
     machine:
       enabled: true
-    working_directory: ~/https://github.com/mars/create-react-app-buildpack.git
+    working_directory: https://github.com/mars/create-react-app-buildpack.git
 
     steps:
       - checkout
