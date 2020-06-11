@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 function Pager() {
   const dispatch = useDispatch();
   const stories = useSelector((state) => state.stories);
-  const page = stories.page;
+  var page = stories.page;
   const size = stories.size;
   const totalPages = stories.totalPages;
   const loading = stories.loading;
@@ -21,8 +21,17 @@ function Pager() {
 
   const content = stories.content;
 
+  const isLessThanZero = page === -1;
+  const isMoreThanTotalPages = page > totalPages;
+
   useEffect(() => {
-    dispatch(storyActions.getPagedStories(page));
+    if (isLessThanZero) {
+      page = page + 1;
+    } else if (isMoreThanTotalPages) {
+      page = page - 1;
+    } else {
+      dispatch(storyActions.getPagedStories(page));
+    }
   }, [isPageChanged]);
 
   return (
