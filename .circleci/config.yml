@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:12.9.1-browsers # primary container - where job steps are run
-    working_directory: ~/the-writer-s-mind-client
+    working_directory: ~/mind-app-client
     steps:
       - checkout
       # Bundle install dependencies
