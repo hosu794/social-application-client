@@ -1,5 +1,4 @@
 import { storyConstants } from "../_constants";
-import _ from "lodash";
 
 const initialState = {
   page: 0,

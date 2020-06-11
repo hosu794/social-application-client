@@ -41,21 +41,21 @@ function Login() {
 
   useEffect(() => {
     dispatch(authActions.logout());
-  }, []);
+  }, [error]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    clearAlerts();
+    // clearAlerts();
 
     dispatch(alertActions.clear());
 
     isValidPasswordAndUsername();
 
-    checkIsUsernameAndPasswordExistAndLogin(username, password);
+    checkIsUsernameThenPasswordExistAndLogin(username, password);
   }
 
-  function checkIsUsernameAndPasswordExistAndLogin(username, password) {
+  function checkIsUsernameThenPasswordExistAndLogin(username, password) {
     if (username && password) {
       dispatch(authActions.login(username, password));
       if (!loading) {
@@ -135,7 +135,7 @@ function Login() {
               type="submit"
               class="button is-primary is-fullwidth is-light"
             >
-              Login
+              {loading ? "loading..." : "Login"}
             </button>
           </div>
         </form>

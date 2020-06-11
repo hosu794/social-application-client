@@ -14,6 +14,12 @@ export function alert(state = {}, action) {
       };
     case alertConstants.CLEAR:
       return {};
+    case alertConstants.SET: {
+      return {
+        type: action.alert.type,
+        message: action.alert.message,
+      };
+    }
     default:
       return state;
   }
