@@ -118,57 +118,40 @@ function Register() {
     clearAlerts();
   }
 
-  function isResponseSuccessfully() {
-    if (alert.type == "alert-success") {
-      console.log("Success");
-    } else {
-      setError((error) => ({
-        isTrue: true,
-        message: alert.message,
-      }));
-    }
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
 
-    clearAlerts();
-
-    dispatch(alertActions.clear());
-
     validateUserFields();
 
-    const isSame = arePasswordSame(password, passwordReapet);
+    arePasswordSame(password, passwordReapet);
 
     checkUsernameAvailability(username);
     checkEmailAvailability(email);
 
-    if (isSame) {
+    if (arePasswordSame(password, passwordReapet)) {
       const validateCrudentialsAndCheckIsError =
         username && name && password && passwordReapet && error;
 
       if (validateCrudentialsAndCheckIsError) {
         dispatch(authActions.register(createNewUser(user)));
-
-        isResponseSuccessfully();
       }
     }
   }
 
   return (
-    <section class="hero is-success is-fullheight">
-      <div class="hero-body">
-        <form onSubmit={handleSubmit} class="container has-text-centered">
+    <section className="hero is-success is-fullheight">
+      <div className="hero-body">
+        <form onSubmit={handleSubmit} className="container has-text-centered">
           {error.isTrue && (
-            <div class="notification is-danger">
-              <button onClick={handleAlertButton} class="delete"></button>
+            <div className="notification is-danger">
+              <button onClick={handleAlertButton} className="delete"></button>
               {error.message}
             </div>
           )}
-          <div class="field">
-            <p class="control has-icons-left has-icons-right">
+          <div className="field">
+            <p className="control has-icons-left has-icons-right">
               <input
-                class="input"
+                className="input"
                 name="username"
                 onChange={handleChange}
                 value={username}
@@ -176,15 +159,15 @@ function Register() {
                 placeholder="Username"
               />
 
-              <span class="icon is-small is-left">
-                <i class="fas fa-users"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-users"></i>
               </span>
             </p>
           </div>
-          <div class="field">
-            <p class="control has-icons-left has-icons-right">
+          <div className="field">
+            <p className="control has-icons-left has-icons-right">
               <input
-                class="input"
+                className="input"
                 name="name"
                 onChange={handleChange}
                 value={name}
@@ -192,15 +175,15 @@ function Register() {
                 placeholder="Name"
               />
 
-              <span class="icon is-small is-left">
-                <i class="fas fa-users"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-users"></i>
               </span>
             </p>
           </div>
-          <div class="field">
-            <p class="control has-icons-left has-icons-right">
+          <div className="field">
+            <p className="control has-icons-left has-icons-right">
               <input
-                class="input"
+                className="input"
                 name="email"
                 onChange={handleChange}
                 value={email}
@@ -208,45 +191,45 @@ function Register() {
                 placeholder="Email"
               />
 
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-envelope"></i>
               </span>
             </p>
           </div>
-          <div class="field">
-            <p class="control has-icons-left">
+          <div className="field">
+            <p className="control has-icons-left">
               <input
-                class="input"
+                className="input"
                 name="password"
                 onChange={handleChange}
                 value={password}
                 type="password"
                 placeholder="Password"
               />
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-lock"></i>
               </span>
             </p>
           </div>
-          <div class="field">
-            <p class="control has-icons-left">
+          <div className="field">
+            <p className="control has-icons-left">
               <input
-                class="input"
+                className="input"
                 name="passwordReapet"
                 onChange={handleChange}
                 value={passwordReapet}
                 type="password"
                 placeholder="Reapet password"
               />
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-lock"></i>
               </span>
             </p>
           </div>
           <div className="field">
             <button
               type="submit"
-              class="button is-primary is-fullwidth is-light"
+              className="button is-primary is-fullwidth is-light"
             >
               Register
             </button>

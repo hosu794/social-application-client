@@ -46,10 +46,6 @@ function Login() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    clearAlerts();
-
-    dispatch(alertActions.clear());
-
     isValidPasswordAndUsername();
 
     checkIsUsernameThenPasswordExistAndLogin(username, password);
@@ -80,8 +76,6 @@ function Login() {
 
   function areCrudentialsAreCorrect(alert) {
     if (alert.type == "alert-danger") {
-      console.log("Danger");
-
       setError((error) => ({
         isTrue: true,
         message: "Bad Crudientials!",
