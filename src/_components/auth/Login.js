@@ -46,6 +46,8 @@ function Login() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    clearAlerts();
+
     isValidPasswordAndUsername();
 
     checkIsUsernameThenPasswordExistAndLogin(username, password);
@@ -53,6 +55,7 @@ function Login() {
 
   function checkIsUsernameThenPasswordExistAndLogin(username, password) {
     if (username && password) {
+      clearAlerts();
       dispatch(authActions.login(username, password));
       if (!loading) {
         areCrudentialsAreCorrect(alert);
@@ -83,11 +86,13 @@ function Login() {
     }
   }
 
+  const showError = error.isTrue;
+
   return (
     <section class="hero is-success is-fullheight">
       <div class="hero-body">
         <form onSubmit={handleSubmit} class="container has-text-centered">
-          {error.isTrue && (
+          {showError && (
             <div class="notification is-danger">
               <button onClick={handleAlertButton} class="delete"></button>
               {error.message}

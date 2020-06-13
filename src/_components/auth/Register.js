@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { authActions, alertActions, userActions } from "../../_actions";
 import { userService } from "../../_services";
 import { createNewUser } from "../../_helpers";
+import { rearg } from "lodash";
 
 function Register() {
   const [user, setUser] = useState({
@@ -121,6 +122,8 @@ function Register() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    clearAlerts();
+
     validateUserFields();
 
     arePasswordSame(password, passwordReapet);
@@ -128,21 +131,22 @@ function Register() {
     checkUsernameAvailability(username);
     checkEmailAvailability(email);
 
-    if (arePasswordSame(password, passwordReapet)) {
-      const validateCrudentialsAndCheckIsError =
-        username && name && password && passwordReapet && error;
+    const validateCrudentialsAndCheckIsError =
+      username && name && password && passwordReapet;
 
-      if (validateCrudentialsAndCheckIsError) {
-        dispatch(authActions.register(createNewUser(user)));
-      }
+    if (arePasswordSame && validateCrudentialsAndCheckIsError) {
+      clearAlerts();
+      dispatch(authActions.register(createNewUser(user)));
     }
   }
+
+  const showError = error.isTrue;
 
   return (
     <section className="hero is-success is-fullheight">
       <div className="hero-body">
         <form onSubmit={handleSubmit} className="container has-text-centered">
-          {error.isTrue && (
+          {showError && (
             <div className="notification is-danger">
               <button onClick={handleAlertButton} className="delete"></button>
               {error.message}
@@ -231,7 +235,7 @@ function Register() {
               type="submit"
               className="button is-primary is-fullwidth is-light"
             >
-              Register
+              {registering ? "Registering" : "Register"}
             </button>
           </div>
         </form>
