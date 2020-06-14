@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-
+import PropTypes from "prop-types";
 import { storyActions, userActions } from "../../_actions";
 import { useDispatch, useSelector } from "react-redux";
+import { IUser, IStory } from "../../_types";
 
 function Story(props) {
   const dispatch = useDispatch();
@@ -35,6 +36,13 @@ function Story(props) {
     </section>
   );
 }
+
+Story.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  story: PropTypes.instanceOf(IStory),
+  LoadedUser: PropTypes.bool.isRequired,
+  user: PropTypes.instanceOf(IUser),
+};
 
 function LoadedStory(props) {
   const dispatch = useDispatch();
@@ -108,5 +116,20 @@ function LoadedStory(props) {
     </section>
   );
 }
+
+LoadedStory.propTypes = {
+  isUserLovedStory: PropTypes.bool,
+  props: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+
+    body: PropTypes.string.isRequired,
+    loves: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    creator: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+    }),
+  }),
+};
 
 export default Story;

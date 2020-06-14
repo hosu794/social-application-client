@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { reduceText, formatDate } from "../../_helpers";
 
+import PropTypes from "prop-types";
+
 function StoryCard(props) {
   const storyUrl = `/stories/${props.id}`;
 
@@ -38,5 +40,15 @@ function StoryCard(props) {
     </div>
   );
 }
+
+StoryCard.propTypes = {
+  props: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    data: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  }),
+};
 
 export default StoryCard;

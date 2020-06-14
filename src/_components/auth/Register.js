@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
+import PropTypes from "prop-types";
+
 import { useSelector, useDispatch } from "react-redux";
 import { authActions, alertActions, userActions } from "../../_actions";
 import { userService } from "../../_services";
 import { createNewUser } from "../../_helpers";
-import { rearg } from "lodash";
 
 function Register() {
   const [user, setUser] = useState({
@@ -243,5 +244,15 @@ function Register() {
     </section>
   );
 }
+
+Register.propTypes = {
+  registering: PropTypes.bool,
+  isUsernameAvailable: PropTypes.bool,
+  isEmailAvailable: PropTypes.bool,
+  alert: PropTypes.object,
+  authActions: PropTypes.object,
+  userActions: PropTypes.object,
+  alertActions: PropTypes.object,
+};
 
 export default Register;

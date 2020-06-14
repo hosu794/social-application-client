@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import { authActions, alertActions } from "../../_actions";
 
@@ -143,4 +144,10 @@ function Login() {
   );
 }
 
+Login.propTypes = {
+  loading: PropTypes.bool,
+  logginIn: PropTypes.bool,
+  alert: PropTypes.object,
+  authActions: PropTypes.object,
+};
 export default Login;

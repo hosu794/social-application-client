@@ -1,6 +1,8 @@
 import React, { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 
+import { IStory } from "../../_types";
+import PropTypes from "prop-types";
 const StoryCard = lazy(() => import("./StoryCard"));
 
 function StoriesCards() {
@@ -26,5 +28,9 @@ function StoriesCards() {
     </Suspense>
   );
 }
+
+StoriesCards.propTypes = {
+  content: PropTypes.arrayOf(IStory),
+};
 
 export default StoriesCards;

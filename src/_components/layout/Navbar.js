@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import PropTypes from "prop-types";
 import LoggedButton from "./LoggedButton";
 import AuthButtons from "../auth/AuthButtons";
 
@@ -64,5 +64,9 @@ function Navbar() {
     </nav>
   );
 }
+
+Navbar.propTypes = {
+  loggedIn: PropTypes.bool,
+};
 
 export default Navbar;

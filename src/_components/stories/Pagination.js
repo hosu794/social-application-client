@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-
+import PropTypes from "prop-types";
 import "bulma";
 import axios from "axios";
 import Pagination from "bulma-pagination-react";
 import StoryCard from "./StoryCard";
 import StoriesCards from "./StoriesCards";
+
+import { IStory } from "../../_types";
 
 import { storyActions } from "../../_actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,5 +58,20 @@ function Pager() {
     </section>
   );
 }
+
+Pager.propTypes = {
+  storyActions: PropTypes.object,
+  stories: PropTypes.shape({
+    size: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    error: PropTypes.any.isRequired,
+    casting: PropTypes.bool.isRequired,
+    page: PropTypes.number.isRequired,
+    currentPage: PropTypes.instanceOf(IStory),
+    page: PropTypes.bool.isRequired,
+    page: PropTypes.number.isRequired,
+    content: PropTypes.arrayOf(IStory),
+  }),
+};
 
 export default Pager;

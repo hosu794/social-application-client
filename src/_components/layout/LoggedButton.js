@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../_actions";
-
+import PropTypes from "prop-types";
 import loading from "../../img/loading.gif";
 
 function LoggedButton() {
@@ -30,5 +30,14 @@ function LoggedButton() {
     </React.Fragment>
   );
 }
+
+LoggedButton.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.bool.isRequired,
+    username: PropTypes.bool.isRequired,
+    name: PropTypes.bool.isRequired,
+  }),
+  authActions: PropTypes.object,
+};
 
 export default LoggedButton;
