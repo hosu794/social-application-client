@@ -9,6 +9,7 @@ export const storyActions = {
   getStoryById,
   castLove,
   unCastLove,
+  create,
 };
 
 function getPagedStories(page) {
@@ -131,5 +132,36 @@ function unCastLove(storyIdentityRequest) {
 
   function failure(error) {
     return { type: storyConstants.UNCAST_LOVE_FAILURE, error };
+  }
+}
+
+function create(storyRequest, topic) {
+  return (dispatch) => {
+    dispatch(request(storyRequest, topic));
+
+    storyService.create(storyRequest, topic).then(
+      ((story) => {
+        console.log(story.data);
+        dispatch(success(story.data));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      })
+    );
+  };
+
+  function request(storyRequest, topic) {
+    const request = { storyRequest, topic };
+    return { type: storyConstants.CREATE_STORY_REQUEST, request };
+  }
+
+  function success(response) {
+    return { type: storyConstants.CREATE_STORY_SUCCESS, response };
+  }
+
+  function failure(error) {
+    return { type: storyConstants.CREATE_STORY_FAILURE, error };
   }
 }

@@ -121,6 +121,19 @@ export function stories(state = initialState, action) {
         casting: false,
       };
     }
+    case storyConstants.CREATE_STORY_REQUEST: {
+      return {
+        ...state,
+        creating: true,
+      };
+    }
+    case storyConstants.CREATE_STORY_SUCCESS: {
+      return {
+        ...state,
+        creating: false,
+        currentStory: action.story,
+      };
+    }
     default:
       return state;
   }

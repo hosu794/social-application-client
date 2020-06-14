@@ -19,6 +19,7 @@ import Login from "./_components/auth/Login";
 import Navbar from "./_components/layout/Navbar";
 import Pagination from "./_components/stories/Pagination";
 import Story from "./_components/stories/Story";
+import Dashboard from "./_components/stories/Dashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function App() {
             <Route path="/register" component={Register} exact />
             <Route path="/stories" component={Pagination} exact />
             <Route path="/stories/:id" component={Story} />
+            <PrivateRoute path="/dashboard" component={Dashboard} />
             <Redirect from="*" to="/" />
           </Switch>
         </div>
