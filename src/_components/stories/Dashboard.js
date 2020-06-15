@@ -19,8 +19,9 @@ function Dashboard() {
   const [story, setStory] = useState({
     title: "",
     description: "",
-    topic: null,
+    topic: "",
   });
+  const { description, topic, title } = story;
 
   const creating = useSelector((state) => state.stories.creating);
 
@@ -59,10 +60,15 @@ function Dashboard() {
     return newRequest;
   }
 
+  function onSubmit(e) {
+    e.preventDefault();
+    console.log(story);
+    console.log(content);
+  }
+
   function handleAlertButton() {}
 
   const showError = error.isTrue;
-  const { description, topic, title } = story;
 
   return (
     <section className="section">
@@ -78,79 +84,81 @@ function Dashboard() {
             console.log(newContent);
           }}
         />
-        <nav
-          class="level"
-          style={{
-            marginTop: "1em",
-          }}
-        >
-          <div class="level-item has-text-centered">
-            <div>
-              <div className="hero-body">
-                <form
-                  onSubmit={handleSubmit}
-                  className="container has-text-centered"
-                >
-                  {showError && (
-                    <div className="notification is-danger">
-                      <button
-                        onClick={handleAlertButton}
-                        className="delete"
-                      ></button>
-                      {error.message}
-                    </div>
-                  )}
-                  <div className="field">
-                    <p className="control ">
-                      <input
-                        className="input"
-                        name="email"
-                        onChange={handleChange}
-                        value={title}
-                        type="text"
-                        placeholder="Title"
-                      />
-                    </p>
-                  </div>
-                  <div className="field">
-                    <p className="control ">
-                      <input
-                        className="input"
-                        name="description"
-                        onChange={handleChange}
-                        value={description}
-                        type="text"
-                        placeholder="Description"
-                      />
-                    </p>
-                  </div>
+        <div className="hero-body is-full-width">
+          <div className="is-full-width">
+            <form class="form-horizontal is-full-width" onSubmit={onSubmit}>
+              <fieldset>
+                <legend></legend>
 
-                  <div className="field">
-                    <p className="control ">
-                      <input
-                        className="input"
-                        name="description"
-                        onChange={handleChange}
-                        value={topic}
-                        type="text"
-                        placeholder="Topic"
-                      />
-                    </p>
+                <div class="field">
+                  <label class="label" for="title"></label>
+                  <div class="control">
+                    <input
+                      id="title"
+                      name="title"
+                      type="text"
+                      placeholder="Title"
+                      class="input "
+                      value={title}
+                      onChange={handleChange}
+                    />
                   </div>
+                </div>
 
-                  <div className="field">
-                    <button
-                      type="submit"
-                      className="button is-primary is-fullwidth is-light"
+                <div class="field">
+                  <label class="label" for="description"></label>
+                  <div class="control">
+                    <textarea
+                      class="textarea"
+                      id="description"
+                      name="description"
+                      value={description}
+                      onChange={handleChange}
+                      placeholder="Description"
                     >
-                      {creating ? "Creating" : "Create"}
+                      Description
+                    </textarea>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label
+                    class="label has-text-light	is-size-4	"
+                    for="selectbasic-0"
+                  >
+                    Select Topic
+                  </label>
+                  <div class="control">
+                    <div class="select">
+                      <select
+                        id="topic"
+                        name="topic"
+                        value={topic}
+                        onChange={handleChange}
+                        class=""
+                      >
+                        <option>Option one</option>
+                        <option>Option two</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <div class="control">
+                    <button
+                      id="singlebutton-0"
+                      name="singlebutton-0"
+                      class="button "
+                    >
+                      Create
                     </button>
                   </div>
-                </form>
-              </div>
-            </div>
+                </div>
+              </fieldset>
+            </form>
           </div>
-        </nav>
+        </div>
       </div>
     </section>
   );

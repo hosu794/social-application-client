@@ -34,3 +34,7 @@
 .jodit_container .jodit_placeholder {
   color: #00000080;
 }
+
+.is-full-width {
+  width: 100%;
+}
