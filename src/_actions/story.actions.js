@@ -141,8 +141,9 @@ function create(storyRequest, topic) {
 
     storyService.create(storyRequest, topic).then(
       ((story) => {
-        console.log(story.data);
         dispatch(success(story.data));
+        history.push("/dashboard");
+        window.location.reload(true);
       },
       (error) => {
         handleResponse(error);

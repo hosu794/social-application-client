@@ -18,7 +18,7 @@ export function formatDate(date) {
 
   const fullYear = newDate.getFullYear();
   const month = monthNames[newDate.getMonth()];
-  const day = newDate.getDay();
+  const day = newDate.getDate();
   const hour = newDate.getHours();
   const minutes = newDate.getMinutes();
 

@@ -18,8 +18,8 @@ function StoryCard(props) {
         >
           {props.title}
         </h1>
-        <span className="is-size-3">Description: {props.description}</span>
-        <p className="is-size-5">{reduceText(props.body)}</p>
+        <h1 className="is-size-3">Description</h1>
+        <span className="is-size-5">{props.description}</span>
         <div className="level">
           <p className="level-item has-text-centered is-size-4">
             by {props.username}

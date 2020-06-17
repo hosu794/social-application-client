@@ -73,7 +73,7 @@ function LoadedStory(props) {
       <div class="container">
         <h1 className="title">{props.title}</h1>
         <h2 class="subtitle">{props.description}</h2>
-        <p>{props.body}</p>
+        <p dangerouslySetInnerHTML={{ __html: props.body }}></p>
         <nav
           class="level"
           style={{

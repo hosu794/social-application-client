@@ -39,9 +39,11 @@ function unCastLove(storyIdentityRequest) {
 }
 
 function create(storyRequest, topic) {
+  const body = JSON.stringify(storyRequest);
+  console.log(body);
   return axios.post(
     `https://the-writers-mind.herokuapp.com/api/stories/topics/${topic}`,
-    storyRequest,
+    body,
     {
       headers: authHeader(),
     }

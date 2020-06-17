@@ -1,53 +1,69 @@
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import JoditEditor from "jodit-react";
-import PropTypes, { func } from "prop-types";
-import { storyActions } from "../../_actions";
+
+import { storyActions, topicActions } from "../../_actions";
 import { useSelector, useDispatch } from "react-redux";
 import { functionsIn } from "lodash";
 
 function Dashboard() {
+  const dispatch = useDispatch();
+  const topics = useSelector((state) => state.topics.content);
+  const loading = useDispatch((state) => state.topics.loading);
+  const currentTopic = useSelector((state) => state.topics.currentTopic);
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  const dispatch = useDispatch();
 
-  const [error, setError] = useState({
-    isTrue: false,
-    message: "",
-  });
-
-  const [story, setStory] = useState({
+  const [fields, setFields] = useState({
     title: "",
     description: "",
     topic: "",
   });
-  const { description, topic, title } = story;
 
+  const [errors, setErrors] = useState({
+    bodyError: "",
+    titleError: "",
+    descriptionError: "",
+    topicError: "",
+  });
+
+  const { description, topic, title } = fields;
+
+  function validate() {
+    let bodyError = "";
+    let titleErors = " ";
+    let topicErors = "";
+
+    if (!fields.title) {
+      titleErors = "Title Required";
+    }
+
+    if (titleErors) {
+      setErrors((error) => ({ ...error, titleErors }));
+      return false;
+    }
+
+    return true;
+  }
   const creating = useSelector((state) => state.stories.creating);
 
   const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
+    readonly: false,
   };
-
-  useEffect(() => {}, []);
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("Submit");
-    validateContent(content);
-  }
-
-  function validateContent(value) {
-    if (value.length < 20) {
-      console.log("Text must have lenght bigger than 20 characters");
-    } else {
-      dispatch(storyActions.create(createRequest(story, content), story.topic));
+    const isValid = validate();
+    if (isValid) {
+      console.log(fields);
     }
   }
 
+  useEffect(() => {}, [errors]);
+
   function handleChange(e) {
     const { name, value } = e.target;
-    setStory((story) => ({ ...story, [name]: value }));
+    setFields((field) => ({ ...field, [name]: value }));
   }
 
   function createRequest(story, textContent) {
@@ -62,28 +78,32 @@ function Dashboard() {
 
   function onSubmit(e) {
     e.preventDefault();
-    console.log(story);
-    console.log(content);
+
+    if (topic) {
+      dispatch(topicActions.getTopicByTitle(topic));
+    }
   }
-
-  function handleAlertButton() {}
-
-  const showError = error.isTrue;
 
   return (
     <section className="section">
       <div className="container">
         <h1 className="title is-size-1">Dashboard</h1>
-        <JoditEditor
-          ref={editor}
-          value={content}
-          config={config}
-          tabIndex={1} // tabIndex of textarea
-          onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-          onChange={(newContent) => {
-            console.log(newContent);
-          }}
-        />
+        <div>
+          <JoditEditor
+            ref={editor}
+            value={content}
+            config={config}
+            tabIndex={1} // tabIndex of textarea
+            onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+            onChange={(newContent) => {
+              console.log(newContent);
+            }}
+          />
+          {errors.bodyError ? (
+            <p class="help is-danger">{errors.bodyError}</p>
+          ) : null}
+        </div>
+
         <div className="hero-body is-full-width">
           <div className="is-full-width">
             <form class="form-horizontal is-full-width" onSubmit={onSubmit}>
@@ -103,6 +123,9 @@ function Dashboard() {
                       onChange={handleChange}
                     />
                   </div>
+                  {errors.bodyError ? (
+                    <p class="help is-danger">{errors.bodyError}</p>
+                  ) : null}
                 </div>
 
                 <div class="field">
@@ -119,6 +142,9 @@ function Dashboard() {
                       Description
                     </textarea>
                   </div>
+                  {errors.bodyError ? (
+                    <p class="help is-danger">{errors.bodyError}</p>
+                  ) : null}
                 </div>
 
                 <div class="field">
@@ -126,7 +152,7 @@ function Dashboard() {
                     class="label has-text-light	is-size-4	"
                     for="selectbasic-0"
                   >
-                    Select Topic
+                    {!loading ? "Loading" : "Select Topic"}
                   </label>
                   <div class="control">
                     <div class="select">
@@ -137,11 +163,17 @@ function Dashboard() {
                         onChange={handleChange}
                         class=""
                       >
-                        <option>Option one</option>
-                        <option>Option two</option>
+                        {!loading
+                          ? ""
+                          : topics.map((topic) => (
+                              <option>{topic.title}</option>
+                            ))}
                       </select>
                     </div>
                   </div>
+                  {errors.bodyError ? (
+                    <p class="help is-danger">{errors.bodyError}</p>
+                  ) : null}
                 </div>
 
                 <div class="field">
