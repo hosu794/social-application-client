@@ -38,6 +38,7 @@ function login(usernameOrEmail, password) {
 
 function logout() {
   authService.logout();
+  history.push("/");
   return {
     type: authConstants.LOGOUT,
   };

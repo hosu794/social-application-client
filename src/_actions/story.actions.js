@@ -135,15 +135,16 @@ function unCastLove(storyIdentityRequest) {
   }
 }
 
-function create(storyRequest, topic) {
+function create(requestStory) {
   return (dispatch) => {
-    dispatch(request(storyRequest, topic));
+    dispatch(request(requestStory));
 
-    storyService.create(storyRequest, topic).then(
+    storyService.create(requestStory).then(
       ((story) => {
-        dispatch(success(story.data));
+        dispatch(success());
         history.push("/dashboard");
         window.location.reload(true);
+        dispatch(alertActions.success("Story created successful"));
       },
       (error) => {
         handleResponse(error);
@@ -153,13 +154,12 @@ function create(storyRequest, topic) {
     );
   };
 
-  function request(storyRequest, topic) {
-    const request = { storyRequest, topic };
-    return { type: storyConstants.CREATE_STORY_REQUEST, request };
+  function request(requestStory) {
+    return { type: storyConstants.CREATE_STORY_REQUEST, requestStory };
   }
 
-  function success(response) {
-    return { type: storyConstants.CREATE_STORY_SUCCESS, response };
+  function success() {
+    return { type: storyConstants.CREATE_STORY_SUCCESS };
   }
 
   function failure(error) {

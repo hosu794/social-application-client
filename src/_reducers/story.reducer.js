@@ -133,7 +133,6 @@ export function stories(state = initialState, action) {
       return {
         ...state,
         creating: false,
-        currentStory: action.story,
       };
     }
     default:

@@ -6,6 +6,7 @@ import { storyActions, topicActions } from "../../_actions";
 import { useSelector, useDispatch } from "react-redux";
 import { functionsIn, setWith } from "lodash";
 import PropTypes from "prop-types";
+import { ITopic } from "../../_types";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -34,11 +35,12 @@ function Dashboard() {
     setFields((field) => ({ ...field, [name]: value }));
   }
 
-  function createRequest(story, textContent) {
+  function createRequest(story, textContent, topic) {
     const newRequest = {
       title: story.title,
       description: story.description,
       body: textContent,
+      topic,
     };
 
     return newRequest;
@@ -51,7 +53,7 @@ function Dashboard() {
     if (isValid) {
       if ((currentTopic.title = topic)) {
         dispatch(
-          storyActions.create(createRequest(fields, content), currentTopic.id)
+          storyActions.create(createRequest(fields, content, currentTopic.id))
         );
       }
     }
@@ -220,7 +222,7 @@ function Dashboard() {
                       name="singlebutton-0"
                       class="button "
                     >
-                      Create
+                      {creating ? "Creating" : "Create"}
                     </button>
                   </div>
                 </div>
@@ -233,6 +235,11 @@ function Dashboard() {
   );
 }
 
-Dashboard.propTypes = {};
+Dashboard.propTypes = {
+  topics: PropTypes.arrayOf(PropTypes.instanceOf(ITopic)),
+  loading: PropTypes.string,
+  currentTopic: PropTypes.instanceOf(ITopic),
+  creating: PropTypes.string,
+};
 
 export default Dashboard;
