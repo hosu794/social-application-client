@@ -50,12 +50,14 @@ function Dashboard() {
     e.preventDefault();
 
     const isValid = validate();
-    if (isValid) {
-      if ((currentTopic.title = topic)) {
-        dispatch(
-          storyActions.create(createRequest(fields, content, currentTopic.id))
-        );
-      }
+
+    const isValidAndCurrentTopicIdExist =
+      isValid && currentTopic.title == topic;
+
+    if (isValidAndCurrentTopicIdExist) {
+      dispatch(
+        storyActions.create(createRequest(fields, content, currentTopic.id))
+      );
     }
   }
 
@@ -66,18 +68,20 @@ function Dashboard() {
 
     let contentError = "";
     let descriptionError = "";
-    let titleErors = "";
+    let titleErrors = "";
     let topicErrors = "";
     let isValid = true;
-    if (title < 6) {
-      titleErors = "Title must have at least 6 characters";
-    }
+
     if (!title) {
-      titleErors = "Title Required";
+      titleErrors = "Title Required";
     }
 
-    if (titleErors) {
-      setErrors((error) => ({ ...error, titleErors }));
+    if (title.length <= 5) {
+      titleErrors = "Title must have at least 5 characters";
+    }
+
+    if (titleErrors) {
+      setErrors((error) => ({ ...error, titleErrors }));
       isValid = false;
     }
 
@@ -161,8 +165,8 @@ function Dashboard() {
                       onChange={handleChange}
                     />
                   </div>
-                  {errors.titleErors ? (
-                    <p class="help is-danger">{errors.titleErors}</p>
+                  {errors.titleErrors ? (
+                    <p class="help is-danger">{errors.titleErrors}</p>
                   ) : null}
                 </div>
 

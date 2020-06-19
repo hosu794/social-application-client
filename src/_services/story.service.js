@@ -45,8 +45,6 @@ function create(request) {
     body: request.body,
   });
 
-  console.log(request);
-
   return axios.post(
     `https://the-writers-mind.herokuapp.com/api/stories/topics/${request.topic}`,
     body,

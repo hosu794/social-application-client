@@ -1,7 +1,8 @@
 import { storyConstants } from "../_constants";
 import { alertActions } from "./";
-import { history, handleResponse } from "../_helpers";
+import { history, handleResponse, authHeader } from "../_helpers";
 import { storyService } from "../_services/story.service";
+import axios from "axios";
 
 export const storyActions = {
   getPagedStories,
@@ -140,8 +141,8 @@ function create(requestStory) {
     dispatch(request(requestStory));
 
     storyService.create(requestStory).then(
-      ((story) => {
-        dispatch(success());
+      (story) => {
+        dispatch(success(story.data));
         history.push("/dashboard");
         window.location.reload(true);
         dispatch(alertActions.success("Story created successful"));
@@ -150,7 +151,7 @@ function create(requestStory) {
         handleResponse(error);
         dispatch(failure(error.response.data.message));
         dispatch(alertActions.error(error.response.data.message));
-      })
+      }
     );
   };
 
