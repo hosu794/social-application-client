@@ -4,62 +4,30 @@ import JoditEditor from "jodit-react";
 
 import { storyActions, topicActions } from "../../_actions";
 import { useSelector, useDispatch } from "react-redux";
-import { functionsIn } from "lodash";
+import { functionsIn, setWith } from "lodash";
+import PropTypes from "prop-types";
 
 function Dashboard() {
   const dispatch = useDispatch();
   const topics = useSelector((state) => state.topics.content);
   const loading = useDispatch((state) => state.topics.loading);
   const currentTopic = useSelector((state) => state.topics.currentTopic);
-  const editor = useRef(null);
-  const [content, setContent] = useState("");
+  const creating = useSelector((state) => state.stories.creating);
 
+  const editor = useRef(null);
+
+  const [content, setContent] = useState("");
   const [fields, setFields] = useState({
     title: "",
     description: "",
     topic: "",
   });
 
-  const [errors, setErrors] = useState({
-    bodyError: "",
-    titleError: "",
-    descriptionError: "",
-    topicError: "",
-  });
-
-  const { description, topic, title } = fields;
-
-  function validate() {
-    let bodyError = "";
-    let titleErors = " ";
-    let topicErors = "";
-
-    if (!fields.title) {
-      titleErors = "Title Required";
-    }
-
-    if (titleErors) {
-      setErrors((error) => ({ ...error, titleErors }));
-      return false;
-    }
-
-    return true;
-  }
-  const creating = useSelector((state) => state.stories.creating);
+  const [errors, setErrors] = useState({});
 
   const config = {
     readonly: false,
   };
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const isValid = validate();
-    if (isValid) {
-      console.log(fields);
-    }
-  }
-
-  useEffect(() => {}, [errors]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -79,10 +47,78 @@ function Dashboard() {
   function onSubmit(e) {
     e.preventDefault();
 
+    const isValid = validate();
+    if (isValid) {
+      if ((currentTopic.title = topic)) {
+        dispatch(
+          storyActions.create(createRequest(fields, content), currentTopic.id)
+        );
+      }
+    }
+  }
+
+  const { title, description, topic } = fields;
+
+  function validate() {
+    setErrors({});
+
+    let contentError = "";
+    let descriptionError = "";
+    let titleErors = "";
+    let topicErrors = "";
+    let isValid = true;
+    if (title < 6) {
+      titleErors = "Title must have at least 6 characters";
+    }
+    if (!title) {
+      titleErors = "Title Required";
+    }
+
+    if (titleErors) {
+      setErrors((error) => ({ ...error, titleErors }));
+      isValid = false;
+    }
+
+    if (!content) {
+      contentError = "Content required";
+    }
+
+    if (contentError) {
+      setErrors((error) => ({ ...error, contentError }));
+      isValid = false;
+    }
+
+    if (!description) {
+      descriptionError = "Description required";
+    }
+
+    if (descriptionError) {
+      setErrors((error) => ({ ...error, descriptionError }));
+      isValid = false;
+    }
+
+    if (!topic) {
+      topicErrors = "Topic required";
+    }
+
+    if (topicErrors) {
+      setErrors((error) => ({
+        ...error,
+        topicErrors,
+      }));
+    }
+
+    if (isValid) {
+      return true;
+    } else return false;
+  }
+
+  useEffect(() => {
+    dispatch(topicActions.getAllTopics());
     if (topic) {
       dispatch(topicActions.getTopicByTitle(topic));
     }
-  }
+  }, [topic]);
 
   return (
     <section className="section">
@@ -99,8 +135,8 @@ function Dashboard() {
               console.log(newContent);
             }}
           />
-          {errors.bodyError ? (
-            <p class="help is-danger">{errors.bodyError}</p>
+          {errors.contentError ? (
+            <p class="help is-danger">{errors.contentError}</p>
           ) : null}
         </div>
 
@@ -123,8 +159,8 @@ function Dashboard() {
                       onChange={handleChange}
                     />
                   </div>
-                  {errors.bodyError ? (
-                    <p class="help is-danger">{errors.bodyError}</p>
+                  {errors.titleErors ? (
+                    <p class="help is-danger">{errors.titleErors}</p>
                   ) : null}
                 </div>
 
@@ -142,8 +178,8 @@ function Dashboard() {
                       Description
                     </textarea>
                   </div>
-                  {errors.bodyError ? (
-                    <p class="help is-danger">{errors.bodyError}</p>
+                  {errors.descriptionError ? (
+                    <p class="help is-danger">{errors.descriptionError}</p>
                   ) : null}
                 </div>
 
@@ -163,6 +199,7 @@ function Dashboard() {
                         onChange={handleChange}
                         class=""
                       >
+                        <option></option>
                         {!loading
                           ? ""
                           : topics.map((topic) => (
@@ -171,8 +208,8 @@ function Dashboard() {
                       </select>
                     </div>
                   </div>
-                  {errors.bodyError ? (
-                    <p class="help is-danger">{errors.bodyError}</p>
+                  {errors.topicErrors ? (
+                    <p class="help is-danger">{errors.topicErrors}</p>
                   ) : null}
                 </div>
 
@@ -195,5 +232,7 @@ function Dashboard() {
     </section>
   );
 }
+
+Dashboard.propTypes = {};
 
 export default Dashboard;
