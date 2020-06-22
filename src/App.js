@@ -20,6 +20,7 @@ import Navbar from "./_components/layout/Navbar";
 import Pagination from "./_components/stories/Pagination";
 import Story from "./_components/stories/Story";
 import Dashboard from "./_components/stories/Dashboard";
+import About from "./_components/layout/About";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
             <Route path="/stories" component={Pagination} exact />
             <Route path="/stories/:id" component={Story} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
+            <Route path="/about" component={About} />
             <Redirect from="*" to="/" />
           </Switch>
         </div>

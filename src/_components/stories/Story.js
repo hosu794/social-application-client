@@ -48,6 +48,7 @@ function LoadedStory(props) {
   const dispatch = useDispatch();
 
   const isUserLovedStory = useSelector((state) => state.user.isUserLovedStory);
+  const isLogged = useSelector((state) => state.authentication.loggedIn);
 
   useEffect(() => {
     dispatch(
@@ -99,17 +100,19 @@ function LoadedStory(props) {
             </div>
           </div>
           <div class="level-item has-text-centered">
-            <div>
-              {isUserLovedStory ? (
-                <button onClick={castStore} className="button is-white">
-                  Like
-                </button>
-              ) : (
-                <button onClick={unCastStore} className="button is-white">
-                  Unlike
-                </button>
-              )}
-            </div>
+            {isLogged ? (
+              <div>
+                {isUserLovedStory ? (
+                  <button onClick={castStore} className="button is-white">
+                    Like
+                  </button>
+                ) : (
+                  <button onClick={unCastStore} className="button is-white">
+                    Unlike
+                  </button>
+                )}
+              </div>
+            ) : null}
           </div>
         </nav>
       </div>

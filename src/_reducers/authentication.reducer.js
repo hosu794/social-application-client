@@ -2,7 +2,7 @@ import { authConstants } from "../_constants";
 
 let user = JSON.parse(localStorage.getItem("user"));
 
-const initialState = user ? { loggedIn: true, user } : {};
+const initialState = user ? { loggedIn: true, user } : { loggedIn: false };
 
 export function authentication(state = initialState, action) {
   switch (action.type) {
@@ -22,6 +22,7 @@ export function authentication(state = initialState, action) {
     case authConstants.LOGOUT:
       return {
         loading: false,
+        loggedIn: false,
       };
     default:
       return state;
