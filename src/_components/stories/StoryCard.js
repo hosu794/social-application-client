@@ -28,14 +28,30 @@ function StoryCard(props) {
             {formatDate(props.data)}
           </p>
         </div>
-        <Link to={storyUrl}>
-          <button
-            className="button is-success
+        <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <button
+                className="button is-danger
         "
-          >
-            Read More
-          </button>
-        </Link>
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <Link to={storyUrl}>
+                <button
+                  className="button is-success
+        "
+                >
+                  Read More
+                </button>
+              </Link>
+            </div>
+          </div>
+        </nav>
       </div>
     </div>
   );

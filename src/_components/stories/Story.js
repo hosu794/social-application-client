@@ -18,7 +18,7 @@ function Story(props) {
 
   return (
     <section class="section">
-      {loaded ? (
+      {!isLoading ? (
         <LoadedStory
           title={story.title}
           description={story.description}
@@ -51,12 +51,14 @@ function LoadedStory(props) {
   const isLogged = useSelector((state) => state.authentication.loggedIn);
 
   useEffect(() => {
-    dispatch(
-      userActions.checkLoveAvailability({
-        storyId: props.id,
-        userId: props.user.id,
-      })
-    );
+    if (isLogged) {
+      dispatch(
+        userActions.checkLoveAvailability({
+          storyId: props.id,
+          userId: props.user.id,
+        })
+      );
+    }
   }, [props.loves]);
 
   function castStore(e) {
