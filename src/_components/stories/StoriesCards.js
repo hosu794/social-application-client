@@ -18,6 +18,7 @@ function StoriesCards() {
                 id={story.id}
                 username={story.createdBy.username}
                 title={story.title}
+                userId={story.createdBy.id}
                 description={story.description}
                 body={story.body}
                 data={story.creationDateTime}

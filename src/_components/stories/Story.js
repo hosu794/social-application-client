@@ -17,7 +17,7 @@ function Story(props) {
   }, []);
 
   return (
-    <section class="section">
+    <section className="section">
       {!isLoading ? (
         <LoadedStory
           title={story.title}
@@ -38,9 +38,9 @@ function Story(props) {
 }
 
 Story.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
   story: PropTypes.instanceOf(IStory),
-  LoadedUser: PropTypes.bool.isRequired,
+  LoadedUser: PropTypes.bool,
   user: PropTypes.instanceOf(IUser),
 };
 
@@ -72,36 +72,36 @@ function LoadedStory(props) {
   }
 
   return (
-    <section class="section">
-      <div class="container">
+    <section className="section">
+      <div className="container">
         <h1 className="title">{props.title}</h1>
-        <h2 class="subtitle">{props.description}</h2>
+        <h2 className="subtitle">{props.description}</h2>
         <p dangerouslySetInnerHTML={{ __html: props.body }}></p>
         <nav
-          class="level"
+          className="level"
           style={{
             marginTop: "1em",
           }}
         >
-          <div class="level-item has-text-centered">
+          <div className="level-item has-text-centered">
             <div>
-              <p class="heading">Author</p>
-              <p class="title">{props.creator.username}</p>
+              <p className="heading">Author</p>
+              <p className="title">{props.creator.username}</p>
             </div>
           </div>
-          <div class="level-item has-text-centered">
+          <div className="level-item has-text-centered">
             <div>
-              <p class="heading">Topic</p>
-              <p class="title">{props.topic.title}</p>
+              <p className="heading">Topic</p>
+              <p className="title">{props.topic.title}</p>
             </div>
           </div>
-          <div class="level-item has-text-centered">
+          <div className="level-item has-text-centered">
             <div>
-              <p class="heading">Loves</p>
-              <p class="title">{props.loves}</p>
+              <p className="heading">Loves</p>
+              <p className="title">{props.loves}</p>
             </div>
           </div>
-          <div class="level-item has-text-centered">
+          <div className="level-item has-text-centered">
             {isLogged ? (
               <div>
                 {isUserLovedStory ? (
@@ -127,7 +127,6 @@ LoadedStory.propTypes = {
   props: PropTypes.shape({
     title: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-
     body: PropTypes.string.isRequired,
     loves: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,

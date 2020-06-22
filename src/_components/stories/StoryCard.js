@@ -4,8 +4,13 @@ import { reduceText, formatDate } from "../../_helpers";
 
 import PropTypes from "prop-types";
 
+import { useSelector } from "react-redux";
+
 function StoryCard(props) {
   const storyUrl = `/stories/${props.id}`;
+  const user = useSelector((state) => state.user.user);
+  const isUserExist = user ? user.id : null;
+  const isUserIdentificationIsEqualStoryCreator = isUserExist === props.userId;
 
   return (
     <div className="column">
@@ -30,14 +35,16 @@ function StoryCard(props) {
         </div>
         <nav class="level">
           <div class="level-item has-text-centered">
-            <div>
-              <button
-                className="button is-danger
+            {isUserIdentificationIsEqualStoryCreator ? (
+              <div>
+                <button
+                  className="button is-danger
         "
-              >
-                Delete
-              </button>
-            </div>
+                >
+                  Delete
+                </button>
+              </div>
+            ) : null}
           </div>
           <div class="level-item has-text-centered">
             <div>
@@ -64,6 +71,7 @@ StoryCard.propTypes = {
     data: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
   }),
 };
 

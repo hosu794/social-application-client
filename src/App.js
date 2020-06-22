@@ -25,13 +25,14 @@ import About from "./_components/layout/About";
 function App() {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.alert);
+  const loggedIn = useSelector((state) => state.authentication.loggedIn);
 
   useEffect(() => {
     dispatch(userActions.getCurrentUser());
     history.listen(function (location, action) {
       dispatch(alertActions.clear());
     });
-  }, []);
+  }, [loggedIn]);
 
   return (
     <Router>
