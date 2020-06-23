@@ -177,6 +177,7 @@ function deleteStory(id) {
       (response) => {
         dispatch(success(id));
         dispatch(alertActions.success("Story deleted successfully"));
+        history.push("/stories");
         window.location.reload(true);
       },
       (error) => {

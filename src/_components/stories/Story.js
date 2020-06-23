@@ -29,6 +29,7 @@ function Story(props) {
           body={story.body}
           id={story.id}
           user={user}
+          userId={story.createdBy.id}
         />
       ) : (
         "Loading..."
@@ -49,6 +50,13 @@ function LoadedStory(props) {
 
   const isUserLovedStory = useSelector((state) => state.user.isUserLovedStory);
   const isLogged = useSelector((state) => state.authentication.loggedIn);
+  const user = useSelector((state) => state.user.user);
+  const isUserExist = user ? user.id : null;
+  const isUserIdentificationIsEqualStoryCreator = isUserExist === props.userId;
+
+  function deleteHandler() {
+    dispatch(storyActions.deleteStory(props.id));
+  }
 
   useEffect(() => {
     if (isLogged) {
@@ -116,6 +124,19 @@ function LoadedStory(props) {
               </div>
             ) : null}
           </div>
+          {isUserIdentificationIsEqualStoryCreator ? (
+            <div class="level-item has-text-centered">
+              <div>
+                <button
+                  onClick={deleteHandler}
+                  className="button is-danger
+        "
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ) : null}
         </nav>
       </div>
     </section>
@@ -124,6 +145,7 @@ function LoadedStory(props) {
 
 LoadedStory.propTypes = {
   isUserLovedStory: PropTypes.bool,
+  user: PropTypes.instanceOf(IUser),
   props: PropTypes.shape({
     title: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
