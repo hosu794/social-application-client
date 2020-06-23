@@ -53,6 +53,7 @@ function LoadedStory(props) {
   const user = useSelector((state) => state.user.user);
   const isUserExist = user ? user.id : null;
   const isUserIdentificationIsEqualStoryCreator = isUserExist === props.userId;
+  const currentStory = useSelector((state) => state.stories.currentStory);
 
   function deleteHandler() {
     dispatch(storyActions.deleteStory(props.id));
@@ -62,8 +63,8 @@ function LoadedStory(props) {
     if (isLogged) {
       dispatch(
         userActions.checkLoveAvailability({
-          storyId: props.id,
-          userId: props.user.id,
+          storyId: currentStory.id,
+          userId: isUserExist,
         })
       );
     }
