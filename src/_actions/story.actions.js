@@ -11,6 +11,7 @@ export const storyActions = {
   castLove,
   unCastLove,
   create,
+  deleteStory,
 };
 
 function getPagedStories(page) {
@@ -165,5 +166,36 @@ function create(requestStory) {
 
   function failure(error) {
     return { type: storyConstants.CREATE_STORY_FAILURE, error };
+  }
+}
+
+function deleteStory(id) {
+  return (dispatch) => {
+    dispatch(request(id));
+
+    storyService.deleteStory(id).then(
+      (response) => {
+        dispatch(success(id));
+        dispatch(alertActions.success("Story deleted successfully"));
+        window.location.reload(true);
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(id) {
+    return { type: storyConstants.DELETE_STORY_REQUEST, id };
+  }
+
+  function success(index) {
+    return { type: storyConstants.DELETE_STORY_SUCCESS, index };
+  }
+
+  function failure(error) {
+    return { type: storyConstants.DELETE_STORY_FAILURE, error };
   }
 }

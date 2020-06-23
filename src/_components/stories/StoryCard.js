@@ -4,13 +4,20 @@ import { reduceText, formatDate } from "../../_helpers";
 
 import PropTypes from "prop-types";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { storyActions } from "../../_actions";
 
 function StoryCard(props) {
   const storyUrl = `/stories/${props.id}`;
   const user = useSelector((state) => state.user.user);
   const isUserExist = user ? user.id : null;
   const isUserIdentificationIsEqualStoryCreator = isUserExist === props.userId;
+  const dispatch = useDispatch();
+
+  function deleteHandler() {
+    console.log("Delete");
+    dispatch(storyActions.deleteStory(props.id));
+  }
 
   return (
     <div className="column">
@@ -38,6 +45,7 @@ function StoryCard(props) {
             {isUserIdentificationIsEqualStoryCreator ? (
               <div>
                 <button
+                  onClick={deleteHandler}
                   className="button is-danger
         "
                 >

@@ -7,6 +7,7 @@ export const storyService = {
   castLove,
   unCastLove,
   create,
+  deleteStory,
 };
 
 function getPagedStories(page) {
@@ -48,6 +49,16 @@ function create(request) {
   return axios.post(
     `https://the-writers-mind.herokuapp.com/api/stories/topics/${request.topic}`,
     body,
+    {
+      headers: authHeader(),
+    }
+  );
+}
+
+function deleteStory(id) {
+  console.log(id);
+  return axios.delete(
+    `https://the-writers-mind.herokuapp.com/api/stories/${id}`,
     {
       headers: authHeader(),
     }

@@ -135,6 +135,26 @@ export function stories(state = initialState, action) {
         creating: false,
       };
     }
+    case storyConstants.DELETE_STORY_REQUEST: {
+      return {
+        ...state,
+        deleting: true,
+      };
+    }
+    case storyConstants.DELETE_STORY_SUCCESS: {
+      return {
+        ...state,
+        content: state.content.filter((val) => val.id !== action.index),
+        deleting: false,
+      };
+    }
+    case storyConstants.DELETE_STORY_FAILURE: {
+      return {
+        ...state,
+        deleting: false,
+        error: action.error,
+      };
+    }
     default:
       return state;
   }
