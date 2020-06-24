@@ -8,6 +8,7 @@ export const storyService = {
   unCastLove,
   create,
   deleteStory,
+  getStoriesByUsername,
 };
 
 function getPagedStories(page) {
@@ -61,6 +62,18 @@ function deleteStory(id) {
     `https://the-writers-mind.herokuapp.com/api/stories/${id}`,
     {
       headers: authHeader(),
+    }
+  );
+}
+
+function getStoriesByUsername(username) {
+  console.log(username);
+  return axios.get(
+    `https://the-writers-mind.herokuapp.com/api/stories/username/${username}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
   );
 }

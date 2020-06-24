@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import "bulma";
+
 import { alertActions, userActions } from "./_actions";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "./_helpers";
@@ -21,6 +22,7 @@ import Pagination from "./_components/stories/Pagination";
 import Story from "./_components/stories/Story";
 import Dashboard from "./_components/stories/Dashboard";
 import About from "./_components/layout/About";
+import Account from "./_components/user/Account";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,6 +48,7 @@ function App() {
             <Route path="/stories" component={Pagination} exact />
             <Route path="/stories/:id" component={Story} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
+            <PrivateRoute path="/account" component={Account} />
             <Route path="/about" component={About} />
             <Redirect from="*" to="/" />
           </Switch>

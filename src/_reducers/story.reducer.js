@@ -22,11 +22,13 @@ const initialState = {
 export function stories(state = initialState, action) {
   switch (action.type) {
     case storyConstants.GETPAGED_STORIES_REQUEST:
+    case storyConstants.GETPAGED_STORIES_BY_USERNAME_REQUEST:
       return {
         ...state,
         loading: true,
       };
     case storyConstants.GETPAGED_STORIES_SUCCESS:
+    case storyConstants.GETPAGED_STORIES_BY_USERNAME_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -36,7 +38,8 @@ export function stories(state = initialState, action) {
         totalPages: action.stories.totalPages,
       };
     case storyConstants.GETPAGED_STORIES_FAILURE:
-    case storyConstants.GET_STORY_BY_ID_FAILURE: {
+    case storyConstants.GET_STORY_BY_ID_FAILURE:
+    case storyConstants.GETPAGED_STORIES_BY_USERNAME_FAILURE: {
       return {
         ...state,
         error: action.error,

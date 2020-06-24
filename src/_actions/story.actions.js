@@ -3,6 +3,9 @@ import { alertActions } from "./";
 import { history, handleResponse, authHeader } from "../_helpers";
 import { storyService } from "../_services/story.service";
 import axios from "axios";
+import { func } from "prop-types";
+import { user } from "../_reducers/user.reducer";
+import { userActions } from "./user.actions";
 
 export const storyActions = {
   getPagedStories,
@@ -12,6 +15,7 @@ export const storyActions = {
   unCastLove,
   create,
   deleteStory,
+  getStoriesByUsername,
 };
 
 function getPagedStories(page) {
@@ -194,6 +198,36 @@ function deleteStory(id) {
 
   function success(index) {
     return { type: storyConstants.DELETE_STORY_SUCCESS, index };
+  }
+
+  function failure(error) {
+    return { type: storyConstants.DELETE_STORY_FAILURE, error };
+  }
+}
+
+function getStoriesByUsername(username) {
+  return (dispatch) => {
+    dispatch(request(username));
+
+    storyService.getStoriesByUsername(username).then(
+      (stories) => {
+        console.log(stories.data);
+        dispatch(success(stories.data));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(username) {
+    return { type: storyConstants.DELETE_STORY_REQUEST, username };
+  }
+
+  function success(stories) {
+    return { type: storyConstants.DELETE_STORY_SUCCESS, stories };
   }
 
   function failure(error) {

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../_actions";
 import PropTypes from "prop-types";
 import loading from "../../img/loading.gif";
+import { Link } from "react-router-dom";
 
 function LoggedButton() {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function LoggedButton() {
 
   return (
     <React.Fragment>
-      <a className="button is-primary">
+      <Link to="/account" className="button is-primary">
         <strong>
           {user ? (
             user.username
@@ -23,7 +24,7 @@ function LoggedButton() {
             <img className="is-light" src={loading} alt="loading..." />
           )}
         </strong>
-      </a>
+      </Link>
       <a onClick={logoutUserOnClick} className="button is-light">
         Log out
       </a>
