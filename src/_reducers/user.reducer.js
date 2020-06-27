@@ -1,6 +1,21 @@
 import { userConstants, authConstants } from "../_constants";
 import { userService } from "../_services";
 
+const initialState = {
+  stats: {
+    lovesOnCreatedStory: null,
+    storiesCreated: null,
+    storiesLiked: null,
+  },
+  loadingUser: false,
+  loadingStats: false,
+  user: {
+    id: null,
+    username: null,
+    name: null,
+  },
+};
+
 export function user(state = {}, action) {
   switch (action.type) {
     case userConstants.GET_CURRENT_USER_REQUEST:
@@ -65,6 +80,28 @@ export function user(state = {}, action) {
       return {
         ...state,
         checkingLove: false,
+      };
+    }
+    case userConstants.GET_USER_STATS_REQUEST: {
+      return {
+        ...state,
+        loadingStats: true,
+      };
+    }
+    case userConstants.GET_USER_STATS_SUCCESS: {
+      return {
+        ...state,
+        loadingStats: false,
+        loadedStats: true,
+        stats: action.response,
+      };
+    }
+    case userConstants.GET_USER_STATS_FAILURE: {
+      return {
+        ...state,
+        loadingStats: false,
+        loadedStats: false,
+        stats: action.response,
       };
     }
     default:

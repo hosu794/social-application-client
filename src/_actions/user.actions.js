@@ -8,6 +8,7 @@ export const userActions = {
   checkUsernameAvailability,
   checkEmailAvailability,
   checkLoveAvailability,
+  getUserStats,
 };
 
 function getCurrentUser() {
@@ -121,5 +122,34 @@ function checkLoveAvailability(req) {
 
   function failure(error) {
     return { type: userConstants.CHECK_LOVE_AVAIBILITY_FAILURE, error };
+  }
+}
+
+function getUserStats(userId) {
+  return (dispatch) => {
+    dispatch(request(userId));
+
+    userService.getUserStatistics(userId).then(
+      (response) => {
+        dispatch(success(response.data));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(userId) {
+    return { type: userConstants.GET_USER_STATS_REQUEST, userId };
+  }
+
+  function success(response) {
+    return { type: userConstants.GET_USER_STATS_SUCCESS, response };
+  }
+
+  function failure(error) {
+    return { type: userConstants.GET_USER_STATS_FAILURE, error };
   }
 }

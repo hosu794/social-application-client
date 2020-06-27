@@ -11,6 +11,7 @@ export const userService = {
   getStoriesCreatedBy,
   getStoriesLovedBy,
   checkLoveAvailability,
+  getUserStatistics,
 };
 
 function loadUser() {
@@ -93,6 +94,17 @@ function checkLoveAvailability(request) {
     body,
     {
       headers: authHeader(),
+    }
+  );
+}
+
+function getUserStatistics(userId) {
+  return axios.get(
+    `https://the-writers-mind.herokuapp.com/api/users/${userId}/statistics`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
   );
 }
