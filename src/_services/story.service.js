@@ -13,17 +13,17 @@ export const storyService = {
 
 function getPagedStories(page) {
   return axios.get(
-    `https://the-writers-mind.herokuapp.com/api/stories?page=${page}`
+    `https://the-writer-mind.herokuapp.com/api/stories?page=${page}`
   );
 }
 
 function getStoryById(id) {
-  return axios.get(`https://the-writers-mind.herokuapp.com/api/stories/${id}`);
+  return axios.get(`https://the-writer-mind.herokuapp.com/api/stories/${id}`);
 }
 
 function castLove(storyIdentityRequest) {
   return axios.post(
-    `https://the-writers-mind.herokuapp.com/api/stories/loves`,
+    `https://the-writer-mind.herokuapp.com/api/stories/loves`,
     storyIdentityRequest,
     {
       headers: authHeader(),
@@ -33,7 +33,7 @@ function castLove(storyIdentityRequest) {
 
 function unCastLove(storyIdentityRequest) {
   return axios.delete(
-    `https://the-writers-mind.herokuapp.com/api/stories/loves/${storyIdentityRequest.storyId}`,
+    `https://the-writer-mind.herokuapp.com/api/stories/loves/${storyIdentityRequest.storyId}`,
     {
       headers: authHeader(),
     }
@@ -48,7 +48,7 @@ function create(request) {
   });
 
   return axios.post(
-    `https://the-writers-mind.herokuapp.com/api/stories/topics/${request.topic}`,
+    `https://the-writer-mind.herokuapp.com/api/stories/topics/${request.topic}`,
     body,
     {
       headers: authHeader(),
@@ -59,7 +59,7 @@ function create(request) {
 function deleteStory(id) {
   console.log(id);
   return axios.delete(
-    `https://the-writers-mind.herokuapp.com/api/stories/${id}`,
+    `https://the-writer-mind.herokuapp.com/api/stories/${id}`,
     {
       headers: authHeader(),
     }
@@ -69,7 +69,7 @@ function deleteStory(id) {
 function getStoriesByUsername(username) {
   console.log(username);
   return axios.get(
-    `https://the-writers-mind.herokuapp.com/api/stories/username/${username}`,
+    `https://the-writer-mind.herokuapp.com/api/stories/username/${username}`,
     {
       headers: {
         "Content-Type": "application/json",

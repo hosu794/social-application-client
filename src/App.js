@@ -23,6 +23,7 @@ import Story from "./_components/stories/Story";
 import Dashboard from "./_components/stories/Dashboard";
 import About from "./_components/layout/About";
 import Account from "./_components/user/Account";
+import ChangeCredentials from "./_components/user/ChangeCredentials";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,7 +49,11 @@ function App() {
             <Route path="/stories" component={Pagination} exact />
             <Route path="/stories/:id" component={Story} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
-            <PrivateRoute path="/account" component={Account} />
+            <PrivateRoute path="/account" exact component={Account} />
+            <PrivateRoute
+              path="/account/changecredentials"
+              component={ChangeCredentials}
+            />
             <Route path="/about" component={About} />
             <Redirect from="*" to="/" />
           </Switch>

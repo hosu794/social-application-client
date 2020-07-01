@@ -10,6 +10,7 @@
     "axios": "^0.19.2",
     "bulma": "^0.8.2",
     "bulma-pagination-react": "^0.1.1",
+    "formik": "^2.1.4",
     "history": "^4.10.1",
     "jodit-react": "^1.0.42",
     "lodash": "^4.17.15",
@@ -22,7 +23,8 @@
     "react-summernote": "^2.0.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "yup": "^0.29.1"
   },
   "scripts": {
     "start": "react-scripts start",

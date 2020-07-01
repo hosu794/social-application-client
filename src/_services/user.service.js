@@ -15,7 +15,7 @@ export const userService = {
 };
 
 function loadUser() {
-  return axios.get("https://the-writers-mind.herokuapp.com/api/user/me", {
+  return axios.get("https://the-writer-mind.herokuapp.com/api/user/me", {
     headers: authHeader(),
   });
 }
@@ -26,7 +26,7 @@ function checkUsernameAvailability(username) {
   console.log(body);
 
   return axios.post(
-    "https://the-writers-mind.herokuapp.com/api/user/checkUsernameAvailability",
+    "https://the-writer-mind.herokuapp.com/api/user/checkUsernameAvailability",
     body,
     {
       headers: {
@@ -40,7 +40,7 @@ function checkEmailAvaibility(email) {
   const body = JSON.stringify({ email });
 
   return axios.post(
-    "https://the-writers-mind.herokuapp.com/api/user/checkEmailAvailability",
+    "https://the-writer-mind.herokuapp.com/api/user/checkEmailAvailability",
     body,
     {
       headers: {
@@ -52,7 +52,7 @@ function checkEmailAvaibility(email) {
 
 function getUserProfile(username) {
   return axios.get(
-    `https://the-writers-mind.herokuapp.com/api/user/${username}`,
+    `https://the-writer-mind.herokuapp.com/api/user/${username}`,
     {},
     {
       headers: {
@@ -64,7 +64,7 @@ function getUserProfile(username) {
 
 function getStoriesCreatedBy(username) {
   return axios.get(
-    `https://the-writers-mind.herokuapp.com/api/user/${username}/stories`,
+    `https://the-writer-mind.herokuapp.com/api/user/${username}/stories`,
     {},
     {
       headers: {
@@ -76,7 +76,7 @@ function getStoriesCreatedBy(username) {
 
 function getStoriesLovedBy(username) {
   return axios.get(
-    `https://the-writers-mind.herokuapp.com/api/user/${username}/loves`,
+    `https://the-writer-mind.herokuapp.com/api/user/${username}/loves`,
     {},
     {
       headers: {
@@ -90,7 +90,7 @@ function checkLoveAvailability(request) {
   const body = JSON.stringify(request);
 
   return axios.post(
-    "https://the-writers-mind.herokuapp.com/api/user/checkLoveAvailability",
+    "https://the-writer-mind.herokuapp.com/api/user/checkLoveAvailability",
     body,
     {
       headers: authHeader(),
@@ -100,7 +100,7 @@ function checkLoveAvailability(request) {
 
 function getUserStatistics(userId) {
   return axios.get(
-    `https://the-writers-mind.herokuapp.com/api/users/${userId}/statistics`,
+    `https://the-writer-mind.herokuapp.com/api/users/${userId}/statistics`,
     {
       headers: {
         "Content-Type": "application/json",

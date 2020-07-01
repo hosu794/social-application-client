@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { userActions } from "../../_actions";
 import { IUser, IStats } from "../../_types";
+import { Link } from "react-router-dom";
 
 function Account() {
   const dispatch = useDispatch();
@@ -65,9 +66,12 @@ function Account() {
             </div>
             <div class="level-item has-text-centered">
               <div>
-                <button className="button is-primary is-light is-medium">
+                <Link
+                  to="/account/changecredentials"
+                  className="button is-primary is-light is-medium"
+                >
                   Change crudentials
-                </button>
+                </Link>
               </div>
             </div>
           </nav>

@@ -3,7 +3,13 @@ import { authService, userService } from "../_services";
 import { alertActions } from "./";
 import { history, handleResponse } from "../_helpers";
 
-export const authActions = { logout, register, login };
+export const authActions = {
+  logout,
+  register,
+  login,
+  updateUsername,
+  updatePassword,
+};
 
 function login(usernameOrEmail, password) {
   return (dispatch) => {
@@ -73,5 +79,59 @@ function register(user) {
 
   function failure(error) {
     return { type: authConstants.REGISTER_FAILURE, error };
+  }
+}
+
+function updateUsername(username) {
+  return (dispatch) => {
+    dispatch(request(username));
+
+    authService.updateUsername(username).then(
+      (response) => {
+        dispatch(success(response.data));
+        history.push("/account");
+        window.location.reload(true);
+        dispatch(alertActions.success("Username updated successfully"));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(username) {
+    return { type: authConstants.UPDATE_USERNAME_REQUEST, username };
+  }
+
+  function success(response) {
+    return { type: authConstants.UPDATE_USERNAME_SUCCESS, response };
+  }
+
+  function failure(error) {
+    return { type: authConstants.UPDATE_USERNAME_FAILURE, error };
+  }
+}
+
+function updatePassword(password) {
+  return (dispatch) => {
+    dispatch(request(password));
+
+    history.push("/account");
+    window.location.reload(true);
+    dispatch(alertActions.success("Password updated successfully"));
+  };
+
+  function request(username) {
+    return { type: authConstants.UPDATE_PASSWORD_REQUEST, password };
+  }
+
+  function success(response) {
+    return { type: authConstants.UPDATE_PASSWORD_SUCCESS, response };
+  }
+
+  function failure(error) {
+    return { type: authConstants.UPDATE_PASSWORD_FAILURE, error };
   }
 }
