@@ -24,10 +24,6 @@ function Register() {
     dispatch(authActions.logout());
   }, []);
 
-  function clearAlert() {
-    dispatch(authActions.clearError());
-  }
-
   function validateUsername(value) {
     dispatch(userActions.checkUsernameAvailability(value));
     if (isAvailable) return isAvailable;
@@ -63,12 +59,11 @@ function Register() {
         validationSchema={Yup.object().shape({
           password: Yup.string().required("Password is required"),
           username: Yup.string()
+            .required("Username is required")
             .min(6, "Password must have at least 6 characters")
             .test("Check username", "Username is exists", (value) =>
               validateUsername(value)
-            )
-
-            .required("Username is required"),
+            ),
           name: Yup.string()
             .required("Name is required")
             .min(3, "Name must have at least 3 characters"),
@@ -84,7 +79,6 @@ function Register() {
             .required("Confirm Password is required"),
         })}
         onSubmit={(fields) => {
-          alert("SUCCESS");
           register(fields.name, fields.username, fields.email, fields.password);
         }}
         render={({ errors, status, touched }) => (
@@ -185,12 +179,6 @@ function Register() {
               >
                 Submit
               </button>
-              {auth.error ? (
-                <div class="notification is-danger">
-                  <button onClick={clearAlert}></button>
-                  {auth.error}
-                </div>
-              ) : null}
             </div>
           </Form>
         )}
@@ -199,14 +187,12 @@ function Register() {
   );
 }
 
-// Register.propTypes = {
-//   registering: PropTypes.bool,
-//   isUsernameAvailable: PropTypes.bool,
-//   isEmailAvailable: PropTypes.bool,
-//   alert: PropTypes.object,
-//   authActions: PropTypes.object,
-//   userActions: PropTypes.object,
-//   alertActions: PropTypes.object,
-// };
+Register.propTypes = {
+  auth: PropTypes.object,
+  isUsernameAvailable: PropTypes.bool,
+  isEmailAvailable: PropTypes.bool.isRequired,
+  registering: PropTypes.bool,
+  isAvailable: PropTypes.bool,
+};
 
 export default Register;
