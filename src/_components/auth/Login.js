@@ -24,7 +24,7 @@ function Login() {
 
   const dispatch = useDispatch();
 
-  function loginAndCheckIsOk(username, password) {
+  function login(username, password) {
     dispatch(authActions.login(username, password));
   }
 
@@ -41,7 +41,7 @@ function Login() {
           username: Yup.string().required("Username is required"),
         })}
         onSubmit={(fields) => {
-          loginAndCheckIsOk(fields.username, fields.password);
+          login(fields.username, fields.password);
         }}
         render={({ errors, status, touched }) => (
           <Form>

@@ -4,255 +4,209 @@ import PropTypes from "prop-types";
 
 import { useSelector, useDispatch } from "react-redux";
 import { authActions, alertActions, userActions } from "../../_actions";
+
 import { userService } from "../../_services";
-import { createNewUser } from "../../_helpers";
+
+import { Formik, Form, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
 
 function Register() {
-  const [user, setUser] = useState({
-    name: "",
-    username: "",
-    email: "",
-    password: "",
-    passwordReapet: "",
-  });
-
   const dispatch = useDispatch();
-
+  const auth = useSelector((state) => state.authentication);
   const isUsernameAvailable = useSelector(
     (state) => state.user.isUsernameAvailable
   );
   const isEmailAvailable = useSelector((state) => state.user.isEmailAvailable);
-  const alert = useSelector((state) => state.alert);
+
   const registering = useSelector((state) => state.registration.registration);
-  const { name, password, passwordReapet, username, email } = user;
-
-  const [error, setError] = useState({
-    isTrue: false,
-    message: "",
-  });
-
+  const isAvailable = useSelector((state) => state.user.isUsernameAvailable);
   useEffect(() => {
     dispatch(authActions.logout());
   }, []);
 
-  function clearAlerts() {
-    setError((error) => ({
-      isTrue: false,
-      message: "",
-    }));
+  function clearAlert() {
+    dispatch(authActions.clearError());
   }
 
-  function arePasswordSame(password, repeatedPassword) {
-    const competePassword = password === repeatedPassword;
-
-    console.log("Compete Passwords");
-    if (!competePassword) {
-      setError((error) => ({
-        isTrue: true,
-        message: "Password are not same!",
-      }));
-      return false;
-    } else {
-      return true;
-    }
+  function validateUsername(value) {
+    dispatch(userActions.checkUsernameAvailability(value));
+    if (isAvailable) return isAvailable;
   }
 
-  function checkEmailAvailability(email) {
-    dispatch(userActions.checkEmailAvailability(email));
-    if (!isEmailAvailable) {
-      setError((error) => ({
-        isTrue: true,
-        message: "Email is already taken",
-      }));
-    }
+  function validateEmail(value) {
+    dispatch(userActions.checkEmailAvailability(value));
+    if (isEmailAvailable) return isEmailAvailable;
   }
 
-  function checkUsernameAvailability(username) {
-    dispatch(userActions.checkUsernameAvailability(username));
-    if (!isUsernameAvailable) {
-      setError((error) => ({
-        isTrue: true,
-        message: "Username is already taken",
-      }));
-    }
+  function register(name, username, email, password) {
+    const newUser = {
+      name,
+      username,
+      email,
+      password,
+    };
+
+    dispatch(authActions.register(newUser));
   }
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setUser((user) => ({ ...user, [name]: value }));
-  }
-
-  function validateUserFields() {
-    if (!user.username) {
-      setError((error) => ({
-        isTrue: true,
-        message: "Username is required!",
-      }));
-    } else if (!user.name) {
-      setError((error) => ({
-        isTrue: true,
-        message: "User is required!",
-      }));
-    } else if (!user.email) {
-      setError((error) => ({
-        isTrue: true,
-        message: "Email is required!",
-      }));
-    } else if (!user.password) {
-      setError((error) => ({
-        isTrue: true,
-        message: "Password is required!",
-      }));
-    } else if (!user.email) {
-      setError((error) => ({
-        isTrue: true,
-        message: "Email is required!",
-      }));
-    } else if (!user.passwordReapet) {
-      setError((error) => ({
-        isTrue: true,
-        message: "Reapet Password",
-      }));
-    }
-  }
-
-  function handleAlertButton() {
-    clearAlerts();
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    clearAlerts();
-
-    validateUserFields();
-
-    arePasswordSame(password, passwordReapet);
-
-    checkUsernameAvailability(username);
-    checkEmailAvailability(email);
-
-    const validateCrudentialsAndCheckIsError =
-      username && name && password && passwordReapet;
-
-    if (arePasswordSame && validateCrudentialsAndCheckIsError) {
-      clearAlerts();
-      dispatch(authActions.register(createNewUser(user)));
-    }
-  }
-
-  const showError = error.isTrue;
 
   return (
-    <section className="hero is-success is-fullheight">
-      <div className="hero-body">
-        <form onSubmit={handleSubmit} className="container has-text-centered">
-          {showError && (
-            <div className="notification is-danger">
-              <button onClick={handleAlertButton} className="delete"></button>
-              {error.message}
-            </div>
-          )}
-          <div className="field">
-            <p className="control has-icons-left has-icons-right">
-              <input
-                className="input"
+    <section class="hero is-success is-fullheight">
+      <Formik
+        className="hero-body"
+        initialValues={{
+          username: "",
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        }}
+        validationSchema={Yup.object().shape({
+          password: Yup.string().required("Password is required"),
+          username: Yup.string()
+            .min(6, "Password must have at least 6 characters")
+            .test("Check username", "Username is exists", (value) =>
+              validateUsername(value)
+            )
+
+            .required("Username is required"),
+          name: Yup.string()
+            .required("Name is required")
+            .min(3, "Name must have at least 3 characters"),
+          email: Yup.string()
+            .email()
+            .min(6, "Email must have at least 6 characters")
+            .test("validate email", "Email is exist", (value) =>
+              validateEmail(value)
+            )
+            .required("Email is required"),
+          confirmPassword: Yup.string()
+            .oneOf([Yup.ref("password"), null], "Passwords must match")
+            .required("Confirm Password is required"),
+        })}
+        onSubmit={(fields) => {
+          alert("SUCCESS");
+          register(fields.name, fields.username, fields.email, fields.password);
+        }}
+        render={({ errors, status, touched }) => (
+          <Form>
+            <h1 class="title">Change Password</h1>
+
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <Field
                 name="username"
-                onChange={handleChange}
-                value={username}
                 type="text"
-                placeholder="Username"
+                className={
+                  "input" +
+                  (errors.username && touched.username ? " is-danger" : "")
+                }
               />
-
-              <span className="icon is-small is-left">
-                <i className="fas fa-users"></i>
-              </span>
-            </p>
-          </div>
-          <div className="field">
-            <p className="control has-icons-left has-icons-right">
-              <input
-                className="input"
+              <ErrorMessage
+                name="username"
+                component="div"
+                className="help is-danger"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <Field
                 name="name"
-                onChange={handleChange}
-                value={name}
                 type="text"
-                placeholder="Name"
+                className={
+                  "input" + (errors.name && touched.name ? " is-danger" : "")
+                }
               />
-
-              <span className="icon is-small is-left">
-                <i className="fas fa-users"></i>
-              </span>
-            </p>
-          </div>
-          <div className="field">
-            <p className="control has-icons-left has-icons-right">
-              <input
-                className="input"
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="help is-danger"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="username">Email</label>
+              <Field
                 name="email"
-                onChange={handleChange}
-                value={email}
                 type="email"
-                placeholder="Email"
+                className={
+                  "input" + (errors.email && touched.email ? " is-danger" : "")
+                }
               />
-
-              <span className="icon is-small is-left">
-                <i className="fas fa-envelope"></i>
-              </span>
-            </p>
-          </div>
-          <div className="field">
-            <p className="control has-icons-left">
-              <input
-                className="input"
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="help is-danger"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <Field
                 name="password"
-                onChange={handleChange}
-                value={password}
                 type="password"
-                placeholder="Password"
+                className={
+                  "input" +
+                  (errors.password && touched.password ? " is-danger" : "")
+                }
               />
-              <span className="icon is-small is-left">
-                <i className="fas fa-lock"></i>
-              </span>
-            </p>
-          </div>
-          <div className="field">
-            <p className="control has-icons-left">
-              <input
-                className="input"
-                name="passwordReapet"
-                onChange={handleChange}
-                value={passwordReapet}
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="help is-danger"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="c">Confirm password</label>
+              <Field
+                name="confirmPassword"
                 type="password"
-                placeholder="Reapet password"
+                className={
+                  "input" +
+                  (errors.confirmPassword && touched.confirmPassword
+                    ? " is-danger"
+                    : "")
+                }
               />
-              <span className="icon is-small is-left">
-                <i className="fas fa-lock"></i>
-              </span>
-            </p>
-          </div>
-          <div className="field">
-            <button
-              type="submit"
-              className="button is-primary is-fullwidth is-light"
-            >
-              {registering ? "Registering" : "Register"}
-            </button>
-          </div>
-        </form>
-      </div>
+              <ErrorMessage
+                name="confirmPassword"
+                component="div"
+                className="help is-danger"
+              />
+            </div>
+
+            <div className="form-group">
+              <button
+                type="submit"
+                className={
+                  "button is-info is-medium is-full-width " +
+                  (registering ? "is-loading" : "")
+                }
+                style={{
+                  margin: "2rem 0 2rem 0",
+                }}
+              >
+                Submit
+              </button>
+              {auth.error ? (
+                <div class="notification is-danger">
+                  <button onClick={clearAlert}></button>
+                  {auth.error}
+                </div>
+              ) : null}
+            </div>
+          </Form>
+        )}
+      />
     </section>
   );
 }
 
-Register.propTypes = {
-  registering: PropTypes.bool,
-  isUsernameAvailable: PropTypes.bool,
-  isEmailAvailable: PropTypes.bool,
-  alert: PropTypes.object,
-  authActions: PropTypes.object,
-  userActions: PropTypes.object,
-  alertActions: PropTypes.object,
-};
+// Register.propTypes = {
+//   registering: PropTypes.bool,
+//   isUsernameAvailable: PropTypes.bool,
+//   isEmailAvailable: PropTypes.bool,
+//   alert: PropTypes.object,
+//   authActions: PropTypes.object,
+//   userActions: PropTypes.object,
+//   alertActions: PropTypes.object,
+// };
 
 export default Register;
