@@ -9,6 +9,7 @@ export const authActions = {
   login,
   updateUsername,
   updatePassword,
+  clearError,
 };
 
 function login(usernameOrEmail, password) {
@@ -134,4 +135,8 @@ function updatePassword(password) {
   function failure(error) {
     return { type: authConstants.UPDATE_PASSWORD_FAILURE, error };
   }
+}
+
+function clearError() {
+  return { type: authConstants.CLEAR_ERROR };
 }

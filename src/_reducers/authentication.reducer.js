@@ -19,11 +19,23 @@ export function authentication(state = initialState, action) {
         loading: false,
       };
     case authConstants.LOGIN_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        loggedIn: false,
+        error: action.error,
+      };
     case authConstants.LOGOUT:
       return {
         loading: false,
         loggedIn: false,
       };
+    case authConstants.CLEAR_ERROR: {
+      return {
+        ...state,
+        error: null,
+      };
+    }
     default:
       return state;
   }
