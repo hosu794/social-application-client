@@ -12,6 +12,9 @@ import "react-quill/dist/quill.snow.css";
 import "antd/dist/antd.css";
 
 import { topicActions, storyActions } from "../../_actions";
+import { ITopic } from "../../_types";
+
+import PropTypes from "prop-types";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -19,13 +22,17 @@ function Dashboard() {
   const loading = useSelector((state) => state.topics.loading);
   useEffect(() => {
     dispatch(topicActions.getAllTopics());
-  }, []);
+  }, [alert.type]);
 
   return (
-    <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
-      <p> And here is a RichTextEditor</p>
+    <section
+      style={{
+        width: "80vw",
+      }}
+    >
+      <h1 className="title">Create story</h1>
+      <h2 className="subtitle">Start editing to see some magic happen!</h2>
+
       <Formik
         initialValues={{
           richtext: "",
@@ -40,10 +47,7 @@ function Dashboard() {
           description: Yup.string().required("Description required"),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          console.log("what I am submitting is: ", values);
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            alert(values.richtext);
             dispatch(
               storyActions.create({
                 title: values.title,
@@ -72,31 +76,42 @@ function Dashboard() {
                 {({ field, form }) => (
                   <div className="text-editor" style={{ margin: "auto 0px" }}>
                     <RichTextEditor name="richtext" field={field} />
-                    {form.errors.richtext && form.touched.richtext ? (
-                      <div className="explain">{form.errors.richtext}</div>
-                    ) : null}
+
+                    <ErrorMessage
+                      name="richtext"
+                      component="div"
+                      className="help is-danger"
+                    />
                   </div>
                 )}
               </Field>
               <label htmlFor="email" style={{ display: "block" }}>
                 Color
               </label>
-              <select
-                name="color"
-                value={values.color}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                style={{ display: "block" }}
-              >
-                <option value="" label="Select a color" />:
-                {loading
-                  ? null
-                  : topics.map((topic) => (
-                      <option value={topic.id}>{topic.title}</option>
-                    ))}
-              </select>
+              <div class="control">
+                <div className="select">
+                  <select
+                    name="color"
+                    value={values.color}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{ display: "block" }}
+                  >
+                    <option value="" label="Select a topic" />:
+                    {loading
+                      ? null
+                      : topics.map((topic) => (
+                          <option value={topic.id}>{topic.title}</option>
+                        ))}
+                  </select>
+                </div>
+              </div>
               {errors.color && touched.color && (
-                <div className="input-feedback">{errors.color}</div>
+                <ErrorMessage
+                  name="color"
+                  component="div"
+                  className="help is-danger"
+                />
               )}
 
               <div className="form-group">
@@ -140,16 +155,29 @@ function Dashboard() {
                   marginTop: 16,
                 }}
               >
-                <Button htmlType="submit" disabled={!isValid || isSubmitting}>
-                  Submit
-                </Button>
+                <div className="level">
+                  <div className="level-item level-center">
+                    <button
+                      className="button is-primary is-medium"
+                      htmlType="submit"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
               </div>
             </FormikForm>
           );
         }}
       </Formik>
-    </div>
+    </section>
   );
 }
+
+Dashboard.propTypes = {
+  topics: PropTypes.arrayOf(ITopic).isRequired,
+  loading: PropTypes.bool.isRequired,
+  topicActions: PropTypes.object,
+};
 
 export default Dashboard;

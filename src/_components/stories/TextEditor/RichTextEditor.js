@@ -62,8 +62,6 @@ const RichTextEditor = ({ field }) => {
   return (
     <ReactQuill
       style={{
-        width: "100%",
-        maxWidth: "100%",
         backgroundColor: "#fff",
         color: "#000",
       }}

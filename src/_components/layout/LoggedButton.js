@@ -16,18 +16,23 @@ function LoggedButton() {
 
   return (
     <React.Fragment>
-      <Link to="/account" className="button is-primary">
-        <strong>
-          {user ? (
-            user.username
-          ) : (
-            <img className="is-light" src={loading} alt="loading..." />
-          )}
-        </strong>
-      </Link>
-      <a onClick={logoutUserOnClick} className="button is-light">
-        Log out
-      </a>
+      {user ? (
+        <div>
+          <Link to="/account" className="button is-primary">
+            <strong>{user.username}</strong>
+          </Link>
+          <a onClick={logoutUserOnClick} className="button is-light">
+            Log out
+          </a>
+        </div>
+      ) : (
+        <div>
+          <button className="button is-loading"></button>
+          <a onClick={logoutUserOnClick} className="button is-light">
+            Log out
+          </a>
+        </div>
+      )}
     </React.Fragment>
   );
 }
