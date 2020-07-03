@@ -1,249 +1,155 @@
-import React, { useState, useRef, useEffect } from "react";
-
-import JoditEditor from "jodit-react";
-
-import { storyActions, topicActions } from "../../_actions";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { functionsIn, setWith } from "lodash";
-import PropTypes from "prop-types";
-import { ITopic } from "../../_types";
+import ReactDOM from "react-dom";
+import RichTextEditor from "./TextEditor/RichTextEditor";
+import { Formik, Field, Form as FormikForm, ErrorMessage } from "formik";
+import { ConfigProvider, Radio, Button, Typography } from "antd";
+
+import * as Yup from "yup";
+
+import "react-quill/dist/quill.core.css";
+import "react-quill/dist/quill.snow.css";
+import "antd/dist/antd.css";
+
+import { topicActions, storyActions } from "../../_actions";
 
 function Dashboard() {
   const dispatch = useDispatch();
   const topics = useSelector((state) => state.topics.content);
-  const loading = useDispatch((state) => state.topics.loading);
-  const currentTopic = useSelector((state) => state.topics.currentTopic);
-  const creating = useSelector((state) => state.stories.creating);
-
-  const editor = useRef(null);
-
-  const [content, setContent] = useState("");
-  const [fields, setFields] = useState({
-    title: "",
-    description: "",
-    topic: "",
-  });
-
-  const [errors, setErrors] = useState({});
-
-  const config = {
-    readonly: false,
-  };
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFields((field) => ({ ...field, [name]: value }));
-  }
-
-  function createRequest(story, textContent, topic) {
-    const newRequest = {
-      title: story.title,
-      description: story.description,
-      body: textContent,
-      topic,
-    };
-
-    return newRequest;
-  }
-
-  function onSubmit(e) {
-    e.preventDefault();
-
-    const isValid = validate();
-
-    const isValidAndCurrentTopicIdExist =
-      isValid && currentTopic.title == topic;
-
-    if (isValidAndCurrentTopicIdExist) {
-      dispatch(
-        storyActions.create(createRequest(fields, content, currentTopic.id))
-      );
-    }
-  }
-
-  const { title, description, topic } = fields;
-
-  function validate() {
-    setErrors({});
-
-    let contentError = "";
-    let descriptionError = "";
-    let titleErrors = "";
-    let topicErrors = "";
-    let isValid = true;
-
-    if (!title) {
-      titleErrors = "Title Required";
-    }
-
-    if (title.length <= 5) {
-      titleErrors = "Title must have at least 5 characters";
-    }
-
-    if (titleErrors) {
-      setErrors((error) => ({ ...error, titleErrors }));
-      isValid = false;
-    }
-
-    if (!content) {
-      contentError = "Content required";
-    }
-
-    if (contentError) {
-      setErrors((error) => ({ ...error, contentError }));
-      isValid = false;
-    }
-
-    if (!description) {
-      descriptionError = "Description required";
-    }
-
-    if (descriptionError) {
-      setErrors((error) => ({ ...error, descriptionError }));
-      isValid = false;
-    }
-
-    if (!topic) {
-      topicErrors = "Topic required";
-    }
-
-    if (topicErrors) {
-      setErrors((error) => ({
-        ...error,
-        topicErrors,
-      }));
-    }
-
-    if (isValid) {
-      return true;
-    } else return false;
-  }
-
+  const loading = useSelector((state) => state.topics.loading);
   useEffect(() => {
     dispatch(topicActions.getAllTopics());
-    if (topic) {
-      dispatch(topicActions.getTopicByTitle(topic));
-    }
-  }, [topic]);
+  }, []);
 
   return (
-    <section className="section">
-      <div className="container">
-        <h1 className="title is-size-1">Dashboard</h1>
-        <div>
-          <JoditEditor
-            ref={editor}
-            value={content}
-            config={config}
-            tabIndex={1} // tabIndex of textarea
-            onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-            onChange={(newContent) => {
-              console.log(newContent);
-            }}
-          />
-          {errors.contentError ? (
-            <p class="help is-danger">{errors.contentError}</p>
-          ) : null}
-        </div>
-
-        <div className="hero-body is-full-width">
-          <div className="is-full-width">
-            <form class="form-horizontal is-full-width" onSubmit={onSubmit}>
-              <fieldset>
-                <legend></legend>
-
-                <div class="field">
-                  <label class="label" for="title"></label>
-                  <div class="control">
-                    <input
-                      id="title"
-                      name="title"
-                      type="text"
-                      placeholder="Title"
-                      class="input "
-                      value={title}
-                      onChange={handleChange}
-                    />
+    <div className="App">
+      <h1>Hello CodeSandbox</h1>
+      <h2>Start editing to see some magic happen!</h2>
+      <p> And here is a RichTextEditor</p>
+      <Formik
+        initialValues={{
+          richtext: "",
+          color: "",
+          title: "",
+          description: "",
+        }}
+        validationSchema={Yup.object().shape({
+          richtext: Yup.string().required("Text is required"),
+          color: Yup.string().required("Select color"),
+          title: Yup.string().required("Title required"),
+          description: Yup.string().required("Description required"),
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          console.log("what I am submitting is: ", values);
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            alert(values.richtext);
+            dispatch(
+              storyActions.create({
+                title: values.title,
+                description: values.description,
+                body: values.richtext,
+                topic: values.color,
+              })
+            );
+            setSubmitting(false);
+          }, 300);
+        }}
+      >
+        {({
+          isSubmitting,
+          isValid,
+          setFieldValue,
+          values,
+          handleChange,
+          handleBlur,
+          touched,
+          errors,
+        }) => {
+          return (
+            <FormikForm>
+              <Field name="richtext">
+                {({ field, form }) => (
+                  <div className="text-editor" style={{ margin: "auto 0px" }}>
+                    <RichTextEditor name="richtext" field={field} />
+                    {form.errors.richtext && form.touched.richtext ? (
+                      <div className="explain">{form.errors.richtext}</div>
+                    ) : null}
                   </div>
-                  {errors.titleErrors ? (
-                    <p class="help is-danger">{errors.titleErrors}</p>
-                  ) : null}
-                </div>
+                )}
+              </Field>
+              <label htmlFor="email" style={{ display: "block" }}>
+                Color
+              </label>
+              <select
+                name="color"
+                value={values.color}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{ display: "block" }}
+              >
+                <option value="" label="Select a color" />:
+                {loading
+                  ? null
+                  : topics.map((topic) => (
+                      <option value={topic.id}>{topic.title}</option>
+                    ))}
+              </select>
+              {errors.color && touched.color && (
+                <div className="input-feedback">{errors.color}</div>
+              )}
 
-                <div class="field">
-                  <label class="label" for="description"></label>
-                  <div class="control">
-                    <textarea
-                      class="textarea"
-                      id="description"
-                      name="description"
-                      value={description}
-                      onChange={handleChange}
-                      placeholder="Description"
-                    >
-                      Description
-                    </textarea>
-                  </div>
-                  {errors.descriptionError ? (
-                    <p class="help is-danger">{errors.descriptionError}</p>
-                  ) : null}
-                </div>
+              <div className="form-group">
+                <label htmlFor="title">Username</label>
+                <Field
+                  name="title"
+                  type="text"
+                  className={
+                    "input" +
+                    (errors.title && touched.title ? " is-danger" : "")
+                  }
+                />
+                <ErrorMessage
+                  name="title"
+                  component="div"
+                  className="help is-danger"
+                />
+              </div>
 
-                <div class="field">
-                  <label
-                    class="label has-text-light	is-size-4	"
-                    for="selectbasic-0"
-                  >
-                    {!loading ? "Loading" : "Select Topic"}
-                  </label>
-                  <div class="control">
-                    <div class="select">
-                      <select
-                        id="topic"
-                        name="topic"
-                        value={topic}
-                        onChange={handleChange}
-                        class=""
-                      >
-                        <option></option>
-                        {!loading
-                          ? ""
-                          : topics.map((topic) => (
-                              <option>{topic.title}</option>
-                            ))}
-                      </select>
-                    </div>
-                  </div>
-                  {errors.topicErrors ? (
-                    <p class="help is-danger">{errors.topicErrors}</p>
-                  ) : null}
-                </div>
-
-                <div class="field">
-                  <div class="control">
-                    <button
-                      id="singlebutton-0"
-                      name="singlebutton-0"
-                      class="button "
-                    >
-                      {creating ? "Creating" : "Create"}
-                    </button>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
+              <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <Field
+                  name="description"
+                  type="text"
+                  className={
+                    "input" +
+                    (errors.description && touched.description
+                      ? " is-danger"
+                      : "")
+                  }
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className="help is-danger"
+                />
+              </div>
+              <div
+                style={{
+                  paddingBottom: 24,
+                  marginTop: 16,
+                }}
+              >
+                <Button htmlType="submit" disabled={!isValid || isSubmitting}>
+                  Submit
+                </Button>
+              </div>
+            </FormikForm>
+          );
+        }}
+      </Formik>
+    </div>
   );
 }
-
-Dashboard.propTypes = {
-  topics: PropTypes.arrayOf(PropTypes.instanceOf(ITopic)),
-  loading: PropTypes.string,
-  currentTopic: PropTypes.instanceOf(ITopic),
-  creating: PropTypes.string,
-};
 
 export default Dashboard;
