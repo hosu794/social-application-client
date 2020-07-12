@@ -6,6 +6,7 @@ import { alert } from "./alert.reducer";
 import { user } from "./user.reducer";
 import { stories } from "./story.reducer";
 import { topics } from "./topic.reducer";
+import { files } from "./file.reducer";
 
 const rootReducer = combineReducers({
   authentication,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   user,
   stories,
   topics,
+  files,
 });
 
 export default rootReducer;
