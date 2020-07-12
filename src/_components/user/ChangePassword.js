@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../_actions";
 
+import PropTypes from "prop-types";
+
 function ChangePassword() {
   const dispatch = useDispatch();
 
@@ -91,3 +93,7 @@ function ChangePassword() {
 }
 
 export default ChangePassword;
+
+ChangePassword.propTypes = {
+  authActions: PropTypes.object,
+};

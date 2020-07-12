@@ -3,3 +3,4 @@ export * from "./auth.actions";
 export * from "./user.actions";
 export * from "./story.actions";
 export * from "./topic.actions";
+export * from "./file.actions";

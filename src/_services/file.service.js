@@ -1,4 +1,4 @@
-import { AuthHeader, authHeader } from "../_helpers";
+import { authHeaderUploadFile } from "../_helpers";
 import axios from "axios";
 
 export const fileService = { uploadAvatar };
@@ -8,7 +8,7 @@ function uploadAvatar(file) {
     "https://the-writer-mind.herokuapp.com/api/uploadAvatar",
     file,
     {
-      headers: authHeader(),
+      headers: authHeaderUploadFile(),
     }
   );
 }

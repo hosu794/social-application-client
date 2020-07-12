@@ -81,7 +81,7 @@ function Account() {
   );
 }
 
-Account.prototype = {
+Account.propTypes = {
   loadedUser: PropTypes.bool.isRequired,
   user: PropTypes.instanceOf(IUser).isRequired,
   loadedStats: PropTypes.bool.isRequired,

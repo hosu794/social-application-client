@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions, userActions } from "../../_actions";
 
+import PropTypes from "prop-types";
+
 function ChangeUsername() {
   const dispatch = useDispatch();
 
@@ -99,3 +101,8 @@ function ChangeUsername() {
 }
 
 export default ChangeUsername;
+
+ChangeUsername.propTypes = {
+  isAvailable: PropTypes.bool.isRequired,
+  authActions: PropTypes.object,
+};

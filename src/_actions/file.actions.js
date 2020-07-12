@@ -1,6 +1,9 @@
-import { fileConstants } from "../_constants";
 import { fileService } from "../_services";
-import { history } from "../_helpers";
+import { history, handleResponse } from "../_helpers";
+
+import { fileConstants } from "../_constants";
+
+import { alertActions } from "./";
 
 export const fileActions = { uploadAvatar };
 
@@ -24,7 +27,7 @@ function uploadAvatar(file) {
   };
 
   function request(file) {
-    return { type: filesConstants.AVATAR_UPLOAD_REQUEST, file };
+    return { type: fileConstants.AVATAR_UPLOAD_REQUEST, file };
   }
 
   function success(response) {

@@ -2,17 +2,27 @@ import React from "react";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+
+import { fileActions } from "../../_actions";
+
+import { useDispatch, useSelector } from "react-redux";
 
 import Thumb from "./Thumb";
 
 function FileUpload() {
+  const dispatch = useDispatch();
+
+  function uploadAvatar() {
+    alert("Uploaded");
+  }
+
   return (
     <div className="column">
       <Formik
         className="hero-body"
         initialValues={{ file: null }}
         onSubmit={(values) => {
+          dispatch(fileActions.uploadAvatar(values));
           alert(
             JSON.stringify(
               {
