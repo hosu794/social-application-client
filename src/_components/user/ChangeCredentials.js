@@ -11,8 +11,6 @@ import ChangePassword from "./ChangePassword";
 import ChangeUsername from "./ChangeUsername";
 
 function ChangeCredentials() {
-  const dispatch = useDispatch();
-
   return (
     <div class="container has-text-centered columns">
       <ChangeUsername />

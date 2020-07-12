@@ -1,4 +1,4 @@
-import { authHeaderUploadFile } from "../_helpers";
+import { authHeaderUploadFile, authHeader } from "../_helpers";
 import axios from "axios";
 
 export const fileService = { uploadAvatar };

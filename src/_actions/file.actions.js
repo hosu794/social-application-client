@@ -8,6 +8,7 @@ import { alertActions } from "./";
 export const fileActions = { uploadAvatar };
 
 function uploadAvatar(file) {
+  console.log(file);
   return (dispatch) => {
     fileService
       .uploadAvatar(file)

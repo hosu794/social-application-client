@@ -22,7 +22,13 @@ function FileUpload() {
         className="hero-body"
         initialValues={{ file: null }}
         onSubmit={(values) => {
-          dispatch(fileActions.uploadAvatar(values));
+          dispatch(
+            fileActions.uploadAvatar({
+              filename: values.file.name,
+              type: values.file.type,
+              size: `${values.file.size} bytes`,
+            })
+          );
           alert(
             JSON.stringify(
               {

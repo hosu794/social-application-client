@@ -83,7 +83,7 @@ function Register() {
         }}
         render={({ errors, status, touched }) => (
           <Form>
-            <h1 class="title">Change Password</h1>
+            <h1 class="title">Sign up</h1>
 
             <div className="form-group">
               <label htmlFor="username">Username</label>
