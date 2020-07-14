@@ -39,38 +39,59 @@ function FileUpload() {
 
   return (
     <div className="column">
-      {" "}
-      <React.Fragment>
-        {message ? <Message msg={message} /> : null}
-        <form onSubmit={onSubmit}>
-          <div className="custom-file mb-4">
-            <input
-              type="file"
-              className="custom-file-input"
-              id="customFile"
-              onChange={onChange}
-            />
-            <label className="custom-file-label" htmlFor="customFile">
-              {filename}
-            </label>
-          </div>
+      <Formik
+        className="hero-body"
+        initialValues={{ file: null }}
+        onSubmit={(values) => {
+          const { file } = values;
+          var formData = new FormData();
+          formData.append("file", file);
 
-          <Progress percentage={uploadPercentage} />
-
-          <input
-            type="submit"
-            value="Upload"
-            className="btn btn-primary btn-block mt-4"
-          />
-        </form>
-        {uploadedFile ? (
-          <div className="row mt-5">
-            <div className="col-md-6 m-auto"></div>
-            <h3 classNAme="text-center">{uploadedFile.fileName}</h3>
-            <img style={{ width: "100%" }} src={uploadedFile.filePath} alt="" />
-          </div>
-        ) : null}
-      </React.Fragment>
+          dispatch(fileActions.uploadAvatar(formData));
+        }}
+        validationSchema={Yup.object().shape({
+          file: Yup.mixed().required("File is required"),
+        })}
+        render={({ values, handleSubmit, setFieldValue }) => {
+          return (
+            <form onSubmit={handleSubmit}>
+              <h1 class="title">Change Avatar</h1>
+              <div className="form-group">
+                <Thumb file={values.file} />
+                <div class="file hero-body">
+                  <label for="file" class="file-label">
+                    <input
+                      id="file"
+                      name="file"
+                      type="file"
+                      onChange={(event) => {
+                        setFieldValue("file", event.currentTarget.files[0]);
+                      }}
+                      className="file-input"
+                    />
+                    <span class="file-cta">
+                      <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                      </span>
+                      <span class="file-label">Choose a file…</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="button is-info is-medium is-full-width"
+                style={{
+                  margin: "2rem 0 2rem 0",
+                }}
+              >
+                Upload Avatar
+              </button>
+            </form>
+          );
+        }}
+      />
+      >>>>>>> 90f767f
     </div>
   );
 }
