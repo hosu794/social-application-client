@@ -20,7 +20,11 @@ function FileUpload() {
         className="hero-body"
         initialValues={{ file: null }}
         onSubmit={(values) => {
-          dispatch(fileActions.uploadAvatar(values.file));
+          const { file } = values;
+          var formData = new FormData();
+          formData.append("file", file);
+
+          dispatch(fileActions.uploadAvatar(formData));
         }}
         validationSchema={Yup.object().shape({
           file: Yup.mixed().required("File is required"),
