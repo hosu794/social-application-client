@@ -16,27 +16,6 @@ import Message from "./Message";
 function FileUpload() {
   const dispatch = useDispatch();
 
-  const [file, setFile] = useState("");
-  const [filename, setFilename] = useState("");
-  const [uploadedFile, setUploadedFile] = useState({});
-  const [message, setMessage] = useState("");
-  const [uploadPercentage, setUploadPercentage] = useState(0);
-
-  const onChange = (e) => {
-    setFile(e.target.files[0]);
-    setFilename(e.target.files[0].name);
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
-
-    console.log(file);
-
-    dispatch(fileActions.uploadAvatar(formData));
-  };
-
   return (
     <div className="column">
       <Formik
@@ -57,7 +36,6 @@ function FileUpload() {
             <form onSubmit={handleSubmit}>
               <h1 class="title">Change Avatar</h1>
               <div className="form-group">
-                <Thumb file={values.file} />
                 <div class="file hero-body">
                   <label for="file" class="file-label">
                     <input
@@ -69,12 +47,23 @@ function FileUpload() {
                       }}
                       className="file-input"
                     />
-                    <span class="file-cta">
-                      <span class="file-icon">
-                        <i class="fas fa-upload"></i>
+                    <span className="file-cta">
+                      <span className="file-icon">
+                        <i className="fas fa-upload"></i>
                       </span>
-                      <span class="file-label">Choose a file…</span>
+                      <span className="file-label">Choose a file…</span>
                     </span>
+                    {values.file ? (
+                      <span
+                        style={{
+                          backgroundColor: "#fff",
+                          color: "#000",
+                        }}
+                        className="file-name"
+                      >
+                        {values.file.name}
+                      </span>
+                    ) : null}
                   </label>
                 </div>
               </div>
@@ -91,7 +80,6 @@ function FileUpload() {
           );
         }}
       />
-      >>>>>>> 90f767f
     </div>
   );
 }
