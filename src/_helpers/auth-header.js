@@ -19,7 +19,6 @@ export function authHeaderUploadFile() {
   if (user) {
     return {
       Authorization: `Bearer ${user}`,
-      "Content-Type": "multipart/form-data",
     };
   } else {
     return {};

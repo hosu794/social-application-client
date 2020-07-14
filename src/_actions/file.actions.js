@@ -15,8 +15,8 @@ function uploadAvatar(file) {
       .then(
         (response) => {
           dispatch(success(response.data));
-          history.push("/account/changecredentials");
-          window.location.reload(true);
+          // history.push("/account/changecredentials");
+          // window.location.reload(true);
         },
         (error) => {
           handleResponse(error);
