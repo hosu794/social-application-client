@@ -5,6 +5,8 @@ import * as Yup from "yup";
 
 import { fileActions } from "../../_actions";
 
+import PropTypes from "prop-types";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import Thumb from "./Thumb";
@@ -12,34 +14,13 @@ import Thumb from "./Thumb";
 function FileUpload() {
   const dispatch = useDispatch();
 
-  function uploadAvatar() {
-    alert("Uploaded");
-  }
-
   return (
     <div className="column">
       <Formik
         className="hero-body"
         initialValues={{ file: null }}
         onSubmit={(values) => {
-          dispatch(
-            fileActions.uploadAvatar({
-              filename: values.file.name,
-              type: values.file.type,
-              size: `${values.file.size} bytes`,
-            })
-          );
-          alert(
-            JSON.stringify(
-              {
-                fileName: values.file.name,
-                type: values.file.type,
-                size: `${values.file.size} bytes`,
-              },
-              null,
-              2
-            )
-          );
+          dispatch(fileActions.uploadAvatar(values.file));
         }}
         validationSchema={Yup.object().shape({
           file: Yup.mixed().required("File is required"),
@@ -88,3 +69,7 @@ function FileUpload() {
 }
 
 export default FileUpload;
+
+FileUpload.propTypes = {
+  fileActions: PropTypes.object,
+};
