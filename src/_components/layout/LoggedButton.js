@@ -19,7 +19,30 @@ function LoggedButton() {
       {user ? (
         <div>
           <Link to="/account" className="button is-primary">
-            <strong>{user.username}</strong>
+            <div className="level">
+              <div
+                className="level-item level-left "
+                style={{ marginRight: "0.5rem" }}
+              >
+                <img
+                  style={{
+                    width: "2rem",
+                    height: "2rem",
+                    borderRadius: "10rem",
+                  }}
+                  src={
+                    user.avatarDownloadUri
+                      ? user.avatarDownloadUri
+                      : "https://bulma.io/images/placeholders/128x128.png"
+                  }
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                  }}
+                ></div>
+              </div>
+            </div>
           </Link>
           <a onClick={logoutUserOnClick} className="button is-light">
             Log out

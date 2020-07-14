@@ -13,6 +13,7 @@ const initialState = {
     id: null,
     username: null,
     name: null,
+    avatarDownloadUri: null,
   },
 };
 

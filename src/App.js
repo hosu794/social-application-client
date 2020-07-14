@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import "bulma";
 
+import PropTypes from "prop-types";
+
 import { alertActions, userActions } from "./_actions";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "./_helpers";
@@ -65,3 +67,9 @@ function App() {
 }
 
 export default App;
+
+App.propTypes = {
+  alert: PropTypes.object,
+  loggenIn: PropTypes.bool.isRequired,
+  alertActions: PropTypes.object,
+};
