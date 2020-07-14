@@ -25,15 +25,22 @@ function LoggedButton() {
                 style={{ marginRight: "0.5rem" }}
               >
                 <img
+                  style={{
+                    width: "2rem",
+                    height: "2rem",
+                    borderRadius: "10rem",
+                  }}
                   src={
                     user.avatarDownloadUri
                       ? user.avatarDownloadUri
                       : "https://bulma.io/images/placeholders/128x128.png"
                   }
                 />
-              </div>
-              <div className="level-item level-right">
-                <strong>{user.username}</strong>
+                <div
+                  style={{
+                    position: "absolute",
+                  }}
+                ></div>
               </div>
             </div>
           </Link>

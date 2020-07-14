@@ -22,6 +22,10 @@ function Account() {
   const storiesLiked = loadedStats ? stats.storiesLiked : null;
   const storiesCreated = loadedStats ? stats.storiesCreated : null;
 
+  const url = loadedUser ? user.avatarDownloadUri : null;
+  const username = loadedUser ? user.username : "loading";
+  const name = loadedUser ? user.name : "loading";
+
   useEffect(() => {
     dispatch(userActions.getUserStats(currentUserIdentification));
   }, [loadedUser]);
@@ -31,7 +35,36 @@ function Account() {
       <h1 className="title">Account Settings</h1>
       <div className="hero-body">
         <div className="container has-text-centered">
-          <img src={Image} alt="" className="image is-500x500" />
+          <img
+            src={
+              url
+                ? url
+                : "https://image.freepik.com/free-vector/404-error-page-found_41910-364.jpg"
+            }
+            alt=""
+            className="image is-500x500"
+            style={{}}
+          />
+          <div
+            style={{
+              marginTop: "1rem",
+            }}
+          >
+            <nav class="level">
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Name</p>
+                  <p class="title">{name}</p>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Username</p>
+                  <p class="title">{username}</p>
+                </div>
+              </div>
+            </nav>
+          </div>
         </div>
       </div>
       <div className="hero-body">

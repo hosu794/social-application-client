@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -8,10 +8,6 @@ import { fileActions } from "../../_actions";
 import PropTypes from "prop-types";
 
 import { useDispatch, useSelector } from "react-redux";
-
-import Progress from "./Progres";
-
-import Message from "./Message";
 
 function FileUpload() {
   const dispatch = useDispatch();
