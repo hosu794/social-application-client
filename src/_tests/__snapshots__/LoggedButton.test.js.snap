@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`My connected React-Redux Component should render component correctly 1`] = `
+<div>
+  <a
+    className="button is-primary"
+    href="/account"
+    onClick={[Function]}
+  >
+    <div
+      className="level"
+    >
+      <div
+        className="level-item level-left "
+        style={
+          Object {
+            "marginRight": "0.5rem",
+          }
+        }
+      >
+        <img
+          src="https://bulma.io/images/placeholders/128x128.png"
+          style={
+            Object {
+              "borderRadius": "10rem",
+              "height": "2rem",
+              "width": "2rem",
+            }
+          }
+        />
+        <div
+          style={
+            Object {
+              "position": "absolute",
+            }
+          }
+        />
+      </div>
+    </div>
+  </a>
+  <a
+    className="button is-light"
+    onClick={[Function]}
+  >
+    Log out
+  </a>
+</div>
+`;
