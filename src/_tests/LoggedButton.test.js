@@ -13,6 +13,8 @@ import renderer from "react-test-renderer";
 import { BrowserRouter } from "react-router-dom";
 import { Switch } from "antd";
 
+import { MemoryRouter } from "react-router-dom";
+
 const mockStore = configureStore([]);
 
 describe("My connected React-Redux Component", () => {
@@ -33,17 +35,21 @@ describe("My connected React-Redux Component", () => {
 
     store.dispatch = jest.fn();
 
-    wrapper = renderer.create(
-      <Provider store={store}>
-        <BrowserRouter>
+    const TestingComponent = () => (
+      <MemoryRouter>
+        {" "}
+        <Provider store={store}>
           <LoggedButton />
-        </BrowserRouter>
-      </Provider>
+        </Provider>
+      </MemoryRouter>
     );
+
+    const wrapper = mount(<TestingComponent />);
+    console.log(wrapper.debug());
   });
 
   test("should render component correctly", () => {
-    expect(wrapper.toJSON()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   test("should dispatch an action on button click", () => {});
