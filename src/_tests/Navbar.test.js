@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import Navbar from "../_components/layout/Navbar";
 import { mount } from "enzyme";
 import { wrap } from "lodash";
+import LoggedButton from "../_components/layout/LoggedButton";
 
 describe("Test navbar component", () => {
   let mockStore = configureStore([]);
@@ -26,6 +27,18 @@ describe("Test navbar component", () => {
 
   const wrapper = mount(<TestingComponent />);
   console.log(wrapper.debug());
+
+  test("should render correctly", () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test("should be defined", () => {
+    expect(Navbar).toBeDefined();
+  });
+
+  test("should buttons div contains LoggedButton", () => {
+    expect(wrapper.contains(<LoggedButton />)).toEqual(true);
+  });
 
   test("should navbarBasisExample has is-active class", () => {
     wrapper.find("a").at(1).simulate("click");
