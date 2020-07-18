@@ -3,10 +3,10 @@ import React from "react";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import Navbar from "../_components/layout/Navbar";
+import Navbar from "../../_components/layout/Navbar";
+import LoggedButton from "../../_components/layout/LoggedButton";
 import { mount } from "enzyme";
 import { wrap } from "lodash";
-import LoggedButton from "../_components/layout/LoggedButton";
 
 describe("Test navbar component", () => {
   let mockStore = configureStore([]);

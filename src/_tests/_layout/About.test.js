@@ -2,9 +2,9 @@ import { shallow } from "enzyme";
 
 import React from "react";
 
-import About from "../_components/layout/About";
+import About from "../../_components/layout/About";
 
-import LogoImage from "../img/about.png";
+import LogoImage from "../../img/about.png";
 
 describe("Tests for the About", () => {
   const wrapper = shallow(<About />);

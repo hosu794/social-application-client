@@ -2,13 +2,13 @@ import { shallow, mount, configure, render } from "enzyme";
 
 import React from "react";
 
-import LogoutButton from "../_components/auth/LogoutButton";
-
 import configureStore from "redux-mock-store";
 
 import { Provider } from "react-redux";
 
 import { MemoryRouter } from "react-router-dom";
+
+import LogoutButton from "../../_components/auth/LogoutButton";
 
 const mockStore = configureStore([]);
 const store = mockStore({

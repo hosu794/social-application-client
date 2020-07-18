@@ -2,9 +2,9 @@ import { shallow } from "enzyme";
 
 import React from "react";
 
-import Home from "../_components/layout/Home";
+import Home from "../../_components/layout/Home";
 
-import Image from "../img/pluto-delete-confirmation-1.png";
+import Image from "../../img/pluto-delete-confirmation-1.png";
 
 describe("Tests for the Home Component", () => {
   const wrapper = shallow(<Home />);
