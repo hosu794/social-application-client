@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import loading from "../../img/loading.gif";
 import { Link } from "react-router-dom";
 
+import LogoutButton from "../auth/LogoutButton";
+
 function LoggedButton() {
   const dispatch = useDispatch();
 
@@ -44,16 +46,12 @@ function LoggedButton() {
               </div>
             </div>
           </Link>
-          <a onClick={logoutUserOnClick} className="button is-light">
-            Log out
-          </a>
+          <LogoutButton />
         </div>
       ) : (
         <div>
           <button className="button is-loading"></button>
-          <a onClick={logoutUserOnClick} className="button is-light">
-            Log out
-          </a>
+          <LogoutButton />
         </div>
       )}
     </React.Fragment>

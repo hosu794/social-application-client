@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`My connected React-Redux Component should render component correctly 1`] = `undefined`;
+exports[`Test click simulation on LoggedButton should render component correctly 1`] = `ReactWrapper {}`;
