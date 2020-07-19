@@ -45,7 +45,7 @@ function Login() {
         }}
         render={({ errors, status, touched }) => (
           <Form>
-            <h1 class="title">Log in</h1>
+            <h1 className="title">Log in</h1>
 
             <div className="form-group">
               <label htmlFor="username">Username</label>
@@ -95,8 +95,11 @@ function Login() {
                 Submit
               </button>
               {auth.error ? (
-                <div class="notification is-danger">
-                  <button onClick={clearAlert}></button>
+                <div className="notification is-danger">
+                  <button
+                    className="button-clear"
+                    onClick={clearAlert}
+                  ></button>
                   {auth.error}
                 </div>
               ) : null}
