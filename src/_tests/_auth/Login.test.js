@@ -29,8 +29,6 @@ describe("Test for the Login Component", () => {
 
   const wrapper = mount(<TestingComponent />);
 
-  console.log(wrapper.debug());
-
   test("should render component correctly", () => {
     expect(wrapper).toMatchSnapshot();
   });

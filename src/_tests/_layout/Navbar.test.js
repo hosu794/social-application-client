@@ -26,7 +26,6 @@ describe("Test navbar component", () => {
   );
 
   const wrapper = mount(<TestingComponent />);
-  console.log(wrapper.debug());
 
   test("should render correctly", () => {
     expect(wrapper).toMatchSnapshot();
