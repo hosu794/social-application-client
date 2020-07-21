@@ -13,7 +13,6 @@ function Login() {
   const loading = useSelector((state) => state.authentication.loading);
 
   const auth = useSelector((state) => state.authentication);
-  const [badCredentials, setBadCredentials] = useState(false);
 
   function clearAlert() {
     dispatch(authActions.clearError());

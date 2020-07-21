@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import Login from "../../_components/auth/Login";
 import { mount } from "enzyme";
 import LogoutButton from "../../_components/auth/LogoutButton";
+import { Form } from "formik";
 
 const mockStore = configureStore([]);
 
@@ -25,15 +26,13 @@ describe("Test for the Login Component", () => {
     </MemoryRouter>
   );
 
-  store.dispatch = jest.fn();
-
   const wrapper = mount(<TestingComponent />);
 
   test("should render component correctly", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  test("should be definded", () => {
+  test("should component be defined", () => {
     expect(Login).toBeDefined();
   });
 
@@ -68,5 +67,20 @@ describe("Test for the Login Component", () => {
 
     let newValue = wrapper.find(Login).find("input").at(1).props().value;
     expect(newValue).toEqual("randompassword");
+  });
+
+  test("should show error message, when first field is empty", () => {
+    wrapper.find(".button").simulate("click");
+
+    let element = wrapper.find(".is-danger").at(0).text();
+    expect(element).toBeDefined();
+  });
+
+  test("should show error message, when second field is empty", () => {
+    wrapper.find(".button").simulate("click");
+
+    let element = wrapper.find(".is-danger").at(1).text();
+
+    expect(element).toBeDefined();
   });
 });
