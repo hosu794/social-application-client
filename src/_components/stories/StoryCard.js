@@ -15,7 +15,6 @@ function StoryCard(props) {
   const dispatch = useDispatch();
 
   function deleteHandler() {
-    console.log("Delete");
     dispatch(storyActions.deleteStory(props.id));
   }
 

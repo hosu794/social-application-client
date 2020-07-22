@@ -36,7 +36,7 @@ describe("Test for the Login Component", () => {
     expect(Login).toBeDefined();
   });
 
-  test("should update an first input when it is changed", () => {
+  test("should update an username input when it is changed", () => {
     wrapper
       .find("input")
       .at(0)
@@ -53,7 +53,7 @@ describe("Test for the Login Component", () => {
     expect(newValue).toEqual("exampleusername");
   });
 
-  test("should update an second input when it is changed", () => {
+  test("should update an password input when it is changed", () => {
     wrapper
       .find("input")
       .at(1)
