@@ -16,6 +16,7 @@
     "history": "^4.10.1",
     "jodit-react": "^1.0.42",
     "lodash": "^4.17.15",
+    "mutationobserver-shim": "^0.3.7",
     "prop-types": "^15.7.2",
     "quill-markdown-shortcuts": "0.0.10",
     "quill-markdown-toolbar": "^0.1.1",
