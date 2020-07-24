@@ -1,11 +1,12 @@
 import React from "react";
 
 import configureMock from "redux-mock-store";
+
 import { Provider } from "react-redux";
-import Pager from "../../_components/stories/Pagination";
+
 import { MemoryRouter } from "react-router-dom";
+import Pager from "../../_components/stories/Pagination";
 import { mount } from "enzyme";
-import StoriesCards from "../../_components/stories/StoriesCards";
 
 const mockStore = configureMock([]);
 
@@ -47,7 +48,7 @@ let store = mockStore({
   },
 });
 
-describe("Test for the Pagination Component", () => {
+describe("Test for the Stories Cards", () => {
   let TestingComponent = () => (
     <MemoryRouter>
       <Provider store={store}>
@@ -58,7 +59,7 @@ describe("Test for the Pagination Component", () => {
 
   let wrapper = mount(<TestingComponent />);
 
-  store.dispatch = jest.fn();
+  store.describe = jest.fn();
 
   test("should render component correctly", () => {
     expect(wrapper).toMatchSnapshot();
@@ -67,23 +68,4 @@ describe("Test for the Pagination Component", () => {
   test("should component be defined", () => {
     expect(wrapper).toBeDefined();
   });
-
-  test("should StoriesCards exists", () => {
-    expect(wrapper.exists(StoriesCards)).toEqual(true);
-  });
-
-  test("should Pagination jhave correct props", () => {
-    let element = wrapper.find(".pagination").first().prop("pages");
-    expect(element).toEqual(2);
-  });
-
-  test("should Pagination Component have correct props ", () => {
-    expect(
-      wrapper.find(".pagination").first().props().currentPage
-    ).toBeDefined();
-
-    expect(wrapper.find(".pagination").first().props().pages).toBeDefined();
-  });
-
-  console.log(wrapper.debug());
 });

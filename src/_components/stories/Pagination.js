@@ -58,6 +58,7 @@ function Pager() {
             <StoriesCards />
           )}
           <Pagination
+            className="pagination"
             pages={totalPages}
             currentPage={page + 1}
             onChange={(page) => {
