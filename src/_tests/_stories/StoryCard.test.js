@@ -1,24 +1,43 @@
 import React from "react";
 
-import configureMock from "redux-mock-store";
-
+import configureStore from "redux-mock-store";
+import { MemoryRouter, Link } from "react-router-dom";
 import { Provider } from "react-redux";
-
-import { MemoryRouter } from "react-router-dom";
-import Pager from "../../_components/stories/Pagination";
-import { mount } from "enzyme";
 import StoryCard from "../../_components/stories/StoryCard";
+import { mount } from "enzyme";
 
-const mockStore = configureMock([]);
+const mockStore = configureStore([]);
 
 let store = mockStore({
-  user: {
-    id: 12,
-    name: "Joe Doe",
-    username: "exampleusername",
-    downloadAvatar: "dsdasdasdasdasdadas.png",
+  authentication: {
+    loggedIn: true,
   },
   stories: {
+    currentStory: {
+      id: 1,
+      title: "Story Title",
+      description: "Story description",
+      totalLoves: 12,
+      body: "<p>Simple Story</p>",
+      createdBy: {
+        id: 12,
+        name: "Joe Doe",
+        username: "exampleusername",
+        downloadAvatar: "dsdasdasdasdasdadas.png",
+      },
+      topic: {
+        id: 12,
+        title: "Topic Example Title",
+        description: "Description Example description",
+        createdAt: "Dummy date",
+        createdBy: {
+          id: 12,
+          name: "Joe Doe",
+          username: "exampleusername",
+          downloadAvatar: "dsdasdasdasdasdadas.png",
+        },
+      },
+    },
     content: [
       {
         id: 1,
@@ -52,6 +71,18 @@ let store = mockStore({
     error: false,
     casting: false,
     currentPage: 0,
+    isLoading: false,
+  },
+
+  user: {
+    user: {
+      id: 12,
+      name: "Joe Doe",
+      username: "exampleusername",
+      downloadAvatar: "dsdasdasdasdasdadas.png",
+    },
+    loadedUser: true,
+    isLoading: false,
   },
 });
 
@@ -82,7 +113,7 @@ const story = {
   },
 };
 
-describe("Test for the Stories Cards", () => {
+describe("Test for the StoryCard Component", () => {
   let TestingComponent = () => (
     <MemoryRouter>
       <Provider store={store}>
@@ -102,13 +133,35 @@ describe("Test for the Stories Cards", () => {
 
   let wrapper = mount(<TestingComponent />);
 
-  store.describe = jest.fn();
-
   test("should render component correctly", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  test("should component be defined", () => {
-    expect(wrapper).toBeDefined();
+  test("should component be defined ", () => {
+    expect(StoryCard).toBeDefined();
+  });
+
+  test("should correctly render title ", () => {
+    let element = wrapper.find(".title").first().text();
+
+    expect(element).toEqual(story.title);
+  });
+
+  test("should correctly render description ", () => {
+    let element = wrapper.find("span").first().text();
+
+    expect(element).toEqual(story.description);
+  });
+
+  test("should correctly render username", () => {
+    let element = wrapper.find("p").first().text();
+
+    expect(element).toEqual("by exampleusername");
+  });
+
+  test("should Link have correct props", () => {
+    let element = wrapper.find(Link).prop("to");
+
+    expect(element).toEqual("/stories/1");
   });
 });

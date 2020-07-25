@@ -84,6 +84,4 @@ describe("Test for the Pagination Component", () => {
 
     expect(wrapper.find(".pagination").first().props().pages).toBeDefined();
   });
-
-  console.log(wrapper.debug());
 });

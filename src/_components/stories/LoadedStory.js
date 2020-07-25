@@ -8,6 +8,8 @@ import CastStoreButton from "./CastStoreButton";
 
 import UnCastStoreButton from "./UnCastStoreButton";
 
+import DeleteStoryButton from "./DeleteStoryButton";
+
 function LoadedStory(props) {
   const dispatch = useDispatch();
 
@@ -21,6 +23,14 @@ function LoadedStory(props) {
   function deleteHandler() {
     dispatch(storyActions.deleteStory(props.id));
   }
+
+  const unCastStore = async () => {
+    await dispatch(storyActions.unCastLove({ storyId: props.id }));
+  };
+
+  const castStore = async () => {
+    await dispatch(storyActions.castLove({ storyId: props.id }));
+  };
 
   const checkLoveAvailabilityIfIsLogged = async () => {
     if (isLogged) {
@@ -36,11 +46,6 @@ function LoadedStory(props) {
   useEffect(() => {
     checkLoveAvailabilityIfIsLogged();
   }, [props.loves]);
-
-  function unCastStore(e) {
-    e.preventDefault();
-    dispatch(storyActions.unCastLove({ storyId: props.id }));
-  }
 
   return (
     <section className="section">
@@ -76,9 +81,9 @@ function LoadedStory(props) {
             {isLogged ? (
               <div>
                 {isUserLovedStory ? (
-                  <CastStoreButton id={props.id} />
+                  <CastStoreButton id={props.id} castStore={castStore} />
                 ) : (
-                  <UnCastStoreButton id={props.id} />
+                  <UnCastStoreButton id={props.id} unCastStore={unCastStore} />
                 )}
               </div>
             ) : null}
@@ -86,13 +91,7 @@ function LoadedStory(props) {
           {isUserIdentificationIsEqualStoryCreator ? (
             <div class="level-item has-text-centered">
               <div>
-                <button
-                  onClick={deleteHandler}
-                  className="button is-danger
-          "
-                >
-                  Delete
-                </button>
+                <DeleteStoryButton deleteHandler={deleteHandler} />
               </div>
             </div>
           ) : null}

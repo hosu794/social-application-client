@@ -92,7 +92,10 @@ function Account() {
             </div>
             <div class="level-item has-text-centered">
               <div>
-                <button className="button is-primary is-light is-medium">
+                <button
+                  disabled
+                  className="button is-primary is-light is-medium"
+                >
                   My stories
                 </button>
               </div>

@@ -9,6 +9,14 @@ import Image from "../../img/pluto-delete-confirmation-1.png";
 describe("Tests for the Home Component", () => {
   const wrapper = shallow(<Home />);
 
+  test("should render component correctly", () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test("should component be defined", () => {
+    expect(Home).toBeDefined();
+  });
+
   test("should render button ", () => {
     expect(wrapper.find("button").text()).toEqual("Write");
   });

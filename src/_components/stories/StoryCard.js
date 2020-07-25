@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 
 import { useSelector, useDispatch } from "react-redux";
 import { storyActions } from "../../_actions";
+import DeleteStoryButton from "./DeleteStoryButton";
 
 function StoryCard(props) {
   const storyUrl = `/stories/${props.id}`;
@@ -43,13 +44,7 @@ function StoryCard(props) {
           <div class="level-item has-text-centered">
             {isUserIdentificationIsEqualStoryCreator ? (
               <div>
-                <button
-                  onClick={deleteHandler}
-                  className="button is-danger
-        "
-                >
-                  Delete
-                </button>
+                <DeleteStoryButton deleteHandler={deleteHandler} />
               </div>
             ) : null}
           </div>

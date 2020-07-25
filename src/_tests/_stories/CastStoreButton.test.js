@@ -3,9 +3,10 @@ import React from "react";
 import configureStore from "redux-mock-store";
 
 import { Provider } from "react-redux";
-import UnCastStoreButton from "../../_components/stories/UnCastStoreButton";
 
 import { mount } from "enzyme";
+import CastStoreButton from "../../_components/stories/CastStoreButton";
+import { expectation } from "sinon";
 
 let mockStore = configureStore([]);
 
@@ -13,10 +14,10 @@ let store = mockStore({});
 
 const mockCallBack = jest.fn();
 
-describe("Test for the UnCastStoreButton Component", () => {
+describe("Test for the CastStoreButton Component ", () => {
   let TestingComponent = () => (
     <Provider store={store}>
-      <UnCastStoreButton unCastStore={mockCallBack} />
+      <CastStoreButton castStore={mockCallBack} />
     </Provider>
   );
 
@@ -27,7 +28,7 @@ describe("Test for the UnCastStoreButton Component", () => {
   });
 
   test("should component be defined", () => {
-    expect(UnCastStoreButton).toBeDefined();
+    expect(CastStoreButton).toBeDefined();
   });
 
   test("should call function on button click", () => {

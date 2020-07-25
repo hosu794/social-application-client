@@ -121,6 +121,4 @@ describe("Test for the Story Component", () => {
 
     expect(element).toEqual(expect.not.stringContaining(expected));
   });
-
-  console.log(wrapper.debug());
 });
