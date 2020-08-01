@@ -12,11 +12,11 @@ export const authActions = {
   clearError,
 };
 
-function login(usernameOrEmail, password) {
+function login({ usernameOrEmail, password }, service = authService.login) {
   return (dispatch) => {
     dispatch(request({ usernameOrEmail, password }));
 
-    authService.login(usernameOrEmail, password).then(
+    return service({ usernameOrEmail, password }).then(
       (user) => {
         dispatch(success(user));
         history.push("/");
@@ -51,11 +51,11 @@ function logout() {
   };
 }
 
-function register(user) {
+function register(user, service = authActions.register) {
   return (dispatch) => {
     dispatch(request(user));
 
-    authService.register(user).then(
+    return service(user).then(
       (user) => {
         dispatch(success());
         history.push("/login");
@@ -83,11 +83,11 @@ function register(user) {
   }
 }
 
-function updateUsername(username) {
+function updateUsername(username, service = authService.updateUsername) {
   return (dispatch) => {
     dispatch(request(username));
 
-    authService.updateUsername(username).then(
+    return service(username).then(
       (response) => {
         dispatch(success(response.data));
         history.push("/account");
@@ -115,13 +115,23 @@ function updateUsername(username) {
   }
 }
 
-function updatePassword(password) {
+function updatePassword(password, service = authService.updatePassword) {
   return (dispatch) => {
     dispatch(request(password));
 
-    history.push("/account");
-    window.location.reload(true);
-    dispatch(alertActions.success("Password updated successfully"));
+    return service(password).then(
+      (response) => {
+        dispatch(success(response.data));
+        history.push("/account");
+        window.location.reload(true);
+        dispatch(alertActions.success("Password updated successfully"));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
   };
 
   function request(username) {

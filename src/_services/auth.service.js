@@ -10,7 +10,7 @@ export const authService = {
   updatePassword,
 };
 
-function login(usernameOrEmail, password) {
+function login({ usernameOrEmail, password }) {
   const body = JSON.stringify({ usernameOrEmail, password });
 
   return axios

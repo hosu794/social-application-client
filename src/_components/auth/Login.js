@@ -20,8 +20,8 @@ function Login() {
 
   const dispatch = useDispatch();
 
-  function login(username, password) {
-    dispatch(authActions.login(username, password));
+  function login(usernameOrEmail, password) {
+    dispatch(authActions.login({ usernameOrEmail, password }));
   }
 
   return (

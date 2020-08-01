@@ -12,6 +12,7 @@
     "bulma": "^0.8.2",
     "bulma-pagination-react": "^0.1.1",
     "enzyme-to-json": "^3.5.0",
+    "fetch-mock": "^9.10.4",
     "formik": "^2.0.7",
     "history": "^4.10.1",
     "jodit-react": "^1.0.42",
