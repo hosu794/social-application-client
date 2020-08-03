@@ -1,6 +1,5 @@
 import { stories } from "../../_reducers/story.reducer";
 import { storyConstants } from "../../_constants";
-import { initial } from "lodash";
 
 const initialState = {
   page: 0,
