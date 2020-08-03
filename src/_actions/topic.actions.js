@@ -5,11 +5,11 @@ import { topicService } from "../_services";
 
 export const topicActions = { getAllTopics, getTopicByTitle };
 
-function getAllTopics() {
+function getAllTopics(service = topicService.loadTopics) {
   return (dispatch) => {
     dispatch(request());
 
-    topicService.loadTopics().then(
+    return service().then(
       (topics) => {
         console.log(topics.data);
         dispatch(success(topics.data));
@@ -35,11 +35,11 @@ function getAllTopics() {
   }
 }
 
-function getTopicByTitle(title) {
+function getTopicByTitle(title, service = topicService.getTopicByTitle) {
   return (dispatch) => {
     dispatch(request(title));
 
-    topicService.getTopicByTitle(title).then(
+    return service(title).then(
       (topic) => {
         dispatch(success(topic.data));
       },
