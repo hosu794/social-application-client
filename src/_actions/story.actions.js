@@ -18,11 +18,11 @@ export const storyActions = {
   getStoriesByUsername,
 };
 
-function getPagedStories(page) {
+function getPagedStories(page, service = storyService.getPagedStories) {
   return (dispatch) => {
     dispatch(request(page));
 
-    storyService.getPagedStories(page).then(
+    return service(page).then(
       (stories) => {
         console.log(stories.data);
         dispatch(success(stories.data));
@@ -51,11 +51,11 @@ function changePage(page) {
   return { type: storyConstants.CHANGE_PAGE, page };
 }
 
-function getStoryById(id) {
+function getStoryById(id, service = storyService.getStoryById) {
   return (dispatch) => {
     dispatch(request(id));
 
-    storyService.getStoryById(id).then(
+    return service(id).then(
       (story) => {
         console.log(story.data);
         dispatch(success(story.data));
@@ -81,13 +81,12 @@ function getStoryById(id) {
   }
 }
 
-function castLove(storyIdentityRequest) {
+function castLove(storyIdentityRequest, service = storyService.castLove) {
   return (dispatch) => {
     dispatch(request(storyIdentityRequest));
 
-    storyService.castLove(storyIdentityRequest).then(
+    return service(storyIdentityRequest).then(
       (story) => {
-        console.log(story.data);
         dispatch(success(story));
       },
       (error) => {
@@ -111,13 +110,12 @@ function castLove(storyIdentityRequest) {
   }
 }
 
-function unCastLove(storyIdentityRequest) {
+function unCastLove(storyIdentityRequest, service = storyActions.unCastLove) {
   return (dispatch) => {
     dispatch(request(storyIdentityRequest));
 
-    storyService.unCastLove(storyIdentityRequest).then(
+    return service(storyIdentityRequest).then(
       (story) => {
-        console.log(story.data);
         dispatch(success(story));
       },
       (error) => {
@@ -141,11 +139,11 @@ function unCastLove(storyIdentityRequest) {
   }
 }
 
-function create(requestStory) {
+function create(requestStory, service = storyActions.create) {
   return (dispatch) => {
     dispatch(request(requestStory));
 
-    storyService.create(requestStory).then(
+    return service(requestStory).then(
       (story) => {
         dispatch(success(story.data));
         history.push("/dashboard");
@@ -173,11 +171,11 @@ function create(requestStory) {
   }
 }
 
-function deleteStory(id) {
+function deleteStory(id, service = storyActions.deleteStory) {
   return (dispatch) => {
     dispatch(request(id));
 
-    storyService.deleteStory(id).then(
+    return service(id).then(
       (response) => {
         dispatch(success(id));
         dispatch(alertActions.success("Story deleted successfully"));
@@ -205,13 +203,15 @@ function deleteStory(id) {
   }
 }
 
-function getStoriesByUsername(username) {
+function getStoriesByUsername(
+  username,
+  service = storyActions.getStoriesByUsername
+) {
   return (dispatch) => {
     dispatch(request(username));
 
-    storyService.getStoriesByUsername(username).then(
+    return service(username).then(
       (stories) => {
-        console.log(stories.data);
         dispatch(success(stories.data));
       },
       (error) => {
