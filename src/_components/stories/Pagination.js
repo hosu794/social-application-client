@@ -26,13 +26,25 @@ function Pager() {
   const isLessThanZero = page === -1;
   const isMoreThanTotalPages = page > totalPages;
 
+  function incrementPageNumber() {
+    page = page + 1;
+  }
+
+  function decrementPageNumber() {
+    page = page - 1;
+  }
+
+  const fetchPagedStories = async (p) => {
+    await dispatch(storyActions.getPagedStories(p));
+  };
+
   useEffect(() => {
     if (isLessThanZero) {
-      page = page + 1;
+      incrementPageNumber();
     } else if (isMoreThanTotalPages) {
-      page = page - 1;
+      decrementPageNumber();
     } else {
-      dispatch(storyActions.getPagedStories(page));
+      fetchPagedStories(page);
     }
   }, [isPageChanged]);
 
@@ -46,6 +58,7 @@ function Pager() {
             <StoriesCards />
           )}
           <Pagination
+            className="pagination"
             pages={totalPages}
             currentPage={page + 1}
             onChange={(page) => {
@@ -68,7 +81,6 @@ Pager.propTypes = {
     casting: PropTypes.bool.isRequired,
     page: PropTypes.number.isRequired,
     currentPage: PropTypes.instanceOf(IStory),
-    page: PropTypes.bool.isRequired,
     page: PropTypes.number.isRequired,
     content: PropTypes.arrayOf(IStory),
   }),

@@ -175,8 +175,8 @@ function Dashboard() {
 }
 
 Dashboard.propTypes = {
-  topics: PropTypes.arrayOf(ITopic).isRequired,
-  loading: PropTypes.bool.isRequired,
+  topics: PropTypes.arrayOf(ITopic),
+  loading: PropTypes.bool,
   topicActions: PropTypes.object,
 };
 

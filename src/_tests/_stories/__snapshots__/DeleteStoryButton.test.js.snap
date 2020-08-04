@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the DeleteStoryButton Component should component render correctly 1`] = `ReactWrapper {}`;

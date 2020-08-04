@@ -7,23 +7,20 @@ import { alertActions } from "./";
 
 export const fileActions = { uploadAvatar };
 
-function uploadAvatar(file) {
+function uploadAvatar(file, service = fileService.uploadAvatar) {
   return (dispatch) => {
-    fileService
-      .uploadAvatar(file)
-
-      .then(
-        (response) => {
-          dispatch(success(response.data));
-          history.push("/account/changecredentials");
-          window.location.reload(true);
-        },
-        (error) => {
-          handleResponse(error);
-          dispatch(failure(error.response.data.message));
-          dispatch(alertActions.error(error.response.data.message));
-        }
-      );
+    return service(file).then(
+      (response) => {
+        dispatch(success(response.data));
+        history.push("/account/changecredentials");
+        window.location.reload(true);
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
   };
 
   function request(file) {

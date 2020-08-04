@@ -4,6 +4,7 @@ export const alertActions = {
   success,
   error,
   clear,
+  set,
 };
 
 function success(message) {

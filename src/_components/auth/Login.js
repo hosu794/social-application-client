@@ -7,25 +7,21 @@ import { authActions, alertActions } from "../../_actions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import * as Yup from "yup";
+import ClearErrorButton from "./ClearErrorButton";
 
 function Login() {
   const loading = useSelector((state) => state.authentication.loading);
 
   const auth = useSelector((state) => state.authentication);
-  const [badCredentials, setBadCredentials] = useState(false);
 
   function clearAlert() {
     dispatch(authActions.clearError());
   }
 
-  useEffect(() => {
-    clearAlert();
-  }, []);
-
   const dispatch = useDispatch();
 
-  function login(username, password) {
-    dispatch(authActions.login(username, password));
+  function login(usernameOrEmail, password) {
+    dispatch(authActions.login({ usernameOrEmail, password }));
   }
 
   return (
@@ -45,7 +41,7 @@ function Login() {
         }}
         render={({ errors, status, touched }) => (
           <Form>
-            <h1 class="title">Log in</h1>
+            <h1 className="title">Log in</h1>
 
             <div className="form-group">
               <label htmlFor="username">Username</label>
@@ -95,10 +91,7 @@ function Login() {
                 Submit
               </button>
               {auth.error ? (
-                <div class="notification is-danger">
-                  <button onClick={clearAlert}></button>
-                  {auth.error}
-                </div>
+                <ClearErrorButton>{auth.error}</ClearErrorButton>
               ) : null}
             </div>
           </Form>

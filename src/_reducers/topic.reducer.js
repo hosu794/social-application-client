@@ -1,14 +1,10 @@
 import { topicContants } from "../_constants";
 import { topicService } from "../_services";
 
-const initialState = {
-  loading: false,
-  content: [],
-  error: null,
-  currentTopic: null,
-};
-
-export function topics(state = initialState, action) {
+export function topics(
+  state = { loading: false, content: [], error: null, currentTopic: null },
+  action
+) {
   switch (action.type) {
     case topicContants.GET_TOPICS_REQUEST: {
       return {

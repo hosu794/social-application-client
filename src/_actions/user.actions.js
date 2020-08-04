@@ -11,11 +11,11 @@ export const userActions = {
   getUserStats,
 };
 
-function getCurrentUser() {
+function getCurrentUser(service = userService.loadUser) {
   return (dispatch) => {
     dispatch(request());
 
-    userService.loadUser().then(
+    return service().then(
       (user) => {
         dispatch(success(user.data));
       },
@@ -40,11 +40,14 @@ function getCurrentUser() {
   }
 }
 
-function checkUsernameAvailability(username) {
+function checkUsernameAvailability(
+  username,
+  service = userService.checkUsernameAvailability
+) {
   return (dispatch) => {
     dispatch(request(username));
-    console.log(username);
-    userService.checkUsernameAvailability(username).then(
+
+    return service(username).then(
       (response) => {
         console.log(response.data.available);
         dispatch(success(response.data.available));
@@ -70,9 +73,12 @@ function checkUsernameAvailability(username) {
   }
 }
 
-function checkEmailAvailability(email) {
+function checkEmailAvailability(
+  email,
+  service = userService.checkEmailAvaibility
+) {
   return (dispatch) => {
-    userService.checkEmailAvaibility(email).then(
+    return service(email).then(
       (response) => {
         dispatch(success(response.data.available));
       },
@@ -96,12 +102,14 @@ function checkEmailAvailability(email) {
   }
 }
 
-function checkLoveAvailability(req) {
+function checkLoveAvailability(
+  req,
+  service = userService.checkLoveAvailability
+) {
   return (dispatch) => {
     dispatch(request(req));
-    userService.checkLoveAvailability(req).then(
+    return service(req).then(
       (response) => {
-        console.log(response.data.available);
         dispatch(success(response.data.available));
       },
       (error) => {
@@ -125,11 +133,11 @@ function checkLoveAvailability(req) {
   }
 }
 
-function getUserStats(userId) {
+function getUserStats(userId, service = userService.getUserStatistics) {
   return (dispatch) => {
     dispatch(request(userId));
 
-    userService.getUserStatistics(userId).then(
+    return service(userId).then(
       (response) => {
         dispatch(success(response.data));
       },
