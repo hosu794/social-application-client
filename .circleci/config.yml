@@ -9,7 +9,7 @@ jobs:
       - checkout
       # Bundle install dependencies
       - run: yarn install
-      - test: npm test
+      - run: yarn test
 
   deploy:
     machine:
