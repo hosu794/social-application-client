@@ -1,9 +1,7 @@
-import { join } from "lodash";
+let user = JSON.parse(localStorage.getItem("user"));
 
-export function authHeader() {
-  let user = JSON.parse(localStorage.getItem("user"));
-
-  if (user) {
+export function authHeader(authenticatedUser = user) {
+  if (authenticatedUser) {
     return {
       Authorization: `Bearer ${user}`,
       "Content-Type": "application/json",
@@ -13,10 +11,8 @@ export function authHeader() {
   }
 }
 
-export function authHeaderUploadFile() {
-  let user = JSON.parse(localStorage.getItem("user"));
-
-  if (user) {
+export function authHeaderUploadFile(authenticatedUser = user) {
+  if (authenticatedUser) {
     return {
       Authorization: `Bearer ${user}`,
     };
