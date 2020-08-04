@@ -110,7 +110,7 @@ function castLove(storyIdentityRequest, service = storyService.castLove) {
   }
 }
 
-function unCastLove(storyIdentityRequest, service = storyActions.unCastLove) {
+function unCastLove(storyIdentityRequest, service = storyService.unCastLove) {
   return (dispatch) => {
     dispatch(request(storyIdentityRequest));
 
@@ -139,7 +139,7 @@ function unCastLove(storyIdentityRequest, service = storyActions.unCastLove) {
   }
 }
 
-function create(requestStory, service = storyActions.create) {
+function create(requestStory, service = storyService.create) {
   return (dispatch) => {
     dispatch(request(requestStory));
 
