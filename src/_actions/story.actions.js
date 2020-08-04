@@ -171,7 +171,7 @@ function create(requestStory, service = storyService.create) {
   }
 }
 
-function deleteStory(id, service = storyActions.deleteStory) {
+function deleteStory(id, service = storyService.deleteStory) {
   return (dispatch) => {
     dispatch(request(id));
 
