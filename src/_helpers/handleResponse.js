@@ -1,9 +1,8 @@
 import { authService } from "../_services";
 
-export function handleResponse(error) {
+export function handleResponse(error, service = authService) {
   if (error.response.status === 401) {
-    authService.logout();
-    console.log("Logout");
+    service.logout();
   }
 
   return error;
