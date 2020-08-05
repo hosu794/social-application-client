@@ -37,7 +37,6 @@ function Pager({ user }) {
 
   const fetchPagedStories = async (p) => {
     if (user) {
-      console.log(user.username);
       await dispatch(storyActions.getStoriesByUsername(user.username, p));
     } else {
       await dispatch(storyActions.getPagedStories(p));
