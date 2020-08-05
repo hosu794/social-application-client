@@ -5,13 +5,11 @@ import { IStory } from "../../_types";
 import PropTypes from "prop-types";
 const StoryCard = lazy(() => import("./StoryCard"));
 
-function StoriesCards() {
-  const content = useSelector((state) => state.stories.content);
-
+function StoriesCards({ stories }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      {content
-        ? content.map((story) => {
+      {stories
+        ? stories.map((story) => {
             return (
               <StoryCard
                 key={story.id}
@@ -31,7 +29,7 @@ function StoriesCards() {
 }
 
 StoriesCards.propTypes = {
-  content: PropTypes.arrayOf(IStory),
+  stories: PropTypes.arrayOf(IStory),
 };
 
 export default StoriesCards;

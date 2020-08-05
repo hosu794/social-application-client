@@ -27,6 +27,8 @@ import About from "./_components/layout/About";
 import Account from "./_components/user/Account";
 import ChangeCredentials from "./_components/user/ChangeCredentials";
 
+import { storyActions } from "./_actions";
+
 function App() {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.alert);
@@ -48,7 +50,15 @@ function App() {
             <Route path="/" component={Home} exact />
             <Route path="/login" component={Login} exact />
             <Route path="/register" component={Register} exact />
-            <Route path="/stories" component={Pagination} exact />
+            <Route
+              path="/stories"
+              component={() => (
+                <Pagination
+                  storiesFetchFunction={storyActions.getPagedStories}
+                />
+              )}
+              exact
+            />
             <Route path="/stories/:id" component={Story} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <PrivateRoute path="/account" exact component={Account} />
