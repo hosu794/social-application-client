@@ -26,11 +26,13 @@ import Dashboard from "./_components/stories/Dashboard";
 import About from "./_components/layout/About";
 import Account from "./_components/user/Account";
 import ChangeCredentials from "./_components/user/ChangeCredentials";
+import { user } from "./_reducers/user.reducer";
 
 function App() {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.alert);
   const loggedIn = useSelector((state) => state.authentication.loggedIn);
+  const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
     dispatch(userActions.getCurrentUser());
@@ -50,6 +52,10 @@ function App() {
             <Route path="/register" component={Register} exact />
             <Route path="/stories" component={Pagination} exact />
             <Route path="/stories/:id" component={Story} />
+            <PrivateRoute
+              path="/account/stories"
+              component={() => <Pagination user={user} />}
+            />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <PrivateRoute path="/account" exact component={Account} />
             <PrivateRoute

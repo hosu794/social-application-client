@@ -205,12 +205,15 @@ function deleteStory(id, service = storyService.deleteStory) {
 
 function getStoriesByUsername(
   username,
-  service = storyActions.getStoriesByUsername
+  page,
+  service = storyService.getStoriesByUsername
 ) {
-  return (dispatch) => {
-    dispatch(request(username));
+  console.log(username);
 
-    return service(username).then(
+  return (dispatch) => {
+    dispatch(request(username, page));
+
+    return service(username, page).then(
       (stories) => {
         dispatch(success(stories.data));
       },
@@ -222,15 +225,22 @@ function getStoriesByUsername(
     );
   };
 
-  function request(username) {
-    return { type: storyConstants.DELETE_STORY_REQUEST, username };
+  function request(username, page) {
+    return {
+      type: storyConstants.GETPAGED_STORIES_BY_USERNAME_REQUEST,
+      username,
+      page,
+    };
   }
 
   function success(stories) {
-    return { type: storyConstants.DELETE_STORY_SUCCESS, stories };
+    return {
+      type: storyConstants.GETPAGED_STORIES_BY_USERNAME_SUCCESS,
+      stories,
+    };
   }
 
   function failure(error) {
-    return { type: storyConstants.DELETE_STORY_FAILURE, error };
+    return { type: storyConstants.GETPAGED_STORIES_BY_USERNAME_FAILURE, error };
   }
 }

@@ -11,10 +11,11 @@ import { IStory } from "../../_types";
 import { storyActions } from "../../_actions";
 import { useDispatch, useSelector } from "react-redux";
 
-function Pager() {
+function Pager({ user }) {
   const dispatch = useDispatch();
   const stories = useSelector((state) => state.stories);
   var page = stories.page;
+
   const size = stories.size;
   const totalPages = stories.totalPages;
   const loading = stories.loading;
@@ -35,7 +36,11 @@ function Pager() {
   }
 
   const fetchPagedStories = async (p) => {
-    await dispatch(storyActions.getPagedStories(p));
+    if (user) {
+      await dispatch(storyActions.getStoriesByUsername(user.username, p));
+    } else {
+      await dispatch(storyActions.getPagedStories(p));
+    }
   };
 
   useEffect(() => {
@@ -55,7 +60,7 @@ function Pager() {
           {loading ? (
             <h1 className="title is-size-1">Loading...</h1>
           ) : (
-            <StoriesCards />
+            <StoriesCards stories={content} />
           )}
           <Pagination
             className="pagination"

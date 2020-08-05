@@ -6,8 +6,15 @@ import Pager from "../../_components/stories/Pagination";
 import { MemoryRouter } from "react-router-dom";
 import { mount } from "enzyme";
 import StoriesCards from "../../_components/stories/StoriesCards";
+import { storyConstants } from "../../_constants";
 
 const mockStore = configureMock([]);
+
+let mockUser = {
+  id: 12,
+  name: "Dummy Name",
+  description: "Description",
+};
 
 let store = mockStore({
   stories: {
@@ -47,7 +54,7 @@ let store = mockStore({
   },
 });
 
-describe("Test for the Pagination Component", () => {
+describe("Test for the Pagination Component without user entity", () => {
   let TestingComponent = () => (
     <MemoryRouter>
       <Provider store={store}>
@@ -72,7 +79,44 @@ describe("Test for the Pagination Component", () => {
     expect(wrapper.exists(StoriesCards)).toEqual(true);
   });
 
-  test("should Pagination jhave correct props", () => {
+  test("should Pagination have correct props", () => {
+    let element = wrapper.find(".pagination").first().prop("pages");
+    expect(element).toEqual(2);
+  });
+
+  test("should Pagination Component have correct props ", () => {
+    expect(
+      wrapper.find(".pagination").first().props().currentPage
+    ).toBeDefined();
+
+    expect(wrapper.find(".pagination").first().props().pages).toBeDefined();
+  });
+});
+
+describe("Tests for the Pagination Component with user entity", () => {
+  let TestingComponent = () => (
+    <MemoryRouter>
+      <Provider store={store}>
+        <Pager user={mockUser} />
+      </Provider>
+    </MemoryRouter>
+  );
+
+  let wrapper = mount(<TestingComponent />);
+
+  test("should render component correctly", () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test("should component be defined", () => {
+    expect(Pager).toBeDefined();
+  });
+
+  test("should StoriesCards exists", () => {
+    expect(wrapper.exists(StoriesCards)).toEqual(true);
+  });
+
+  test("should Pagination have correct props", () => {
     let element = wrapper.find(".pagination").first().prop("pages");
     expect(element).toEqual(2);
   });

@@ -155,6 +155,7 @@ describe("Test for the story actions", () => {
       .dispatch(
         storyActions.getStoriesByUsername(
           "dummyUsername",
+          12,
           mockServiceCreator(requiredBody)
         )
       )
