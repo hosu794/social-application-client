@@ -66,10 +66,9 @@ function deleteStory(id) {
   );
 }
 
-function getStoriesByUsername(username) {
-  console.log(username);
+function getStoriesByUsername(username, page) {
   return axios.get(
-    `https://the-writer-mind.herokuapp.com/api/stories/username/${username}`,
+    `https://the-writer-mind.herokuapp.com/api/stories/username/${username}?page=${page}`,
     {
       headers: {
         "Content-Type": "application/json",

@@ -92,12 +92,12 @@ function Account() {
             </div>
             <div class="level-item has-text-centered">
               <div>
-                <button
-                  disabled
+                <Link
+                  to="/account/stories"
                   className="button is-primary is-light is-medium"
                 >
                   My stories
-                </button>
+                </Link>
               </div>
             </div>
             <div class="level-item has-text-centered">
