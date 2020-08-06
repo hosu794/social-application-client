@@ -10,6 +10,7 @@ import DeleteStoryButton from "./DeleteStoryButton";
 
 function StoryCard(props) {
   const storyUrl = `/stories/${props.id}`;
+  const storyUrlEdit = `/stories/edit/${props.id}`;
   const user = useSelector((state) => state.user.user);
   const isUserExist = user ? user.id : null;
   const isUserIdentificationIsEqualStoryCreator = isUserExist === props.userId;
@@ -41,13 +42,22 @@ function StoryCard(props) {
           </p>
         </div>
         <nav class="level">
-          <div class="level-item has-text-centered">
-            {isUserIdentificationIsEqualStoryCreator ? (
+          {isUserIdentificationIsEqualStoryCreator ? (
+            <div class="level-item has-text-centered">
               <div>
                 <DeleteStoryButton deleteHandler={deleteHandler} />
               </div>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
+          {isUserIdentificationIsEqualStoryCreator ? (
+            <div class="level-item has-text-centered">
+              <div>
+                <Link to={storyUrlEdit}>
+                  <button className="button is-info">Edit</button>
+                </Link>
+              </div>
+            </div>
+          ) : null}
           <div class="level-item has-text-centered">
             <div>
               <Link to={storyUrl}>

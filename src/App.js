@@ -28,6 +28,8 @@ import Account from "./_components/user/Account";
 import ChangeCredentials from "./_components/user/ChangeCredentials";
 import { user } from "./_reducers/user.reducer";
 
+import EditStory from "./_components/stories/EditStory";
+
 function App() {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.alert);
@@ -55,6 +57,11 @@ function App() {
             <PrivateRoute
               path="/account/stories"
               component={() => <Pagination user={user} />}
+            />
+            <PrivateRoute
+              path="/stories/edit/:id"
+              component={EditStory}
+              exact
             />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <PrivateRoute path="/account" exact component={Account} />
