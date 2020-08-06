@@ -15,7 +15,7 @@
 Motivation to create this project was a desire to train my coding javascript skills and craete some portfolio project.
 
 ## Screenshots
-![Home Page](./image/screenshot1.png)
+![Home Page](./images/image.png)
 
 ## Technologies
 * React - version 16.13.1
