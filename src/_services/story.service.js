@@ -9,6 +9,7 @@ export const storyService = {
   create,
   deleteStory,
   getStoriesByUsername,
+  updateStory,
 };
 
 function getPagedStories(page) {
@@ -56,8 +57,23 @@ function create(request) {
   );
 }
 
+function updateStory(id, request) {
+  const body = JSON.stringify({
+    title: request.title,
+    description: request.description,
+    body: request.body,
+  });
+
+  return axios.put(
+    `https://the-writer-mind.herokuapp.com/api/stories/${id}`,
+    body,
+    {
+      headers: authHeader(),
+    }
+  );
+}
+
 function deleteStory(id) {
-  console.log(id);
   return axios.delete(
     `https://the-writer-mind.herokuapp.com/api/stories/${id}`,
     {

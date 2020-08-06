@@ -158,6 +158,21 @@ export function stories(state = initialState, action) {
         error: action.error,
       };
     }
+    case storyConstants.UPDATE_STORY_REQUEST: {
+      return {
+        ...state,
+        updating: true,
+      };
+    }
+    case storyConstants.UPDATE_STORY_SUCCESS: {
+      return {
+        ...state,
+        updating: false,
+        content: state.content.map((obj) =>
+          obj.id === action.response.id ? action.response : obj
+        ),
+      };
+    }
     default:
       return state;
   }

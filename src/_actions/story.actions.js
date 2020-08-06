@@ -6,6 +6,8 @@ import axios from "axios";
 import { func } from "prop-types";
 import { user } from "../_reducers/user.reducer";
 import { userActions } from "./user.actions";
+import { requests } from "sinon";
+import { reduceRight } from "lodash";
 
 export const storyActions = {
   getPagedStories,
@@ -16,6 +18,7 @@ export const storyActions = {
   create,
   deleteStory,
   getStoriesByUsername,
+  updateStory,
 };
 
 function getPagedStories(page, service = storyService.getPagedStories) {
@@ -168,6 +171,42 @@ function create(requestStory, service = storyService.create) {
 
   function failure(error) {
     return { type: storyConstants.CREATE_STORY_FAILURE, error };
+  }
+}
+
+function updateStory(id, requestStory, service = storyService.updateStory) {
+  return (dispatch) => {
+    request(id, requestStory);
+
+    return service(id, request).then(
+      (response) => {
+        success(response.data);
+        history.push("/account/stories");
+        window.location.reload(true);
+        dispatch(alertActions.success("Story updated successful"));
+      },
+      (error) => {
+        handleResponse(error);
+        dispatch(failure(error.response.data.message));
+        dispatch(alertActions.error(error.response.data.message));
+      }
+    );
+  };
+
+  function request(id, requestStory) {
+    return {
+      type: storyConstants.UPDATE_STORY_REQUEST,
+      request: requestStory,
+      id,
+    };
+  }
+
+  function success(response) {
+    return { type: storyConstants.UPDATE_STORY_SUCCESS, response };
+  }
+
+  function failure(error) {
+    return { type: storyConstants.UPDATE_STORY_FAILURE, error };
   }
 }
 
