@@ -56,4 +56,4 @@ Project is: _in progress_
 [Jason Watmore Blog](https://jasonwatmore.com/post/2019/04/06/react-jwt-authentication-tutorial-example)
 
 ## Contact
-Created by [@hosu794](szczesnygrzegorz794@gmail.com) - feel free to contact me!
+Created by [@hosu794]- feel free to contact me: szczesnygrzegorz794@gmail.com.
