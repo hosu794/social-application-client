@@ -178,7 +178,7 @@ function updateStory(id, requestStory, service = storyService.updateStory) {
   return (dispatch) => {
     request(id, requestStory);
 
-    return service(id, request).then(
+    return service(id, requestStory).then(
       (response) => {
         success(response.data);
         history.push("/account/stories");

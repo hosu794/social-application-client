@@ -21,10 +21,6 @@ function EditDashboard(props) {
   const topics = useSelector((state) => state.topics.content);
   const loading = useSelector((state) => state.topics.loading);
 
-  useEffect(() => {
-    dispatch(topicActions.getAllTopics());
-  }, []);
-
   return (
     <section
       style={{
@@ -49,6 +45,13 @@ function EditDashboard(props) {
           setTimeout(() => {
             console.log("Submit");
             console.log(values);
+            dispatch(
+              storyActions.updateStory(props.story.id, {
+                title: values.title,
+                description: values.description,
+                body: values.richtext,
+              })
+            );
             setSubmitting(false);
           }, 300);
         }}
@@ -123,11 +126,11 @@ function EditDashboard(props) {
                 <div className="level">
                   <div className="level-item level-center">
                     <button
-                      className="button is-primary is-medium"
+                      className="button is-info is-medium"
                       htmlType="submit"
                       type="submit"
                     >
-                      Submit
+                      Edit
                     </button>
                   </div>
                 </div>
