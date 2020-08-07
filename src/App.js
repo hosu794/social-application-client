@@ -28,8 +28,6 @@ import Account from "./_components/user/Account";
 import ChangeCredentials from "./_components/user/ChangeCredentials";
 import { user } from "./_reducers/user.reducer";
 import EditDashboard from "./_components/stories/EditDashboard";
-import EditStore from "./_components/stories/EditStore";
-
 import EditStory from "./_components/stories/EditStory";
 
 function App() {
@@ -58,7 +56,7 @@ function App() {
             <Route path="/stories/:id" component={Story} exact />
             <PrivateRoute
               path="/stories/edit/:id"
-              component={EditStore}
+              component={EditStory}
               exact
             />
             <PrivateRoute

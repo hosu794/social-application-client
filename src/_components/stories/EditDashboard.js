@@ -11,15 +11,13 @@ import "react-quill/dist/quill.core.css";
 import "react-quill/dist/quill.snow.css";
 import "antd/dist/antd.css";
 
-import { topicActions, storyActions } from "../../_actions";
-import { ITopic } from "../../_types";
+import { storyActions } from "../../_actions";
+import { ITopic, IStory } from "../../_types";
 
 import PropTypes from "prop-types";
 
-function EditDashboard(props) {
+function EditDashboard({ story }) {
   const dispatch = useDispatch();
-  const topics = useSelector((state) => state.topics.content);
-  const loading = useSelector((state) => state.topics.loading);
 
   return (
     <section
@@ -32,9 +30,9 @@ function EditDashboard(props) {
 
       <Formik
         initialValues={{
-          richtext: props.story.body,
-          title: props.story.title,
-          description: props.story.description,
+          richtext: story.body,
+          title: story.title,
+          description: story.description,
         }}
         validationSchema={Yup.object().shape({
           richtext: Yup.string().required("Text is required"),
@@ -46,7 +44,7 @@ function EditDashboard(props) {
             console.log("Submit");
             console.log(values);
             dispatch(
-              storyActions.updateStory(props.story.id, {
+              storyActions.updateStory(story.id, {
                 title: values.title,
                 description: values.description,
                 body: values.richtext,
@@ -142,5 +140,10 @@ function EditDashboard(props) {
     </section>
   );
 }
+
+EditDashboard.propTypes = {
+  story: PropTypes.objectOf(IStory),
+  storyActions: PropTypes.object,
+};
 
 export default EditDashboard;
