@@ -16,7 +16,7 @@ import { ITopic } from "../../_types";
 
 import PropTypes from "prop-types";
 
-function Dashboard() {
+function EditDashboard(props) {
   const dispatch = useDispatch();
   const topics = useSelector((state) => state.topics.content);
   const loading = useSelector((state) => state.topics.loading);
@@ -36,27 +36,19 @@ function Dashboard() {
 
       <Formik
         initialValues={{
-          richtext: "",
-          color: "",
-          title: "",
-          description: "",
+          richtext: props.story.body,
+          title: props.story.title,
+          description: props.story.description,
         }}
         validationSchema={Yup.object().shape({
           richtext: Yup.string().required("Text is required"),
-          color: Yup.string().required("Select color"),
           title: Yup.string().required("Title required"),
           description: Yup.string().required("Description required"),
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            dispatch(
-              storyActions.create({
-                title: values.title,
-                description: values.description,
-                body: values.richtext,
-                topic: values.color,
-              })
-            );
+            console.log("Submit");
+            console.log(values);
             setSubmitting(false);
           }, 300);
         }}
@@ -86,34 +78,6 @@ function Dashboard() {
                   </div>
                 )}
               </Field>
-              <label htmlFor="email" style={{ display: "block" }}>
-                Color
-              </label>
-              <div class="control">
-                <div className="select">
-                  <select
-                    name="color"
-                    value={values.color}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    style={{ display: "block" }}
-                  >
-                    <option value="" label="Select a topic" />:
-                    {loading
-                      ? null
-                      : topics.map((topic) => (
-                          <option value={topic.id}>{topic.title}</option>
-                        ))}
-                  </select>
-                </div>
-              </div>
-              {errors.color && touched.color && (
-                <ErrorMessage
-                  name="color"
-                  component="div"
-                  className="help is-danger"
-                />
-              )}
 
               <div className="form-group">
                 <label htmlFor="title">Title</label>
@@ -161,6 +125,7 @@ function Dashboard() {
                     <button
                       className="button is-primary is-medium"
                       htmlType="submit"
+                      type="submit"
                     >
                       Submit
                     </button>
@@ -175,10 +140,4 @@ function Dashboard() {
   );
 }
 
-Dashboard.propTypes = {
-  topics: PropTypes.arrayOf(ITopic),
-  loading: PropTypes.bool,
-  topicActions: PropTypes.object,
-};
-
-export default Dashboard;
+export default EditDashboard;
