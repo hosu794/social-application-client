@@ -81,6 +81,7 @@ const mockStory = {
   },
 };
 
+//Can't test, cause the third part library doesn't allow for that and dispaly fancy error
 describe("Tests for the EditDashboard Component", () => {
   test("should render correctly", () => {});
 });
