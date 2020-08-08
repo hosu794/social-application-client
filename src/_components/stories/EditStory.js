@@ -16,8 +16,11 @@ function EditStory(props) {
 
   const isLoading = useSelector((state) => state.stories.loading);
 
-  useEffect(() => {
+  const getStoryById = async () => {
     dispatch(storyActions.getStoryById(props.match.params.id));
+  };
+  useEffect(() => {
+    getStoryById();
   }, []);
 
   return (

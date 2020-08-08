@@ -159,9 +159,15 @@ describe("Test for the StoryCard Component", () => {
     expect(element).toEqual("by exampleusername");
   });
 
-  test("should Link have correct props", () => {
-    let element = wrapper.find(Link).prop("to");
+  test("should Link push to the storyUrl", () => {
+    let element = wrapper.find(Link).at(1).prop("to");
 
     expect(element).toEqual("/stories/1");
+  });
+
+  test("should Link push to the storyUrlEdit", () => {
+    let element = wrapper.find(Link).first().prop("to");
+
+    expect(element).toEqual("/stories/edit/1");
   });
 });

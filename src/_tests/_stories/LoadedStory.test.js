@@ -7,7 +7,7 @@ import LoadedStory from "../../_components/stories/LoadedStory";
 import { mount } from "enzyme";
 
 import { Provider } from "react-redux";
-import { wrap } from "lodash";
+
 import DeleteStoryButton from "../../_components/stories/DeleteStoryButton";
 
 const mockStore = configureStore([]);
