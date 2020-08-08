@@ -27,6 +27,8 @@ import About from "./_components/layout/About";
 import Account from "./_components/user/Account";
 import ChangeCredentials from "./_components/user/ChangeCredentials";
 import { user } from "./_reducers/user.reducer";
+import EditDashboard from "./_components/stories/EditDashboard";
+import EditStory from "./_components/stories/EditStory";
 
 function App() {
   const dispatch = useDispatch();
@@ -51,10 +53,20 @@ function App() {
             <Route path="/login" component={Login} exact />
             <Route path="/register" component={Register} exact />
             <Route path="/stories" component={Pagination} exact />
-            <Route path="/stories/:id" component={Story} />
+            <Route path="/stories/:id" component={Story} exact />
+            <PrivateRoute
+              path="/stories/edit/:id"
+              component={EditStory}
+              exact
+            />
             <PrivateRoute
               path="/account/stories"
               component={() => <Pagination user={user} />}
+            />
+            <PrivateRoute
+              path="/stories/edit/:id"
+              component={EditStory}
+              exact
             />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <PrivateRoute path="/account" exact component={Account} />

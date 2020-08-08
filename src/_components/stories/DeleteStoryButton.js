@@ -1,5 +1,7 @@
 import React from "react";
 
+import PropTypes from "prop-types";
+
 function DeleteStoryButton({ deleteHandler }) {
   return (
     <button onClick={deleteHandler} className="button is-danger">
@@ -7,5 +9,9 @@ function DeleteStoryButton({ deleteHandler }) {
     </button>
   );
 }
+
+DeleteStoryButton.propTypes = {
+  deleteHandler: PropTypes.func.isRequired,
+};
 
 export default DeleteStoryButton;

@@ -9,9 +9,12 @@ import CastStoreButton from "./CastStoreButton";
 import UnCastStoreButton from "./UnCastStoreButton";
 
 import DeleteStoryButton from "./DeleteStoryButton";
+import { Link } from "react-router-dom";
 
 function LoadedStory(props) {
   const dispatch = useDispatch();
+
+  const editStoryUrl = `/stories/edit/${props.id}`;
 
   const isUserLovedStory = useSelector((state) => state.user.isUserLovedStory);
   const isLogged = useSelector((state) => state.authentication.loggedIn);
@@ -92,6 +95,15 @@ function LoadedStory(props) {
             <div class="level-item has-text-centered">
               <div>
                 <DeleteStoryButton deleteHandler={deleteHandler} />
+              </div>
+            </div>
+          ) : null}
+          {isUserIdentificationIsEqualStoryCreator ? (
+            <div class="level-item has-text-centered">
+              <div>
+                <Link to={editStoryUrl}>
+                  <button className="button is-info">Edit</button>
+                </Link>
               </div>
             </div>
           ) : null}

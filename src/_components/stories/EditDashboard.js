@@ -11,19 +11,13 @@ import "react-quill/dist/quill.core.css";
 import "react-quill/dist/quill.snow.css";
 import "antd/dist/antd.css";
 
-import { topicActions, storyActions } from "../../_actions";
-import { ITopic } from "../../_types";
+import { storyActions } from "../../_actions";
+import { ITopic, IStory } from "../../_types";
 
 import PropTypes from "prop-types";
 
-function Dashboard() {
+function EditDashboard({ story }) {
   const dispatch = useDispatch();
-  const topics = useSelector((state) => state.topics.content);
-  const loading = useSelector((state) => state.topics.loading);
-
-  useEffect(() => {
-    dispatch(topicActions.getAllTopics());
-  }, []);
 
   return (
     <section
@@ -36,25 +30,24 @@ function Dashboard() {
 
       <Formik
         initialValues={{
-          richtext: "",
-          color: "",
-          title: "",
-          description: "",
+          richtext: story.body,
+          title: story.title,
+          description: story.description,
         }}
         validationSchema={Yup.object().shape({
           richtext: Yup.string().required("Text is required"),
-          color: Yup.string().required("Select color"),
           title: Yup.string().required("Title required"),
           description: Yup.string().required("Description required"),
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
+            console.log("Submit");
+            console.log(values);
             dispatch(
-              storyActions.create({
+              storyActions.updateStory(story.id, {
                 title: values.title,
                 description: values.description,
                 body: values.richtext,
-                topic: values.color,
               })
             );
             setSubmitting(false);
@@ -86,34 +79,6 @@ function Dashboard() {
                   </div>
                 )}
               </Field>
-              <label htmlFor="email" style={{ display: "block" }}>
-                Color
-              </label>
-              <div class="control">
-                <div className="select">
-                  <select
-                    name="color"
-                    value={values.color}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    style={{ display: "block" }}
-                  >
-                    <option value="" label="Select a topic" />:
-                    {loading
-                      ? null
-                      : topics.map((topic) => (
-                          <option value={topic.id}>{topic.title}</option>
-                        ))}
-                  </select>
-                </div>
-              </div>
-              {errors.color && touched.color && (
-                <ErrorMessage
-                  name="color"
-                  component="div"
-                  className="help is-danger"
-                />
-              )}
 
               <div className="form-group">
                 <label htmlFor="title">Title</label>
@@ -159,10 +124,11 @@ function Dashboard() {
                 <div className="level">
                   <div className="level-item level-center">
                     <button
-                      className="button is-primary is-medium"
+                      className="button is-info is-medium"
                       htmlType="submit"
+                      type="submit"
                     >
-                      Submit
+                      Edit
                     </button>
                   </div>
                 </div>
@@ -175,10 +141,9 @@ function Dashboard() {
   );
 }
 
-Dashboard.propTypes = {
-  topics: PropTypes.arrayOf(ITopic),
-  loading: PropTypes.bool,
-  topicActions: PropTypes.object,
+EditDashboard.propTypes = {
+  story: PropTypes.objectOf(IStory),
+  storyActions: PropTypes.object,
 };
 
-export default Dashboard;
+export default EditDashboard;
