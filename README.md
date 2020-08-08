@@ -33,10 +33,15 @@ Motivation to create this project was a desire to train my coding javascript ski
 
 ## Technologies
 
-- React - version 16.13.1
-- Redux - version 4.0.5
-- Redux-thunk - version 2.3.0
-- CircleCi - version 2.0
+- react 
+- redux 
+- redux-thunk 
+- circle-ci 
+- formik
+- axios
+- jest
+- redux-mock-store
+- enzyme
 
 ## Build Process
 
@@ -49,8 +54,8 @@ Motivation to create this project was a desire to train my coding javascript ski
 
 Write features ready and TODO list for future development
 
-- Add edit story feature
 - Add comments to the stories
+- Recreate the layout of application with the material-ui library
 
 ## Status
 
