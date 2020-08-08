@@ -52,8 +52,6 @@ Motivation to create this project was a desire to train my coding javascript ski
 
 ## Features
 
-Write features ready and TODO list for future development
-
 - Add comments to the stories
 - Recreate the layout of application with the material-ui library
 
