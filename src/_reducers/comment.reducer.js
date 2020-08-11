@@ -112,6 +112,12 @@ export function comment(state = initialState, action) {
         deleting: false,
         error: action.error,
       };
+    case commentConstants.CLEAR_COMMENTS:
+      return {
+        ...state,
+        content: [],
+        currentComment: {},
+      };
     default:
       return state;
   }

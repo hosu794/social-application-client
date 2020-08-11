@@ -13,6 +13,7 @@ export const commentActions = {
   getCommentsByUserId,
   getCommentsByStoryId,
   updateComment,
+  clearComments,
 };
 
 function getAllComments(page, service = commentService.getAllComments) {
@@ -284,4 +285,8 @@ function updateComment(
   function failure(error) {
     return { type: commentConstants.UPDATE_COMMENT_FAILURE, error };
   }
+}
+
+function clearComments() {
+  return { type: commentConstants.CLEAR_COMMENTS };
 }

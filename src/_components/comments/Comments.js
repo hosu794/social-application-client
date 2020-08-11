@@ -14,8 +14,10 @@ function Comments({ id }) {
   const size = useSelector((state) => state.comment.totalPages);
   const countOfComments = content.filter((val) => val.id).length;
   const isMorePageToLoad = size - 1 !== currentPage;
+  const isCommentsNotExists = Array.isArray(content) && content.length;
 
   useEffect(() => {
+    dispatch(commentActions.clearComments());
     dispatch(commentActions.getCommentsByStoryId(id, currentPage));
   }, [currentPage]);
 
@@ -30,6 +32,7 @@ function Comments({ id }) {
           {content.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}
+          {!isCommentsNotExists ? <p>Story doesn't have a comments</p> : null}
         </div>
       </div>
       {isMorePageToLoad ? (
@@ -39,9 +42,11 @@ function Comments({ id }) {
           }}
           className="container"
         >
-          <button className="button is-info" onClick={loadMoreComments}>
-            Load More
-          </button>
+          {isCommentsNotExists ? (
+            <button className="button is-info" onClick={loadMoreComments}>
+              Load More
+            </button>
+          ) : null}
         </div>
       ) : null}
     </section>
