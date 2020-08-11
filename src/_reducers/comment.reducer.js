@@ -37,9 +37,9 @@ export function comment(state = initialState, action) {
         ...state,
         loading: false,
         page: action.response.page,
-        content: action.response.content,
+        content: [...state.content, ...action.response.content],
         size: action.response.size,
-        totalPages: action.stories.totalPages,
+        totalPages: action.response.totalPages,
         loaded: true,
       };
     case commentConstants.GET_ALL_COMMENTS_FAILURE:

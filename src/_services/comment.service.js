@@ -32,9 +32,9 @@ function createComment(commentRequest) {
   );
 }
 
-function getCommentsByCreatedBy(username) {
+function getCommentsByCreatedBy(username, page) {
   return axios.get(
-    `https://the-writer-mind.herokuapp.com/api/comments/username/${username}`
+    `https://the-writer-mind.herokuapp.com/api/comments/username/${username}?page=${page}`
   );
 }
 
@@ -47,15 +47,15 @@ function deleteComment(commentId) {
   );
 }
 
-function getCommentsByUserId(userId) {
+function getCommentsByUserId(userId, page) {
   return axios.get(
-    `https://the-writer-mind.herokuapp.com/api/comments/user/${userId}`
+    `https://the-writer-mind.herokuapp.com/api/comments/user/${userId}?page=${page}`
   );
 }
 
-function getCommentsByStoryId(storyId) {
+function getCommentsByStoryId(storyId, page) {
   return axios.get(
-    `https://the-writer-mind.herokuapp.com/api/comments/story/${storyId}`
+    `https://the-writer-mind.herokuapp.com/api/comments/story/${storyId}?page=${page}`
   );
 }
 

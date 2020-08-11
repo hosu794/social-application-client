@@ -3,7 +3,6 @@ import { commentService } from "../_services";
 import { alertActions } from "./";
 import { history, handleResponse } from "../_helpers";
 import { user } from "../_reducers/user.reducer";
-import Axios from "axios";
 
 export const commentActions = {
   getAllComments,
@@ -107,10 +106,11 @@ function createComment(commentRequest, service = commentService.createComment) {
 
 function getCommentsByCreatedBy(
   username,
+  page,
   service = commentService.getCommentsByCreatedBy
 ) {
   return (dispatch) => {
-    dispatch(request(username));
+    dispatch(request(username, page));
 
     return service(username).then(
       (response) => {
@@ -181,6 +181,7 @@ function deleteComment(commentId, service = commentService.deleteComment) {
 
 function getCommentsByUserId(
   userId,
+  page,
   service = commentService.getCommentsByUserId
 ) {
   return (dispatch) => {
@@ -213,12 +214,13 @@ function getCommentsByUserId(
 
 function getCommentsByStoryId(
   storyId,
+  page,
   service = commentService.getCommentsByStoryId
 ) {
   return (dispatch) => {
-    dispatch(request(storyId));
+    dispatch(request());
 
-    return service(storyId).then(
+    return service(storyId, page).then(
       (response) => {
         dispatch(success(response.data));
       },
@@ -230,8 +232,8 @@ function getCommentsByStoryId(
     );
   };
 
-  function request(storyId) {
-    return { type: commentConstants.GET_COMMENTS_BY_STORY_ID_REQUEST, storyId };
+  function request() {
+    return { type: commentConstants.GET_COMMENTS_BY_STORY_ID_REQUEST };
   }
 
   function success(response) {
