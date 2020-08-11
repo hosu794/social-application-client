@@ -129,20 +129,19 @@ function getCommentsByCreatedBy(
       type: commentConstants.GET_COMMENTS_BY_CREATED_BY_REQUEST,
       username,
     };
+  }
+  function success(response) {
+    return {
+      type: commentConstants.GET_COMMENTS_BY_CREATED_BY_SUCCESS,
+      response,
+    };
+  }
 
-    function success(response) {
-      return {
-        type: commentConstants.GET_COMMENTS_BY_CREATED_BY_SUCCESS,
-        response,
-      };
-    }
-
-    function failure(error) {
-      return {
-        type: commentConstants.GET_COMMENTS_BY_CREATED_BY_FAILURE,
-        error,
-      };
-    }
+  function failure(error) {
+    return {
+      type: commentConstants.GET_COMMENTS_BY_CREATED_BY_FAILURE,
+      error,
+    };
   }
 }
 
@@ -152,7 +151,7 @@ function deleteComment(commentId, service = commentService.deleteComment) {
 
     return service(commentId).then(
       (response) => {
-        dispatch(success(response.data));
+        dispatch(success(commentId));
         dispatch(alertActions.success("Comment deleted successfully"));
         window.location.reload(true);
       },
