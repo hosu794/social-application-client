@@ -47,7 +47,12 @@ function App() {
     <Router>
       <section className="hero is-success is-fullheight">
         <Navbar />
-        <div className="container">
+        <div
+          className="container"
+          style={{
+            width: "100%",
+          }}
+        >
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/login" component={Login} exact />

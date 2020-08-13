@@ -6,12 +6,12 @@ function Comment({ comment }) {
       <div className="card">
         <nav className="level">
           <div class="level-item has-text-centered">
-            <div>{comment.body}</div>
+            <div className="is-size-5">{comment.body}</div>
           </div>
         </nav>
         <nav className="level">
           <div class="level-item level-right">
-            <div>{comment.createdBy.username}</div>
+            <div className="is-size-6">{comment.createdBy.username}</div>
           </div>
         </nav>
       </div>
