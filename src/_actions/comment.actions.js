@@ -14,6 +14,7 @@ export const commentActions = {
   getCommentsByUserId,
   getCommentsByStoryId,
   updateComment,
+  clearComments,
 };
 
 function getAllComments(page, service = commentService.getAllComments) {
@@ -45,11 +46,11 @@ function getAllComments(page, service = commentService.getAllComments) {
   }
 }
 
-function getCommentById(id, service = commentService.getCommentById) {
+function getCommentById(id, page, service = commentService.getCommentById) {
   return (dispatch) => {
     dispatch(request(id));
 
-    return service(id).then(
+    return service(id, page).then(
       (response) => {
         dispatch(success(response.data));
       },
@@ -282,4 +283,8 @@ function updateComment(
   function failure(error) {
     return { type: commentConstants.UPDATE_COMMENT_FAILURE, error };
   }
+}
+
+function clearComments() {
+  return { type: commentConstants.CLEAR_COMMENTS };
 }

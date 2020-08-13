@@ -9,6 +9,9 @@ import CastStoreButton from "./CastStoreButton";
 import UnCastStoreButton from "./UnCastStoreButton";
 
 import DeleteStoryButton from "./DeleteStoryButton";
+
+import Comments from "../comments/Comments";
+
 import { Link } from "react-router-dom";
 
 function LoadedStory(props) {
@@ -109,6 +112,7 @@ function LoadedStory(props) {
           ) : null}
         </nav>
       </div>
+      <Comments id={props.id} />
     </section>
   );
 }

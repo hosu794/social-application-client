@@ -39,7 +39,7 @@ export function comment(state = initialState, action) {
         page: action.response.page,
         content: action.response.content,
         size: action.response.size,
-        totalPages: action.stories.totalPages,
+        totalPages: action.response.totalPages,
         loaded: true,
       };
     case commentConstants.GET_ALL_COMMENTS_FAILURE:
@@ -111,6 +111,11 @@ export function comment(state = initialState, action) {
         ...state,
         deleting: false,
         error: action.error,
+      };
+    case commentConstants.CLEAR_COMMENTS:
+      return {
+        ...state,
+        content: [],
       };
     default:
       return state;
