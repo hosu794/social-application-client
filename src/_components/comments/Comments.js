@@ -15,6 +15,7 @@ function Comments({ id }) {
   const content = useSelector((state) => state.comment.content);
   const loading = useSelector((state) => state.comment.loading);
   const loggedIn = useSelector((state) => state.authentication.loggedIn);
+  const isStoryHasComments = Array.isArray(content) && content.length;
 
   useEffect(() => {
     dispatch(commentActions.getCommentsByStoryId(id));
@@ -31,6 +32,9 @@ function Comments({ id }) {
           ) : null}
           <h1 class="title">Comments</h1>
           {!loading ? content.map((item) => <Comment comment={item} />) : null}
+          {!isStoryHasComments ? (
+            <p className="is-size-4">Story hasn't comments!</p>
+          ) : null}
         </div>
       </div>
     </section>

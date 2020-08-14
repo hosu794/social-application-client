@@ -29,6 +29,7 @@ import ChangeCredentials from "./_components/user/ChangeCredentials";
 import { user } from "./_reducers/user.reducer";
 import EditDashboard from "./_components/stories/EditDashboard";
 import EditStory from "./_components/stories/EditStory";
+import EditCommentDashboard from "./_components/comments/EditCommentDashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,6 +64,11 @@ function App() {
               path="/stories/edit/:id"
               component={EditStory}
               exact
+            />
+            <PrivateRoute
+              path="/comments/:id"
+              exact
+              component={EditCommentDashboard}
             />
             <PrivateRoute
               path="/account/stories"

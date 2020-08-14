@@ -2,6 +2,7 @@ import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import DeleteCommentButton from "./DeleteCommentButton";
+import EditCommentButton from "./EditCommentButton";
 
 function Comment({ comment }) {
   const dispatch = useDispatch();
@@ -28,6 +29,11 @@ function Comment({ comment }) {
           <div className="level-item has-text-centered">
             {isUserIdentificationEqualStoryCreator ? (
               <DeleteCommentButton id={comment.id} />
+            ) : null}
+          </div>
+          <div className="level-item has-text-centered">
+            {isUserIdentificationEqualStoryCreator ? (
+              <EditCommentButton id={comment.id} />
             ) : null}
           </div>
         </nav>
