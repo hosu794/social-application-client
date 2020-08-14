@@ -117,10 +117,6 @@ export function comment(state = initialState, action) {
       return {
         ...state,
         content: [],
-<<<<<<< HEAD
-        currentComment: {},
-=======
->>>>>>> create-comments-feature-vol-2
       };
     default:
       return state;
