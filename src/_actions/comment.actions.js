@@ -82,7 +82,7 @@ function createComment(commentRequest, service = commentService.createComment) {
     return service(commentRequest).then(
       (response) => {
         dispatch(success(response.data));
-        window.location.reload(true);
+        // window.location.reload(true);
         dispatch(alertActions.success("Comment created successfully"));
       },
       (error) => {

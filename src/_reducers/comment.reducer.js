@@ -68,7 +68,7 @@ export function comment(state = initialState, action) {
     case commentConstants.CREATE_COMMENT_SUCCESS:
       return {
         ...state,
-        // content: [...state.content, action.response],
+        content: [...state.content, action.response],
         creating: false,
       };
     case commentConstants.CREATE_COMMENT_FAILURE:
