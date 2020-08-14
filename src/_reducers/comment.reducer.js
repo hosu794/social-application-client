@@ -98,6 +98,7 @@ export function comment(state = initialState, action) {
     case commentConstants.DELETE_COMMENT_REQUEST:
       return {
         ...state,
+        content: state.content.filter((item) => item.id !== action.commentId),
         deleting: true,
       };
     case commentConstants.DELETE_COMMENT_SUCCESS:
@@ -116,7 +117,10 @@ export function comment(state = initialState, action) {
       return {
         ...state,
         content: [],
+<<<<<<< HEAD
         currentComment: {},
+=======
+>>>>>>> create-comments-feature-vol-2
       };
     default:
       return state;

@@ -25,8 +25,7 @@ function EditDashboard({ story }) {
         width: "80vw",
       }}
     >
-      <h1 className="title">Create story</h1>
-      <h2 className="subtitle">Start editing to see some magic happen!</h2>
+      <h1 className="title">Edit story</h1>
 
       <Formik
         initialValues={{

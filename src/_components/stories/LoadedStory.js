@@ -9,6 +9,9 @@ import CastStoreButton from "./CastStoreButton";
 import UnCastStoreButton from "./UnCastStoreButton";
 
 import DeleteStoryButton from "./DeleteStoryButton";
+
+import Comments from "../comments/Comments";
+
 import { Link } from "react-router-dom";
 import Comments from "../comments/Comments";
 
@@ -56,7 +59,12 @@ function LoadedStory(props) {
       <div className="container">
         <h1 className="title">{props.title}</h1>
         <h2 className="subtitle">{props.description}</h2>
-        <p dangerouslySetInnerHTML={{ __html: props.body }}></p>
+        <p
+          dangerouslySetInnerHTML={{ __html: props.body }}
+          style={{
+            minHeight: "30vh",
+          }}
+        ></p>
         <nav
           className="level"
           style={{

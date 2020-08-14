@@ -81,7 +81,7 @@ function createComment(commentRequest, service = commentService.createComment) {
     return service(commentRequest).then(
       (response) => {
         dispatch(success(response.data));
-        window.location.reload(true);
+        // window.location.reload(true);
         dispatch(alertActions.success("Comment created successfully"));
       },
       (error) => {
@@ -154,7 +154,6 @@ function deleteComment(commentId, service = commentService.deleteComment) {
       (response) => {
         dispatch(success(commentId));
         dispatch(alertActions.success("Comment deleted successfully"));
-        window.location.reload(true);
       },
       (error) => {
         handleResponse(error);

@@ -29,6 +29,7 @@ import ChangeCredentials from "./_components/user/ChangeCredentials";
 import { user } from "./_reducers/user.reducer";
 import EditDashboard from "./_components/stories/EditDashboard";
 import EditStory from "./_components/stories/EditStory";
+import EditCommentDashboard from "./_components/comments/EditCommentDashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,7 +48,12 @@ function App() {
     <Router>
       <section className="hero is-success is-fullheight">
         <Navbar />
-        <div className="container">
+        <div
+          className="container"
+          style={{
+            width: "100%",
+          }}
+        >
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/login" component={Login} exact />
@@ -58,6 +64,11 @@ function App() {
               path="/stories/edit/:id"
               component={EditStory}
               exact
+            />
+            <PrivateRoute
+              path="/comment/edit/:id"
+              exact
+              component={EditCommentDashboard}
             />
             <PrivateRoute
               path="/account/stories"
