@@ -66,7 +66,7 @@ function App() {
               exact
             />
             <PrivateRoute
-              path="/comments/:id"
+              path="/comment/edit/:id"
               exact
               component={EditCommentDashboard}
             />

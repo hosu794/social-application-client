@@ -18,10 +18,8 @@ function getAllComments(page) {
   );
 }
 
-function getCommentById(id, page) {
-  return axios.get(
-    `https://the-writer-mind.herokuapp.com/api/comments/${id}?page=${page}`
-  );
+function getCommentById(id) {
+  return axios.get(`https://the-writer-mind.herokuapp.com/api/comments/${id}`);
 }
 
 function createComment(commentRequest) {

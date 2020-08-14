@@ -46,11 +46,11 @@ function getAllComments(page, service = commentService.getAllComments) {
   }
 }
 
-function getCommentById(id, page, service = commentService.getCommentById) {
+function getCommentById(id, service = commentService.getCommentById) {
   return (dispatch) => {
     dispatch(request(id));
 
-    return service(id, page).then(
+    return service(id).then(
       (response) => {
         dispatch(success(response.data));
       },

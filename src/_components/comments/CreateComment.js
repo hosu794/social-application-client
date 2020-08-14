@@ -21,7 +21,6 @@ function CreateComment({ id }) {
             body: Yup.string().required("Text is required"),
           })}
           onSubmit={(fields) => {
-            alert(fields.body);
             dispatch(
               commentActions.createComment({
                 body: fields.body,
