@@ -17,8 +17,12 @@ function Comments({ id }) {
   const loggedIn = useSelector((state) => state.authentication.loggedIn);
   const isStoryHasComments = Array.isArray(content) && content.length;
 
+  const getCommentsByStoryId = async () => {
+    await dispatch(commentActions.getCommentsByStoryId(id));
+  };
+
   useEffect(() => {
-    dispatch(commentActions.getCommentsByStoryId(id));
+    getCommentsByStoryId();
   }, [currentPage]);
 
   return (

@@ -12,6 +12,20 @@ import { stories } from "../../_reducers/story.reducer";
 let mockStore = configureMock([]);
 
 let store = mockStore({
+  comment: {
+    content: [
+      {
+        id: 1,
+        body: "Some body",
+        createdBy: {
+          id: 12,
+          name: "Joe Doe",
+          username: "exampleusername",
+          downloadAvatar: "dsdasdasdasdasdadas.png",
+        },
+      },
+    ],
+  },
   authentication: {
     loggedIn: true,
   },

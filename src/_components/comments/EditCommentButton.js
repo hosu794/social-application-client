@@ -6,11 +6,9 @@ function EditCommentButton({ id }) {
   let commentEditUrl = `/comment/edit/${id}`;
 
   return (
-    <div>
-      <Link to={commentEditUrl}>
-        <button className="button is-info">Edit</button>
-      </Link>
-    </div>
+    <Link to={commentEditUrl}>
+      <button className="button is-info">Edit</button>
+    </Link>
   );
 }
 

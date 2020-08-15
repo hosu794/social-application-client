@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteCommentButton from "./DeleteCommentButton";
 import EditCommentButton from "./EditCommentButton";
+import { commentActions } from "../../_actions";
 
 function Comment({ comment }) {
   const dispatch = useDispatch();
@@ -11,6 +12,10 @@ function Comment({ comment }) {
   const isUserExist = user ? user.id : null;
   const isUserIdentificationEqualStoryCreator =
     isUserExist === comment.createdBy.id;
+
+  function handleDeleteComment() {
+    dispatch(commentActions.deleteComment(comment.id));
+  }
 
   return (
     <div className="column">
@@ -28,7 +33,7 @@ function Comment({ comment }) {
           </div>
           <div className="level-item has-text-centered">
             {isUserIdentificationEqualStoryCreator ? (
-              <DeleteCommentButton id={comment.id} />
+              <DeleteCommentButton handleDeleteComment={handleDeleteComment} />
             ) : null}
           </div>
           <div className="level-item has-text-centered">

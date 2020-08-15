@@ -26,9 +26,9 @@ function EditCommentDashboard(props) {
   const alertType = useSelector((state) => state.alert.type);
   const isUpdatedSuccess = alertType === "alert-success";
 
-  function loadCurrentComment() {
-    dispatch(commentActions.getCommentById(props.match.params.id));
-  }
+  const loadCurrentComment = async () => {
+    await dispatch(commentActions.getCommentById(props.match.params.id));
+  };
 
   useEffect(() => {
     dispatch(alertActions.clear());
@@ -115,7 +115,7 @@ function EditCommentDashboard(props) {
         "Comment not found"
       )}
       {isUpdatedSuccess ? (
-        <div class="notification is-info">Comment Updated Successfully</div>
+        <div className="notification is-info">Comment Updated Successfully</div>
       ) : null}
     </section>
   );
