@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-
 import { commentActions } from "../../_actions";
-
 import Comment from "./Comment";
-
 import CreateComment from "./CreateComment";
+import PropTypes from "prop-types";
+import { IComment } from "../../_types";
 
 function Comments({ id }) {
   const dispatch = useDispatch();
@@ -18,7 +17,7 @@ function Comments({ id }) {
   const isStoryHasComments = Array.isArray(content) && content.length;
 
   const getCommentsByStoryId = async () => {
-    await dispatch(commentActions.getCommentsByStoryId(id));
+    await dispatch(commentActions.getCommentsByStoryId(id, currentPage));
   };
 
   useEffect(() => {
@@ -44,5 +43,21 @@ function Comments({ id }) {
     </section>
   );
 }
+
+Comments.propTypes = {
+  id: PropTypes.number.isRequired,
+  content: PropTypes.arrayOf(IComment),
+  loading: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  isStoryHasComments: PropTypes.bool,
+};
+
+Comment.defaultProps = {
+  id: null,
+  content: [],
+  loading: false,
+  loggedId: false,
+  isStoryHasComments: false,
+};
 
 export default Comments;

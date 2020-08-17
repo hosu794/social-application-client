@@ -1,22 +1,19 @@
 import React, { useEffect } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import ReactDOM from "react-dom";
 import RichTextEditor from "../stories/TextEditor/RichTextEditor";
-
 import { Formik, Field, Form as FormikForm, ErrorMessage } from "formik";
 import { ConfigProvider, Radio, Button, Typography } from "antd";
-
 import "react-quill/dist/quill.core.css";
 import "react-quill/dist/quill.snow.css";
 import "antd/dist/antd.css";
-
 import * as Yup from "yup";
-
 import "react-quill/dist/quill.core.css";
 import "react-quill/dist/quill.snow.css";
 import "antd/dist/antd.css";
 import { commentActions, alertActions } from "../../_actions";
+import PropTypes from "prop-types";
+import { IComment } from "../../_types";
 
 function EditCommentDashboard(props) {
   const dispatch = useDispatch();
@@ -120,5 +117,17 @@ function EditCommentDashboard(props) {
     </section>
   );
 }
+
+EditCommentDashboard.propTypes = {
+  currentComment: PropTypes.instanceOf(IComment),
+  loaded: PropTypes.bool,
+  alertType: PropTypes.string,
+};
+
+EditCommentDashboard.defaultProps = {
+  currentComment: undefined,
+  loaded: false,
+  alertType: "",
+};
 
 export default EditCommentDashboard;

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import DeleteCommentButton from "./DeleteCommentButton";
 import EditCommentButton from "./EditCommentButton";
 import { commentActions } from "../../_actions";
+import PropTypes from "prop-types";
+import { IComment, IUser } from "../../_types";
 
 function Comment({ comment }) {
   const dispatch = useDispatch();
@@ -46,5 +48,19 @@ function Comment({ comment }) {
     </div>
   );
 }
+
+Comment.propTypes = {
+  comment: PropTypes.instanceOf(IComment).isRequired,
+  user: PropTypes.instanceOf(IUser),
+  isUserExist: PropTypes.number,
+  isUserIdentificationEqualStoryCreator: PropTypes.bool,
+};
+
+Comment.defaultProps = {
+  comment: null,
+  user: {},
+  isUserExist: undefined,
+  isUserIdentificationEqualStoryCreator: false,
+};
 
 export default Comment;

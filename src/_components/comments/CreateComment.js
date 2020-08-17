@@ -1,10 +1,9 @@
 import React from "react";
-
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
 import { useSelector, useDispatch } from "react-redux";
 import { commentActions } from "../../_actions";
+import PropTypes from "prop-types";
 
 function CreateComment({ id }) {
   const dispatch = useDispatch();
@@ -73,5 +72,9 @@ function CreateComment({ id }) {
     </section>
   );
 }
+
+CreateComment.propTypes = {
+  id: PropTypes.number.isRequired,
+};
 
 export default CreateComment;

@@ -1,6 +1,6 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function EditCommentButton({ id }) {
   let commentEditUrl = `/comment/edit/${id}`;
@@ -11,5 +11,9 @@ function EditCommentButton({ id }) {
     </Link>
   );
 }
+
+EditCommentButton.propTypes = {
+  id: PropTypes.number.isRequired,
+};
 
 export default EditCommentButton;
