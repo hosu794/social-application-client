@@ -105,7 +105,6 @@ export function comment(state = initialState, action) {
       return {
         ...state,
         deleting: false,
-        content: state.content.filter((item) => item.id !== action.response),
       };
     case commentConstants.DELETE_COMMENT_FAILURE:
       return {
