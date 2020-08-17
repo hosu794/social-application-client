@@ -33,7 +33,7 @@ function Story(props) {
           loves={story.totalLoves}
           topic={story.topic}
           body={story.body}
-          id={story.id}
+          id={props.match.params.id}
           user={user}
           userId={story.createdBy.id}
         />

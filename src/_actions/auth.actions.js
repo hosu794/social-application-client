@@ -46,6 +46,7 @@ function login({ usernameOrEmail, password }, service = authService.login) {
 function logout() {
   authService.logout();
   history.push("/");
+  window.location.reload(true);
   return {
     type: authConstants.LOGOUT,
   };

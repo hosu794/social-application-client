@@ -2,20 +2,7 @@ import { fileActions } from "../../_actions";
 
 import { fileConstants } from "../../_constants";
 
-import configureMockStore from "redux-mock-store";
-
-import thunk from "redux-thunk";
-
-const middlewares = [thunk];
-
-const mockStore = configureMockStore(middlewares);
-
-const mockServiceCreator = (body, succeeds = true) => () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
-  });
-
-let store = mockStore({});
+import { storeMiddlewares, mockServiceCreator } from "../_testHelpers";
 
 describe("Test for the file actions", () => {
   test("should create an action to upload file", () => {
@@ -23,7 +10,7 @@ describe("Test for the file actions", () => {
       file: "DUMMY TEXT",
     };
 
-    store
+    storeMiddlewares
       .dispatch(
         fileActions.uploadAvatar(requiredBody, mockServiceCreator(requiredBody))
       )

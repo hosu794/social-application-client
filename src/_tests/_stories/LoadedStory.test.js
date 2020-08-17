@@ -13,6 +13,20 @@ import DeleteStoryButton from "../../_components/stories/DeleteStoryButton";
 const mockStore = configureStore([]);
 
 let store = mockStore({
+  comment: {
+    content: [
+      {
+        id: 1,
+        body: "Some body",
+        createdBy: {
+          id: 12,
+          name: "Joe Doe",
+          username: "exampleusername",
+          downloadAvatar: "dsdasdasdasdasdadas.png",
+        },
+      },
+    ],
+  },
   user: {
     isUverLovedStory: true,
     user: {
@@ -26,6 +40,7 @@ let store = mockStore({
     loggenIn: true,
   },
   stories: {
+    content: [],
     currentStory: {
       id: 1,
       title: "Story Title",
@@ -83,7 +98,7 @@ const story = {
   },
 };
 
-describe("Test for the LodaedStory Component ", () => {
+describe("Test for the Loaded Component ", () => {
   let TestingComponent = () => (
     <MemoryRouter>
       <Provider store={store}>

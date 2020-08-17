@@ -27,7 +27,6 @@ function getPagedStories(page, service = storyService.getPagedStories) {
 
     return service(page).then(
       (stories) => {
-        console.log(stories.data);
         dispatch(success(stories.data));
       },
       (error) => {
