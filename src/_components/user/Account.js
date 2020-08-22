@@ -23,6 +23,7 @@ function Account() {
   const storiesCreated = loadedStats ? stats.storiesCreated : null;
 
   const url = loadedUser ? user.avatarDownloadUri : null;
+  const premium = loadedUser ? user.premium : null;
   const username = loadedUser ? user.username : "loading";
   const name = loadedUser ? user.name : "loading";
 
@@ -84,6 +85,12 @@ function Account() {
             </div>
             <div class="level-item has-text-centered">
               <div>
+                <p class="heading">Type of account</p>
+                <p class="title is-size-5">{premium ? "default" : "normal"}</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
                 <p class="heading">Likes on your stories</p>
                 <p class="title">
                   {loadedStats ? lovesOnCreatedStories : "Loading"}
@@ -110,6 +117,15 @@ function Account() {
                 </Link>
               </div>
             </div>
+            {!premium ? (
+              <div class="level-item has-text-centered">
+                <div>
+                  <Link to="/" className="button is-warning is-light is-medium">
+                    Buy premium
+                  </Link>
+                </div>
+              </div>
+            ) : null}
           </nav>
         </div>
       </div>

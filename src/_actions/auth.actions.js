@@ -45,17 +45,17 @@ function login({ usernameOrEmail, password }, service = authService.login) {
 
 function logout() {
   authService.logout();
-  history.push("/");
-  window.location.reload(true);
+
   return {
     type: authConstants.LOGOUT,
   };
 }
 
-function register(user, service = authActions.register) {
+function register(user, service = authService.register) {
   return (dispatch) => {
     dispatch(request(user));
 
+    console.log("Some");
     return service(user).then(
       (user) => {
         dispatch(success());
