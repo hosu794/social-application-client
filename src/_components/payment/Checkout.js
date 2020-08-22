@@ -6,7 +6,7 @@ import StripeButton from "./StripeButton";
 function Checkout() {
   return (
     <div>
-      <div class="level-item has-text-centered">
+      <div className="level-item has-text-centered">
         <div>
           <StripeButton price="10" />
         </div>

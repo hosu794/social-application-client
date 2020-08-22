@@ -79,6 +79,6 @@ describe("Test for the Account Component", () => {
   });
 
   test("should render lovesOnCreatedStories correctly", () => {
-    expect(wrapper.find("p").at(9).text()).toBe("23");
+    expect(wrapper.find("p").at(11).text()).toBe("23");
   });
 });
