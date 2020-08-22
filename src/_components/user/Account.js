@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../../_actions";
 import { IUser, IStats } from "../../_types";
 import { Link } from "react-router-dom";
+import Checkout from "../payment/Checkout";
 
 function Account() {
   const dispatch = useDispatch();
@@ -117,15 +118,7 @@ function Account() {
                 </Link>
               </div>
             </div>
-            {!premium ? (
-              <div class="level-item has-text-centered">
-                <div>
-                  <Link to="/" className="button is-warning is-light is-medium">
-                    Buy premium
-                  </Link>
-                </div>
-              </div>
-            ) : null}
+            {!premium ? <Checkout /> : null}
           </nav>
         </div>
       </div>
