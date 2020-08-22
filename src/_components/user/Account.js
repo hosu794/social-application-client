@@ -30,7 +30,7 @@ function Account() {
 
   useEffect(() => {
     dispatch(userActions.getUserStats(currentUserIdentification));
-  }, [loadedUser]);
+  }, [loadedUser, premium]);
 
   return (
     <section className="hero is-success is-fullheight">
@@ -87,7 +87,7 @@ function Account() {
             <div class="level-item has-text-centered">
               <div>
                 <p class="heading">Type of account</p>
-                <p class="title is-size-5">{premium ? "default" : "normal"}</p>
+                <p class="title is-size-5">{premium ? "premium" : "default"}</p>
               </div>
             </div>
             <div class="level-item has-text-centered">

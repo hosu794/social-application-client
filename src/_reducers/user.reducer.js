@@ -1,4 +1,4 @@
-import { userConstants, authConstants } from "../_constants";
+import { userConstants, authConstants, paymentConstants } from "../_constants";
 import { userService } from "../_services";
 
 export function user(state = {}, action) {
@@ -86,6 +86,15 @@ export function user(state = {}, action) {
         ...state,
         loadingStats: false,
         loadedStats: false,
+      };
+    }
+    case paymentConstants.PAY_PREMIUM_SUCCESS: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          premium: true,
+        },
       };
     }
     default:

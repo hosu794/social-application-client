@@ -5,3 +5,4 @@ export * from "./story.actions";
 export * from "./topic.actions";
 export * from "./file.actions";
 export * from "./comment.actions";
+export * from "./payment.actions";

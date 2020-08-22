@@ -5,3 +5,4 @@ export * from "./user.constants";
 export * from "./topic.contants";
 export * from "./file.constants";
 export * from "./comment.constants";
+export * from "./payment.constants";

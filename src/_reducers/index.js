@@ -8,6 +8,7 @@ import { stories } from "./story.reducer";
 import { topics } from "./topic.reducer";
 import { files } from "./file.reducer";
 import { comment } from "./comment.reducer";
+import { payment } from "./payment.reducer";
 
 const rootReducer = combineReducers({
   authentication,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   topics,
   files,
   comment,
+  payment,
 });
 
 export default rootReducer;
