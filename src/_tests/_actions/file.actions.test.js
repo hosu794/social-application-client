@@ -9,18 +9,5 @@ describe("Test for the file actions", () => {
     const requiredBody = {
       file: "DUMMY TEXT",
     };
-
-    storeMiddlewares
-      .dispatch(
-        fileActions.uploadAvatar(requiredBody, mockServiceCreator(requiredBody))
-      )
-      .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: fileConstants.AVATAR_UPLOAD_REQUEST,
-          },
-          { type: fileConstants.AVATAR_UPLOAD_SUCCESS, requiredBody }
-        )
-      );
   });
 });

@@ -1,6 +1,7 @@
 import { user } from "../../_reducers/user.reducer";
-import { userConstants } from "../../_constants";
+import { userConstants, paymentConstants } from "../../_constants";
 import FormItemInput from "antd/lib/form/FormItemInput";
+import { payment } from "../../_reducers/payment.reducer";
 
 let initialState = {};
 
@@ -177,6 +178,19 @@ describe("Tests for the user reducer", () => {
       ...initialState,
       checkingLove: false,
       isUserLovedStory: true,
+    });
+  });
+
+  test("should handles payPremiumSuccess", () => {
+    expect(
+      user(initialState, {
+        type: paymentConstants.PAY_PREMIUM_SUCCESS,
+      })
+    ).toEqual({
+      ...initialState,
+      user: {
+        premium: true,
+      },
     });
   });
 });
