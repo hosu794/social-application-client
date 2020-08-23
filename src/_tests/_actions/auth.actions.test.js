@@ -2,66 +2,68 @@ import { authActions } from "../../_actions";
 
 import { authConstants } from "../../_constants";
 
-import configureMockStore from "redux-mock-store";
+import { mockServiceCreator, storeMiddlewares } from "../_testHelpers";
 
-import thunk from "redux-thunk";
+const requiredBody = {
+  data: "dsda",
+};
 
-import fetchMock from "fetch-mock";
-import { authService } from "../../_services";
-
-const middlewares = [thunk];
-
-const mockStore = configureMockStore(middlewares);
-
-const mockServiceCreator = (body, succeeds = true) => () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
-  });
-
-let store = mockStore({
-  loggedIn: false,
-});
+const expectedBody = {
+  data: {
+    success: true,
+  },
+};
 
 describe("Test for the authentication actions", () => {
-  test("should create an action to login", () => {
-    const requiredBody = "Required body";
+  beforeEach(() => {
+    storeMiddlewares.clearActions();
+  });
 
-    store
+  test("should create an action to login", async () => {
+    await storeMiddlewares
       .dispatch(
         authActions.login(
-          { usernameOrEmail: "username", password: "password" },
-          mockServiceCreator("Required body")
+          { password: "pass", usernameOrEmail: "username" },
+          mockServiceCreator(expectedBody)
         )
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
+        expect(storeMiddlewares.getActions()).toContainEqual(
           {
-            type: authConstants.LOGIN_REQUEST,
+            type: "LOGIN_REQUEST",
+            user: { password: "pass", usernameOrEmail: "username" },
           },
-          { type: authConstants.LOGIN_SUCCESS, requiredBody }
+          { type: "LOGIN_SUCCESS", user: { data: { success: true } } }
         )
       );
   });
 
-  test("should create an action to register", () => {
-    store
+  test("should create an action to register", async () => {
+    await storeMiddlewares
       .dispatch(
         authActions.register(
           {
             username: "username",
-            password: "password",
             name: "name",
-            email: "email",
+            email: "example@example.com",
+            password: "password",
           },
-          mockServiceCreator("Required body")
+          mockServiceCreator(expectedBody)
         )
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
+        expect(storeMiddlewares.getActions()).toContainEqual(
           {
-            type: authConstants.REGISTER_REQUEST,
+            type: "REGISTER_REQUEST",
+            user: {
+              email: "example@example.com",
+              name: "name",
+              password: "password",
+              username: "username",
+            },
           },
-          { type: authConstants.REGISTER_SUCCESS }
+          { type: "REGISTER_SUCCESS", user: undefined },
+          { message: "Registration successful", type: "ALERT_SUCCESS" }
         )
       );
   });
@@ -74,39 +76,30 @@ describe("Test for the authentication actions", () => {
     expect(authActions.logout()).toEqual(expectedActions);
   });
 
-  test("should create an action to updateUsername", () => {
-    let response = { isAvailable: false };
-
-    store
+  test("should create an action to updateUsername", async () => {
+    await storeMiddlewares
       .dispatch(
-        authActions.updateUsername("username", mockServiceCreator(response))
+        authActions.updateUsername("username", mockServiceCreator(expectedBody))
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: authConstants.UPDATE_USERNAME_REQUEST,
-          },
-          {
-            type: authConstants.UPDATE_USERNAME_SUCCESS,
-            response,
-          }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { type: "UPDATE_USERNAME_REQUEST", username: "username" },
+          { response: { success: true }, type: "UPDATE_USERNAME_SUCCESS" },
+          { message: "Username updated successfully", type: "ALERT_SUCCESS" }
         )
       );
   });
 
-  test("should craete an action to updatePassword", () => {
-    let response = { isAvailable: true };
-
-    store
+  test("should craete an action to updatePassword", async () => {
+    await storeMiddlewares
       .dispatch(
-        authActions.updatePassword("password", mockServiceCreator(response))
+        authActions.updatePassword("password", mockServiceCreator(expectedBody))
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: authConstants.UPDATE_PASSWORD_REQUEST,
-          },
-          { type: authConstants.UPDATE_PASSWORD_SUCCESS, response }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { password: "password", type: "UPDATE_PASSWORD_REQUEST" },
+          { response: { success: true }, type: "UPDATE_PASSWORD_SUCCESS" },
+          { message: "Password updated successfully", type: "ALERT_SUCCESS" }
         )
       );
   });

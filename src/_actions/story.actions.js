@@ -263,11 +263,10 @@ function getStoriesByUsername(
     );
   };
 
-  function request(username, page) {
+  function request(username) {
     return {
       type: storyConstants.GETPAGED_STORIES_BY_USERNAME_REQUEST,
       username,
-      page,
     };
   }
 

@@ -2,23 +2,18 @@ import { storyActions } from "../../_actions";
 
 import { storyConstants } from "../../_constants";
 
-import configureMockStore from "redux-mock-store";
-
-import thunk from "redux-thunk";
-
-const middlewares = [thunk];
-
-const mockStore = configureMockStore(middlewares);
-
-const mockServiceCreator = (body, succeeds = true) => () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
-  });
-
-let store = mockStore({});
+import { storeMiddlewares, mockServiceCreator } from "../_testHelpers";
 
 describe("Test for the story actions", () => {
-  test("should create an action to getPagedStories", () => {
+  beforeEach(() => {
+    storeMiddlewares.clearActions();
+  });
+
+  const expectedBody = {
+    data: { success: true },
+  };
+
+  test("should create an action to getPagedStories", async () => {
     const requiredBody = {
       content: [
         {
@@ -29,19 +24,14 @@ describe("Test for the story actions", () => {
       ],
     };
 
-    store
+    await storeMiddlewares
       .dispatch(
-        storyActions.getPagedStories(12, mockServiceCreator(requiredBody))
+        storyActions.getPagedStories(12, mockServiceCreator(expectedBody))
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: storyConstants.GETPAGED_STORIES_REQUEST,
-          },
-          {
-            type: storyConstants.GETPAGED_STORIES_SUCCESS,
-            stories: requiredBody,
-          }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { page: 12, type: "GETPAGED_STORIES_REQUEST" },
+          { stories: { success: true }, type: "GETPAGED_STORIES_SUCCESS" }
         )
       );
   });
@@ -57,7 +47,7 @@ describe("Test for the story actions", () => {
     expect(storyActions.changePage(page)).toEqual(expectedAction);
   });
 
-  test("should create an action to getStoryById", () => {
+  test("should create an action to getStoryById", async () => {
     const requiredBody = {
       content: [
         {
@@ -68,104 +58,126 @@ describe("Test for the story actions", () => {
       ],
     };
 
-    store
-      .dispatch(storyActions.getStoryById(12, mockServiceCreator(requiredBody)))
+    await storeMiddlewares
+      .dispatch(storyActions.getStoryById(12, mockServiceCreator(expectedBody)))
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          { type: storyConstants.GET_STORY_BY_ID_REQUEST },
-          { type: storyConstants.GET_STORY_BY_ID_SUCCESS, story: requiredBody }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { id: 12, type: "GETPAGED_STORIES_REQUEST" },
+          { story: { success: true }, type: "GET_STORY_BY_ID_SUCCESS" }
         )
       );
   });
 
-  test("should create an action to castLove", () => {
+  test("should create an action to castLove", async () => {
     const requiredBody = {
       id: 12,
       title: "Dummy title",
       description: "Description dumnmy",
     };
 
-    store
+    await storeMiddlewares
       .dispatch(
-        storyActions.castLove(requiredBody, mockServiceCreator(requiredBody))
+        storyActions.castLove(requiredBody, mockServiceCreator(expectedBody))
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          { type: storyConstants.CAST_LOVE_REQUEST },
-          { type: storyConstants.CAST_LOVE_SUCCESS, story: requiredBody }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          {
+            storyId: {
+              description: "Description dumnmy",
+              id: 12,
+              title: "Dummy title",
+            },
+            type: "CAST_LOVE_REQUEST",
+          },
+          { story: { data: { success: true } }, type: "CAST_LOVE_SUCCESS" }
         )
       );
   });
 
-  test("should create an action to unCastLove", () => {
+  test("should create an action to unCastLove", async () => {
     const requiredBody = {
       id: 12,
       title: "Dummy title",
       description: "Description dumnmy",
     };
 
-    store
+    await storeMiddlewares
       .dispatch(
-        storyActions.unCastLove(requiredBody, mockServiceCreator(requiredBody))
+        storyActions.unCastLove(requiredBody, mockServiceCreator(expectedBody))
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          { type: storyConstants.UNCAST_LOVE_REQUEST },
-          { type: storyConstants.UNCAST_LOVE_SUCCESS, story: requiredBody }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          {
+            storyId: {
+              description: "Description dumnmy",
+              id: 12,
+              title: "Dummy title",
+            },
+            type: "UNCAST_LOVE_REQUEST",
+          },
+          { story: { data: { success: true } }, type: "UNCAST_LOVE_SUCCESS" }
         )
       );
   });
 
-  test("should create an action to create", () => {
+  test("should create an action to create", async () => {
     const requiredBody = {
       id: 12,
       title: "Dummy title",
       description: "Description dumnmy",
     };
 
-    store
+    await storeMiddlewares
       .dispatch(
-        storyActions.create(requiredBody, mockServiceCreator(requiredBody))
+        storyActions.create(requiredBody, mockServiceCreator(expectedBody))
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          { type: storyConstants.CREATE_STORY_REQUEST },
-          { type: storyConstants.CREATE_STORY_SUCCESS }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          {
+            requestStory: {
+              description: "Description dumnmy",
+              id: 12,
+              title: "Dummy title",
+            },
+            type: "CREATE_STORY_REQUEST",
+          },
+          { type: "CREATE_STORY_SUCCESS" },
+          { message: "Story created successful", type: "ALERT_SUCCESS" }
         )
       );
   });
 
-  test("should create an action to deleteStory", () => {
+  test("should create an action to deleteStory", async () => {
     const requiredBody = 12;
 
-    store
-      .dispatch(storyActions.deleteStory(12, mockServiceCreator(requiredBody)))
+    await storeMiddlewares
+      .dispatch(
+        storyActions.deleteStory(requiredBody, mockServiceCreator(expectedBody))
+      )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          { type: storyConstants.DELETE_STORY_REQUEST },
-          { type: storyConstants.DELETE_STORY_SUCCESS, index: requiredBody }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { id: 12, type: "DELETE_STORY_REQUEST" },
+          { index: 12, type: "DELETE_STORY_SUCCESS" },
+          { message: "Story deleted successfully", type: "ALERT_SUCCESS" }
         )
       );
   });
 
-  test("should create an action to getStoriesByUsername", () => {
+  test("should create an action to getStoriesByUsername", async () => {
     const requiredBody = 12;
 
-    store
+    await storeMiddlewares
       .dispatch(
         storyActions.getStoriesByUsername(
-          "dummyUsername",
-          12,
-          mockServiceCreator(requiredBody)
+          requiredBody,
+          mockServiceCreator(expectedBody)
         )
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          { type: storyConstants.GETPAGED_STORIES_BY_USERNAME_REQUEST },
-          {
-            type: storyConstants.GETPAGED_STORIES_BY_USERNAME_SUCCESS,
-            story: requiredBody,
-          }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { type: "GETPAGED_STORIES_BY_USERNAME_REQUEST", username: 12 },
+          { error: undefined, type: "GETPAGED_STORIES_BY_USERNAME_FAILURE" },
+          { message: undefined, type: "ALERT_ERROR" }
         )
       );
   });

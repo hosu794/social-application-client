@@ -2,59 +2,52 @@ import { topicActions, storyActions } from "../../_actions";
 
 import { topicContants, storyConstants } from "../../_constants";
 
-import configureMockStore from "redux-mock-store";
+import { mockServiceCreator, storeMiddlewares } from "../_testHelpers";
 
-import thunk from "redux-thunk";
+describe("Tests for the Topic Actions", async () => {
+  const expectedBody = {
+    data: {
+      success: true,
+    },
+  };
 
-const middlewares = [thunk];
-
-const mockStore = configureMockStore(middlewares);
-
-const mockServiceCreator = (body, succeeds = true) => () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
-  });
-
-let store = mockStore({});
-
-describe("Tests for the Topic Actions", () => {
-  test("should create an action to getAllTopics", () => {
+  test("should create an action to getAllTopics", async () => {
     const responseBody = {
       content: [
         { id: 12, title: "Dummy Topic Title", description: "Description" },
       ],
     };
 
-    store
-      .dispatch(topicActions.getAllTopics(mockServiceCreator(responseBody)))
+    await storeMiddlewares
+      .dispatch(topicActions.getAllTopics(mockServiceCreator(expectedBody)))
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          { type: topicContants.GET_TOPICS_REQUEST },
-          { type: topicContants.GET_TOPICS_SUCCESS, topic: responseBody }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { type: "GET_TOPICS_REQUEST" },
+          { topics: { success: true }, type: "GET_TOPICS_SUCCESS" }
         )
       );
   });
 
-  test("should create an action to getTopicByTitle", () => {
+  test("should create an action to getTopicByTitle", async () => {
     const responseBody = {
       id: 12,
       title: "Dummy title",
       description: "Description Dummu",
     };
 
-    store
+    await storeMiddlewares
       .dispatch(
-        topicActions.getTopicByTitle("title", mockServiceCreator(responseBody))
+        topicActions.getTopicByTitle(
+          "anyTitle",
+          mockServiceCreator(expectedBody)
+        )
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: topicContants.GET_TOPIC_BY_NAME_REQUEST,
-          },
-          {
-            type: topicContants.GET_TOPIC_BY_NAME_SUCCESS,
-            topic: responseBody,
-          }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { type: "GET_TOPICS_REQUEST" },
+          { topics: { success: true }, type: "GET_TOPICS_SUCCESS" },
+          { title: "anyTitle", type: "GET_TOPIC_BY_NAME_REQUEST" },
+          { topic: { success: true }, type: "GET_TOPIC_BY_NAME_SUCCESS" }
         )
       );
   });

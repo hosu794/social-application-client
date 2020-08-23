@@ -4,134 +4,103 @@ import { userConstants } from "../../_constants";
 
 import configureMockStore from "redux-mock-store";
 
+import { mockServiceCreator, storeMiddlewares } from "../_testHelpers";
+
 import thunk from "redux-thunk";
 import { userService } from "../../_services";
 import DirectoryTree from "antd/lib/tree/DirectoryTree";
+import { assert } from "sinon";
 
 const middlewares = [thunk];
 
 const mockStore = configureMockStore(middlewares);
 
-const mockServiceCreator = (body, succeeds = true) => () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
-  });
-
 let store = mockStore({});
 
 describe("Tests for the User Actions", () => {
-  test("should create an action to getCurrentUser", () => {
-    const expectedBody = {
-      username: "dummyUsername",
-      id: null,
-      name: "Dummy Name",
-    };
+  const expectedBody = {
+    data: {
+      success: true,
+    },
+  };
 
-    store
+  beforeEach(() => {
+    storeMiddlewares.clearActions();
+  });
+
+  test("should create an action to getCurrentUser", async () => {
+    await storeMiddlewares
       .dispatch(userActions.getCurrentUser(mockServiceCreator(expectedBody)))
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: userConstants.GET_CURRENT_USER_REQUEST,
-          },
-          {
-            type: userConstants.GET_CURRENT_USER_SUCCESS,
-            user: expectedBody,
-          }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { type: "GET_CURRENT_USER_REQUEST" },
+          { type: "GET_CURRENT_USER_SUCCESS", user: { success: true } }
         )
       );
   });
 
-  test("should create an action to checkUsernameAvailability", () => {
-    let expectedBody = {
-      isAvailable: true,
-    };
-
-    store
+  test("should create an action to checkUsernameAvailability", async () => {
+    await storeMiddlewares
       .dispatch(
         userActions.checkUsernameAvailability(
-          "Dummy username",
+          "username",
           mockServiceCreator(expectedBody)
         )
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: userConstants.CHECK_USER_AVAIBILITY_REQUEST,
-          },
-          {
-            type: userConstants.CHECK_EMAIL_AVAIBILITY_SUCCESS,
-          }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { type: "CHECK_USER_AVAIBILTY_REQUEST", username: "username" },
+          { response: undefined, type: "CHECK_USER_AVAIBILITY_SUCCESS" }
         )
       );
   });
 
-  test("should create an action to checkEmailAvailability", () => {
-    let expectedBody = {
-      isAvailable: false,
-    };
-
-    store
+  test("should create an action to checkEmailAvailability", async () => {
+    await storeMiddlewares
       .dispatch(
         userActions.checkEmailAvailability(
-          "AnyEmail",
+          "username",
           mockServiceCreator(expectedBody)
         )
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: userConstants.CHECK_EMAIL_AVAIBILTY_REQUEST,
-          },
-          {
-            type: userConstants.CHECK_EMAIL_AVAIBILITY_SUCCESS,
-            response: expectedBody,
-          }
-        )
+        expect(storeMiddlewares.getActions()).toContainEqual({
+          response: undefined,
+          type: "CHECK_EMAIL_AVAIBILITY_SUCCESS",
+        })
       );
   });
 
-  test("should create an action to checkLoveAvailability", () => {
-    let expectedBody = {
-      isAvailable: false,
-    };
-
-    store
+  test("should create an action to checkLoveAvailability", async () => {
+    await storeMiddlewares
       .dispatch(
         userActions.checkLoveAvailability(
-          { id: 12 },
+          { req: "some req" },
+
           mockServiceCreator(expectedBody)
         )
       )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: userConstants.CHECK_LOVE_AVAIBILITY_REQUEST,
-          },
-          {
-            type: userConstants.CHECK_LOVE_AVAIBILITY_SUCCESS,
-            response: expectedBody,
-          }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { req: { req: "some req" }, type: "CHECK_LOVE_AVAIBILITY_REQUEST" },
+          { response: undefined, type: "CHECK_LOVE_AVAIBILITY_SUCCESS" }
         )
       );
   });
 
-  test("should create an action to getUserStats", () => {
-    let expectedBody = {
-      stats: [],
-    };
+  test("should create an action to getUserStats", async () => {
+    await storeMiddlewares
+      .dispatch(
+        userActions.getUserStats(
+          1,
 
-    store
-      .dispatch(userActions.getUserStats(12, mockServiceCreator(expectedBody)))
+          mockServiceCreator(expectedBody)
+        )
+      )
       .then(() =>
-        expect(store.getActions()).toContainEquals(
-          {
-            type: userConstants.GET_USER_STATS_REQUEST,
-          },
-          {
-            type: userConstants.GET_USER_STATS_SUCCESS,
-            response: expectedBody,
-          }
+        expect(storeMiddlewares.getActions()).toContainEqual(
+          { type: "GET_USER_STATS_REQUEST", userId: 1 },
+          { response: { success: true }, type: "GET_USER_STATS_SUCCESS" }
         )
       );
   });

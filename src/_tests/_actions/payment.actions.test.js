@@ -5,8 +5,14 @@ import { paymentConstants } from "../../_constants";
 import configureMockStore from "redux-mock-store";
 
 import { mockServiceCreator, storeMiddlewares } from "../_testHelpers";
+import { before } from "lodash";
+import { store } from "../../_helpers";
 
 describe("Test for the payment actions", () => {
+  beforeEach(() => {
+    storeMiddlewares.clearActions();
+  });
+
   test("should create an action getCommentsByUserId", async () => {
     const requiredBody = {
       amount: 232,
