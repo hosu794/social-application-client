@@ -33,10 +33,10 @@ Motivation to create this project was a desire to train my coding javascript ski
 
 ## Technologies
 
-- react 
-- redux 
-- redux-thunk 
-- circle-ci 
+- react
+- redux
+- redux-thunk
+- circle-ci
 - formik
 - axios
 - jest
@@ -52,8 +52,8 @@ Motivation to create this project was a desire to train my coding javascript ski
 
 ## Features
 
-- Add comments to the stories
 - Recreate the layout of application with the material-ui library
+- Rewrite tests for the stories features
 
 ## Status
 
