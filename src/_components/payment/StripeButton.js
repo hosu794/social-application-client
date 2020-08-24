@@ -2,7 +2,7 @@ import React from "react";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
+import PropTypes from "prop-types";
 import { paymentActions } from "../../_actions";
 
 const StripeButton = ({ price }) => {
@@ -36,6 +36,10 @@ const StripeButton = ({ price }) => {
       currency="USD"
     />
   );
+};
+
+StripeButton.propTypes = {
+  price: PropTypes.string.isRequired,
 };
 
 export default StripeButton;
