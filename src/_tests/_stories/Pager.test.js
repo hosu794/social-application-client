@@ -25,7 +25,9 @@ let store = mockStore({
         description: "Story description",
         totalLoves: 12,
         body: "<p>Simple Story</p>",
+        premiumContent: true,
         createdBy: {
+          premium: true,
           id: 12,
           name: "Joe Doe",
           username: "exampleusername",

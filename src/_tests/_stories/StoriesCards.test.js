@@ -17,10 +17,12 @@ let store = mockStore({
     name: "Joe Doe",
     username: "exampleusername",
     downloadAvatar: "dsdasdasdasdasdadas.png",
+    premium: true,
   },
   stories: {
     content: [
       {
+        premiumContent: true,
         id: 1,
         title: "Story Title",
         description: "Story description",

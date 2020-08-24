@@ -12,6 +12,7 @@ function StoriesCards({ stories }) {
         ? stories.map((story) => {
             return (
               <StoryCard
+                premiumContent={story.premiumContent}
                 key={story.id}
                 id={story.id}
                 username={story.createdBy.username}
