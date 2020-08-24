@@ -8,12 +8,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { storyActions } from "../../_actions";
 import DeleteStoryButton from "./DeleteStoryButton";
 
-function StoryCard(props) {
+function StoryCard(props, { currentUser }) {
   const storyUrl = `/stories/${props.id}`;
   const storyUrlEdit = `/stories/edit/${props.id}`;
   const user = useSelector((state) => state.user.user);
   const isUserExist = user ? user.id : null;
   const isUserIdentificationIsEqualStoryCreator = isUserExist === props.userId;
+
+  const isPremium = isUserExist
+    ? (user.premium && props.premiumContent) ||
+      (user.premium && !props.premiumContent) ||
+      (!user.premium && !props.premiumContent)
+    : null;
+
   const dispatch = useDispatch();
 
   function deleteHandler() {
@@ -59,16 +66,18 @@ function StoryCard(props) {
             </div>
           ) : null}
           <div class="level-item has-text-centered">
-            <div>
-              <Link to={storyUrl}>
-                <button
-                  className="button is-success
+            {isPremium ? (
+              <div>
+                <Link to={storyUrl}>
+                  <button
+                    className="button is-success
         "
-                >
-                  Read More
-                </button>
-              </Link>
-            </div>
+                  >
+                    Read More
+                  </button>
+                </Link>
+              </div>
+            ) : null}
           </div>
         </nav>
       </div>

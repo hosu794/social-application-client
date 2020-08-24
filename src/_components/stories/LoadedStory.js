@@ -25,6 +25,10 @@ function LoadedStory(props) {
   const isUserExist = user ? user.id : null;
   const isUserIdentificationIsEqualStoryCreator = isUserExist === props.userId;
   const currentStory = useSelector((state) => state.stories.currentStory);
+  const isPremium =
+    (user.premium && props.premiumContent) ||
+    (user.premium && !props.premiumContent) ||
+    (!user.premium && !props.premiumContent);
 
   function deleteHandler() {
     dispatch(storyActions.deleteStory(props.id));
@@ -55,69 +59,78 @@ function LoadedStory(props) {
 
   return (
     <section className="section">
-      <div className="container">
-        <h1 className="title">{props.title}</h1>
-        <h2 className="subtitle">{props.description}</h2>
-        <p
-          dangerouslySetInnerHTML={{ __html: props.body }}
-          style={{
-            minHeight: "30vh",
-          }}
-        ></p>
-        <nav
-          className="level"
-          style={{
-            marginTop: "1em",
-          }}
-        >
-          <div className="level-item has-text-centered">
-            <div>
-              <p className="heading">Author</p>
-              <p className="title">{props.creator.username}</p>
-            </div>
-          </div>
-          <div className="level-item has-text-centered">
-            <div>
-              <p className="heading">Topic</p>
-              <p className="title">{props.topic.title}</p>
-            </div>
-          </div>
-          <div className="level-item has-text-centered">
-            <div>
-              <p className="heading">Loves</p>
-              <p className="title">{props.loves}</p>
-            </div>
-          </div>
-          <div className="level-item has-text-centered">
-            {isLogged ? (
-              <div>
-                {isUserLovedStory ? (
-                  <CastStoreButton id={props.id} castStore={castStore} />
-                ) : (
-                  <UnCastStoreButton id={props.id} unCastStore={unCastStore} />
-                )}
+      {isPremium ? (
+        <div>
+          <div className="container">
+            <h1 className="title">{props.title}</h1>
+            <h2 className="subtitle">{props.description}</h2>
+            <p
+              dangerouslySetInnerHTML={{ __html: props.body }}
+              style={{
+                minHeight: "30vh",
+              }}
+            ></p>
+            <nav
+              className="level"
+              style={{
+                marginTop: "1em",
+              }}
+            >
+              <div className="level-item has-text-centered">
+                <div>
+                  <p className="heading">Author</p>
+                  <p className="title">{props.creator.username}</p>
+                </div>
               </div>
-            ) : null}
+              <div className="level-item has-text-centered">
+                <div>
+                  <p className="heading">Topic</p>
+                  <p className="title">{props.topic.title}</p>
+                </div>
+              </div>
+              <div className="level-item has-text-centered">
+                <div>
+                  <p className="heading">Loves</p>
+                  <p className="title">{props.loves}</p>
+                </div>
+              </div>
+              <div className="level-item has-text-centered">
+                {isLogged ? (
+                  <div>
+                    {isUserLovedStory ? (
+                      <CastStoreButton id={props.id} castStore={castStore} />
+                    ) : (
+                      <UnCastStoreButton
+                        id={props.id}
+                        unCastStore={unCastStore}
+                      />
+                    )}
+                  </div>
+                ) : null}
+              </div>
+              {isUserIdentificationIsEqualStoryCreator ? (
+                <div class="level-item has-text-centered">
+                  <div>
+                    <DeleteStoryButton deleteHandler={deleteHandler} />
+                  </div>
+                </div>
+              ) : null}
+              {isUserIdentificationIsEqualStoryCreator ? (
+                <div class="level-item has-text-centered">
+                  <div>
+                    <Link to={editStoryUrl}>
+                      <button className="button is-info">Edit</button>
+                    </Link>
+                  </div>
+                </div>
+              ) : null}
+            </nav>
           </div>
-          {isUserIdentificationIsEqualStoryCreator ? (
-            <div class="level-item has-text-centered">
-              <div>
-                <DeleteStoryButton deleteHandler={deleteHandler} />
-              </div>
-            </div>
-          ) : null}
-          {isUserIdentificationIsEqualStoryCreator ? (
-            <div class="level-item has-text-centered">
-              <div>
-                <Link to={editStoryUrl}>
-                  <button className="button is-info">Edit</button>
-                </Link>
-              </div>
-            </div>
-          ) : null}
-        </nav>
-      </div>
-      <Comments id={props.id} />
+          <Comments id={props.id} />
+        </div>
+      ) : (
+        "You must have a premium account"
+      )}
     </section>
   );
 }

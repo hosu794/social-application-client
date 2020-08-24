@@ -14,12 +14,14 @@ let store = mockStore({
   },
   stories: {
     currentStory: {
+      premiumContent: true,
       id: 1,
       title: "Story Title",
       description: "Story description",
       totalLoves: 12,
       body: "<p>Simple Story</p>",
       createdBy: {
+        premium: true,
         id: 12,
         name: "Joe Doe",
         username: "exampleusername",

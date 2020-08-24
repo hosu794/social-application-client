@@ -34,6 +34,7 @@ let store = mockStore({
       name: "Joe Doe",
       username: "exampleusername",
       downloadAvatar: "dsdasdasdasdasdadas.png",
+      premium: true,
     },
   },
   authentication: {
@@ -42,6 +43,7 @@ let store = mockStore({
   stories: {
     content: [],
     currentStory: {
+      premiumContent: true,
       id: 1,
       title: "Story Title",
       description: "Story description",

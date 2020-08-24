@@ -26,6 +26,7 @@ function Story(props) {
     <section className="section">
       {!isLoading ? (
         <LoadedStory
+          premiumContent={story.premiumContent}
           title={story.title}
           description={story.description}
           key={story.id}
