@@ -46,6 +46,7 @@ function create(request) {
     title: request.title,
     description: request.description,
     body: request.body,
+    premiumContent: request.premiumContent,
   });
 
   return axios.post(

@@ -40,6 +40,7 @@ function Dashboard() {
           color: "",
           title: "",
           description: "",
+          isPremium: false,
         }}
         validationSchema={Yup.object().shape({
           richtext: Yup.string().required("Text is required"),
@@ -55,6 +56,7 @@ function Dashboard() {
                 description: values.description,
                 body: values.richtext,
                 topic: values.color,
+                premiumContent: values.isPremium,
               })
             );
             setSubmitting(false);
@@ -114,6 +116,22 @@ function Dashboard() {
                   className="help is-danger"
                 />
               )}
+
+              <div className="form-group">
+                <label htmlFor="isPremium" className="checkbox">
+                  Premium content
+                  <input
+                    style={{
+                      margin: "1rem",
+                    }}
+                    className="checkbox"
+                    name="isPremium"
+                    type="checkbox"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </label>
+              </div>
 
               <div className="form-group">
                 <label htmlFor="title">Title</label>
