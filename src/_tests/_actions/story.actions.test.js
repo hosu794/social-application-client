@@ -163,7 +163,7 @@ describe("Test for the story actions", () => {
       );
   });
 
-  test("should create an action to getStoriesByUsername", async () => {
+  test("should create an action to getStoriesByUsername", async (done) => {
     const requiredBody = 12;
 
     await storeMiddlewares
@@ -180,5 +180,7 @@ describe("Test for the story actions", () => {
           { message: undefined, type: "ALERT_ERROR" }
         )
       );
+
+    done();
   });
 });
