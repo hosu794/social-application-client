@@ -31,6 +31,8 @@ describe("Test for the Register Component", () => {
     </MemoryRouter>
   );
 
+  store.dispatch = jest.fn();
+
   const wrapper = mount(<TestingComponent />);
 
   test("should render component correct", () => {
@@ -124,5 +126,66 @@ describe("Test for the Register Component", () => {
     let element = wrapper.find(Register).find("input").at(4).props().value;
 
     expect(element).toEqual("randomconfirmpassword");
+  });
+
+  test("should submit when click on button", async () => {
+    await wrapper
+      .find("input")
+      .at(0)
+      .simulate("change", {
+        persist: () => {},
+        target: {
+          name: "username",
+          value: "exampleusername",
+        },
+      });
+
+    await wrapper
+      .find("input")
+      .at(1)
+      .simulate("change", {
+        persist: () => {},
+        target: {
+          name: "name",
+          value: "Random Name",
+        },
+      });
+
+    await wrapper
+      .find("input")
+      .at(2)
+      .simulate("change", {
+        persist: () => {},
+        target: {
+          name: "email",
+          value: "joedoe@example.com",
+        },
+      });
+
+    await wrapper
+      .find("input")
+      .at(3)
+      .simulate("change", {
+        persist: () => {},
+        target: {
+          name: "password",
+          value: "randompassword",
+        },
+      });
+
+    await wrapper
+      .find("input")
+      .at(4)
+      .simulate("change", {
+        persist: () => {},
+        target: {
+          name: "confirmPassword",
+          value: "randomconfirmpassword",
+        },
+      });
+
+    await wrapper.find(".button").simulate("click");
+
+    expect(store.dispatch.mock.calls.length).toEqual(11);
   });
 });
