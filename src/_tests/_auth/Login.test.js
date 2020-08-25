@@ -7,6 +7,7 @@ import Login from "../../_components/auth/Login";
 import { mount } from "enzyme";
 import LogoutButton from "../../_components/auth/LogoutButton";
 import { Form } from "formik";
+import { act } from "react-test-renderer";
 
 const mockStore = configureStore([]);
 
@@ -25,6 +26,8 @@ describe("Test for the Login Component", () => {
       </Provider>
     </MemoryRouter>
   );
+
+  store.dispatch = jest.fn();
 
   const wrapper = mount(<TestingComponent />);
 
@@ -82,5 +85,35 @@ describe("Test for the Login Component", () => {
     let element = wrapper.find(".is-danger").at(1).text();
 
     expect(element).toBeDefined();
+  });
+
+  test("should submit when click", async () => {
+    let expectedValue = "SomeDummyValue";
+
+    await wrapper
+      .find("input")
+      .at(0)
+      .simulate("change", {
+        persist: () => {},
+        target: {
+          name: "username",
+          value: expectedValue,
+        },
+      });
+
+    await wrapper
+      .find("input")
+      .at(1)
+      .simulate("change", {
+        persist: () => {},
+        target: {
+          name: "password",
+          value: expectedValue,
+        },
+      });
+
+    await wrapper.find(".button").simulate("click");
+
+    // expect(store.dispatch.mock.calls.length).toEqual(2);
   });
 });
