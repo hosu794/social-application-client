@@ -8,7 +8,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.5.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bulma": "^0.8.2",
     "bulma-pagination-react": "^0.1.1",
     "enzyme-to-json": "^3.5.0",
